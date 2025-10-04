@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SwasthaAI - National Digital Health Assistant</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* GENERAL RESET & PAGE */
+        * {margin:0; padding:0; box-sizing:border-box;}
+        body {
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+            background: #f6fbff;
+            color: #222;
+            min-height: 100vh;
+        }
+        .gov-header {
+            background: linear-gradient(90deg,#ff6600 0,#138808 100%);
+            color: #fff; font-size: 15px; font-weight: bold;
+            padding: 10px 0; text-align: center;
+        }
+        /* HEADER */
+        .main-header {background: #fff; border-bottom: 2px solid #ff6600; box-shadow: 0 2px 10px rgba(0,0,0,0.08);}
+        .header-content {
+            max-width: 980px; margin: 0 auto;
+            display: flex; align-items: center; gap: 18px; padding: 22px 10px;
+            justify-content: space-between;
+        }
+        .logo-section {
+            display: flex; align-items: center; gap: 18px;
+        }
+        .emblem {
+            font-size: 34px; background: linear-gradient(135deg,#ff6600,#138808);
+            color: #fff; width: 62px; height: 62px; display: flex;
+            align-items: center; justify-content: center; border-radius: 50%;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+        }
+        .title-section h1{
+            font-size: 30px; color: #1871e6; margin-bottom: 4px; font-weight: 800; letter-spacing: 2px;
+        }
+        .subtitle{
+            font-size:13px; color:#557c9c; text-transform:uppercase; font-weight:600;
+        }
+        
+        /* Language Toggle */
+        .language-toggle {
+            display: flex;
+            background: #e3f2fd;
+            border-radius: 25px;
+            overflow: hidden;
+            border: 2px solid #1871e6;
+        }
+        .language-btn {
+            padding: 8px 16px;
+            background: transparent;
+            border: none;
+            color: #1871e6;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+        .language-btn.active {
+            background: #1871e6;
+            color: white;
+        }
+        .language-btn:hover:not(.active) {
+            background: rgba(24, 113, 230, 0.1);
+        }
+        
+        /* NAV */
+        .nav-bar{ background: #1c2e55;}
+        .nav-content{ display:flex; max-width:980px; margin:0 auto;}
+        .nav-item{flex:1;}
+        .nav-item a{
+            display:block; color:#fff; text-decoration:none; padding:14px 0; font-weight:600; font-size:15px;
+            transition:.23s; text-align: center; letter-spacing:1px; border-right: 1px solid #2a4069;
+        }
+        .nav-item:last-child a{ border-right: none;}
+        .nav-item a:hover{ background:#274484; color:#ff6600;}
+        /* MAIN CONTAINER */
+        .container{ max-width:960px; margin:0 auto; padding:28px 12px;}
+        .page-title{ text-align:center; margin-bottom:30px; }
+        .page-title h2{ font-size:34px; font-weight:700; }
+        .page-title p{ font-size:17px; color:#426488; margin-top:10px; }
+        
+        /* MAIN CHAT SECTION */
+        .main-chat-section {
+            background:#fff; border-radius:14px; 
+            box-shadow:0 4px 22px rgba(44,129,199,0.09);
+            padding:32px 26px; border-left:5px solid #ff6600;
+            margin-bottom: 40px;
+        }
+        
+        .chat-header {
+            display: flex; align-items: center; gap: 16px; margin-bottom:20px;
+        }
+        .chat-header h3{ font-size: 22px; font-weight: 800; color: #165dac;}
+        .chat-header p{ color: #5e7c8e; margin-top: 5px; }
+
+        /* --- REALISTIC ROBOT --- */
+        .robot-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            perspective: 1000px;
+        }
+        
+        .robot-body {
+            position: relative;
+            animation: robotFloat 3s ease-in-out infinite;
+        }
+        
+        @keyframes robotFloat {
+            0%, 100% { transform: translateY(0px) rotateY(0deg); }
+            50% { transform: translateY(-8px) rotateY(5deg); }
+        }
+        
+        .robot-head {
+            width: 80px;
+            height: 70px;
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            border-radius: 15px 15px 25px 25px;
+            position: relative;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            border: 3px solid #34495e;
+        }
+        
+        .robot-antenna {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 3px;
+            height: 12px;
+            background: #95a5a6;
+            border-radius: 2px;
+        }
+        
+        .robot-antenna::after {
+            content: '';
+            position: absolute;
+            top: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 8px;
+            background: #e74c3c;
+            border-radius: 50%;
+            animation: antennaBlink 2s infinite;
+        }
+        
+        @keyframes antennaBlink {
+            0%, 90% { opacity: 1; }
+            95% { opacity: 0.3; }
+        }
+        
+        .robot-eyes {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-top: 15px;
+            padding: 0 15px;
+        }
+        
+        .robot-eye {
+            width: 20px;
+            height: 20px;
+            background: #ffffff;
+            border-radius: 50%;
+            position: relative;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .robot-pupil {
+            width: 12px;
+            height: 12px;
+            background: #2ecc71;
+            border-radius: 50%;
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            animation: eyeMove 4s infinite;
+            box-shadow: 0 0 8px rgba(46,204,113,0.6);
+        }
+        
+        @keyframes eyeMove {
+            0%, 20% { transform: translate(0, 0); }
+            25% { transform: translate(2px, -1px); }
+            50% { transform: translate(0, 0); }
+            75% { transform: translate(-2px, 1px); }
+            100% { transform: translate(0, 0); }
+        }
+        
+        .robot-mouth {
+            width: 30px;
+            height: 15px;
+            border: 2px solid #34495e;
+            border-radius: 0 0 15px 15px;
+            border-top: none;
+            margin: 8px auto;
+            position: relative;
+            background: #2c3e50;
+        }
+        
+        .robot-mouth::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 2px;
+            background: #3498db;
+            border-radius: 2px;
+            animation: mouthGlow 2s infinite alternate;
+        }
+        
+        @keyframes mouthGlow {
+            from { box-shadow: 0 0 5px #3498db; }
+            to { box-shadow: 0 0 15px #3498db, 0 0 25px #3498db; }
+        }
+        
+        .robot-body-main {
+            width: 60px;
+            height: 45px;
+            background: linear-gradient(135deg, #34495e, #2c3e50);
+            border-radius: 8px;
+            margin: 5px auto;
+            position: relative;
+            border: 2px solid #2c3e50;
+        }
+        
+        .robot-panel {
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 3px;
+            background: #27ae60;
+            border-radius: 2px;
+            box-shadow: 0 0 8px rgba(39,174,96,0.8);
+        }
+        
+        .robot-arms {
+            display: flex;
+            justify-content: space-between;
+            width: 100px;
+            position: absolute;
+            top: 85px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .robot-arm {
+            width: 15px;
+            height: 25px;
+            background: #95a5a6;
+            border-radius: 8px;
+            animation: armMove 3s ease-in-out infinite alternate;
+        }
+        
+        .robot-arm:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+        
+        @keyframes armMove {
+            0% { transform: rotate(-10deg); }
+            100% { transform: rotate(10deg); }
+        }
+
+        /* --- CHAT INTERFACE --- */
+        .chat-interface {
+            background: #f0f7ff;
+            border-radius: 16px;
+            box-shadow: 0 4px 16px rgba(57,120,219,0.15);
+            padding: 0 0 16px 0;
+            display: flex; flex-direction: column;
+            min-height: 400px; 
+            position: relative;
+        }
+        #chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px 18px 18px 18px;
+            display: flex; flex-direction: column; gap: 18px;
+        }
+        .chat-row{ display: flex; align-items: flex-end; }
+        .chat-row.bot{ justify-content: flex-start; align-items: flex-end;}
+        .chat-row.user{ justify-content: flex-end; align-items: flex-end;}
+        .avatar {
+            width: 38px; height: 38px; border-radius: 50%; background: #e3f2fd;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 20px; box-shadow: 0 2px 12px rgba(44,129,199,0.10); margin: 0 8px;
+            animation: avatarPop 0.6s;
+        }
+        @keyframes avatarPop{
+            from {transform:scale(0);}
+            to {transform:scale(1);}
+        }
+        .chat-bubble {
+            padding: 13px 18px; border-radius: 18px;
+            max-width: 74%; min-width: 60px;
+            font-size: 15px; line-height: 1.7;
+            box-shadow: 0 2px 8px rgba(25,93,186,0.08);
+            position: relative;
+            animation: fadeInBubble 0.5s;
+            word-break: break-word;
+        }
+        @keyframes fadeInBubble {
+            from { opacity: 0; transform: scale(0.8);}
+            to { opacity: 1; transform: scale(1);}
+        }
+        .chat-row.bot .chat-bubble {
+            background: #fff;
+            color: #1a5d69;
+            border-bottom-left-radius: 5px;
+        }
+        .chat-row.user .chat-bubble {
+            background: #dbf4fb;
+            color: #1b5179;
+            border-bottom-right-radius: 5px;
+        }
+        
+        /* Typing animation */
+        .typing-indicator {
+            display: none;
+            padding: 13px 18px;
+            background: #fff;
+            border-radius: 18px;
+            border-bottom-left-radius: 5px;
+        }
+        
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+        }
+        
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: #1871e6;
+            border-radius: 50%;
+            animation: typingDots 1.4s infinite;
+        }
+        
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        
+        @keyframes typingDots {
+            0%, 60%, 100% { transform: scale(1); opacity: 0.5; }
+            30% { transform: scale(1.2); opacity: 1; }
+        }
+        
+        /* Typewriter effect */
+        .typewriter {
+            overflow: hidden;
+        }
+        
+        .typewriter-text {
+            display: inline-block;
+            border-right: 2px solid #1871e6;
+            animation: blink-caret 1s infinite;
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: #1871e6; }
+        }
+
+        /* Chat Composer */
+        .chat-composer {
+            padding: 16px 18px 2px 18px; background: none;
+            display: flex;
+            gap: 8px; align-items: center;
+        }
+        .chat-composer input[type="text"] {
+            flex: 1;
+            border-radius:18px;
+            border: 1.3px solid #aed2fb;
+            padding: 12px 16px; font-size: 16px;
+            background: #fff;
+            transition: 0.16s;
+        }
+        .chat-composer input:focus{border-color:#44b5ff; outline: none;}
+        .chat-composer button {
+            border-radius: 18px; background: linear-gradient(90deg, #1871e6, #44b5ff);
+            color: #fff; font-weight: bold; border: none;
+            padding: 12px 22px; font-size:16px; cursor: pointer;
+            box-shadow: 0 2px 8px rgba(66,172,241,0.10);
+            transition:.19s;
+        }
+        .chat-composer button:hover{background:linear-gradient(90deg,#44b5ff,#1871e6);}
+        .chat-composer button:disabled{
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .ai-badge {
+            display:inline-block; background:linear-gradient(90deg,#1dc86b,#27ae60);
+            color:#fff; font-size:11px; font-weight:700;
+            border-radius:13px; padding:3px 9px; margin-top:6px; margin-left:4px;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        
+        .quick-action {
+            background: #e3f2fd;
+            color: #1871e6;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid #bbdefb;
+        }
+        
+        .quick-action:hover {
+            background: #1871e6;
+            color: white;
+        }
+
+        /* Footer */
+        .footer {
+            background: #1c2e55;
+            color: #fff;
+            padding: 40px 0 20px 0;
+            margin-top: 50px;
+        }
+        .footer-content {
+            max-width: 980px;
+            margin: 0 auto;
+            display: flex;
+            gap: 40px;
+            padding: 0 20px;
+        }
+        .footer-section {
+            flex: 1;
+        }
+        .footer-section h4 {
+            margin-bottom: 15px;
+            color: #ff6600;
+        }
+        .footer-section p, .footer-section a {
+            color: #bbb;
+            text-decoration: none;
+            line-height: 1.6;
+        }
+        .footer-section a:hover {
+            color: #fff;
+        }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #2a4069;
+            margin-top: 20px;
+            color: #888;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container{max-width:99vw; padding: 15px;}
+            .header-content,.nav-content{max-width:99vw;}
+            .header-content{flex-direction:column; gap:15px;}
+            .nav-content{flex-direction:column;}
+            .nav-item{flex:none;}
+            .chat-interface {margin: 0 -10px;}
+            .footer-content{flex-direction:column; gap:20px;}
+            .quick-actions{justify-content:center;}
+        }
+    </style>
+</head>
+<body>
+    <div class="gov-header" id="gov-header">🇮🇳 Government of India | Ministry of Health and Family Welfare | Digital India Initiative</div>
+    <header class="main-header">
+        <div class="header-content">
+            <div class="logo-section">
+                <div class="emblem">🏥</div>
+                <div class="title-section">
+                    <h1>SwasthaAI</h1>
+                    <div class="subtitle" id="subtitle">National Digital Health Assistant</div>
+                </div>
+            </div>
+           
+        </div>
+    </header>
+    <nav class="nav-bar">
+       
+    </nav>
+    
+    <main class="container">
+        <section class="page-title">
+            <h2 id="page-title">SwasthaAI - Your Digital Health Companion</h2>
+            <p id="page-description">Get instant health guidance through our advanced AI system. Describe your symptoms and receive preliminary health information and recommendations for further care.</p>
+        </section>
+        
+        <div class="main-chat-section">
+            <div class="chat-header">
+                <div>
+                    <h3 id="chat-title">🤖 AI Health Assistant</h3>
+                    <p id="chat-description">Powered by advanced healthcare AI - Available 24/7 for immediate guidance</p>
+                </div>
+            </div>
+            
+            <!-- Realistic Robot -->
+            <div class="robot-container">
+                <div class="robot-body">
+                    <div class="robot-head">
+                        <div class="robot-antenna"></div>
+                        <div class="robot-eyes">
+                            <div class="robot-eye">
+                                <div class="robot-pupil"></div>
+                            </div>
+                            <div class="robot-eye">
+                                <div class="robot-pupil"></div>
+                            </div>
+                        </div>
+                        <div class="robot-mouth"></div>
+                    </div>
+                    <div class="robot-body-main">
+                        <div class="robot-panel"></div>
+                    </div>
+                    <div class="robot-arms">
+                        <div class="robot-arm"></div>
+                        <div class="robot-arm"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Chat Interface -->
+            <div class="chat-interface">
+                <div id="chat-messages">
+                    <div class="chat-row bot">
+                        <div class="avatar">🤖</div>
+                        <div class="chat-bubble" id="welcome-message">
+                            Hi! I'm <b>SwasthaAI</b>, your digital health companion. I'm here to help you with health-related questions and provide preliminary guidance. How can I assist you today?
+                            
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+                 <div class="language-toggle">
+                <button class="language-btn active" onclick="setLanguage('en')" id="en-btn">English</button>
+                <button class="language-btn" onclick="setLanguage('hi')" id="hi-btn">हिंदी</button>
+                 </div>
+                
+                <!-- Quick Actions -->
+                <div class="quick-actions" id="quick-actions">
+                    <div class="quick-action" onclick="sendQuickMessage('I have a fever and headache')">🤒 <span class="qa-text">Fever & Headache</span></div>
+                    <div class="quick-action" onclick="sendQuickMessage('I have stomach pain')">🤢 <span class="qa-text">Stomach Pain</span></div>
+                    <div class="quick-action" onclick="sendQuickMessage('I have diabetes, need advice')">🩸 <span class="qa-text">Diabetes</span></div>
+                    <div class="quick-action" onclick="sendQuickMessage('I am feeling anxious')">😰 <span class="qa-text">Mental Health</span></div>
+                    <div class="quick-action" onclick="sendQuickMessage('My blood pressure is high')">💓 <span class="qa-text">BP Issues</span></div>
+                    <div class="quick-action" onclick="sendQuickMessage('I have cold and cough')">🤧 <span class="qa-text">Cold & Cough</span></div>
+                    <div class="quick-action" onclick="sendQuickMessage('Need emergency help')">🚨 <span class="qa-text">Emergency</span></div>
+                    
+                </div>
+                
+                <!-- Chat Composer -->
+                <form class="chat-composer" onsubmit="sendMessage(event)">
+                    <input
+                        type="text"
+                        id="health-query"
+                        class="chat-input"
+                        placeholder="Describe your health concern..."
+                        required
+                    >
+                    <button type="submit" id="send-btn">Send</button>
+                </form>
+            </div>
+        </div>
+    </main>
+    
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4 id="footer-about-title">About SwasthaAI</h4>
+                <p id="footer-about-text">SwasthaAI is India's trusted platform for safe, private, and convenient healthcare. Supported by the Ministry of Health and Family Welfare, we bring digital health access to millions.</p>
+            </div>
+            <div class="footer-section">
+                <h4 id="footer-contact-title">Contact</h4>
+                <p id="footer-contact-text">Email: info@swasthaai.gov.in<br>Phone: 1800-123-4567<br>Address: Nirman Bhawan, New Delhi – 110011</p>
+            </div>
+            <div class="footer-section">
+                <h4 id="footer-links-title">Quick Links</h4>
+                <a href="/" id="footer-home">Home</a><br>
+                <a href="/services" id="footer-services">Health Services</a><br>
+                <a href="/schemes" id="footer-schemes">Government Schemes</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span id="footer-copyright">&copy; 2025 SwasthaAI | National Digital Health Assistant. All rights reserved.</span>
+        </div>
+    </footer>
+
+    <script>
+        // Language translations
+        const translations = {
+            en: {
+                govHeader: "🇮🇳 Government of India | Ministry of Health and Family Welfare | Digital India Initiative",
+                subtitle: "National Digital Health Assistant",
+                navHome: "Home",
+                navServices: "Health Services",
+                navMaternal: "Maternal Health",
+                navSchemes: "Government Schemes",
+                navTelemedicine: "Telemedicine",
+                navEmergency: "Emergency",
+                pageTitle: "SwasthaAI - Your Digital Health Companion",
+                pageDescription: "Get instant health guidance through our advanced AI system. Describe your symptoms and receive preliminary health information and recommendations for further care.",
+                chatTitle: "🤖 AI Health Assistant",
+                chatDescription: "Powered by advanced healthcare AI - Available 24/7 for immediate guidance",
+                welcomeMessage: "Hi! I'm <b>SwasthaAI</b>, your digital health companion. I'm here to help you with health-related questions and provide preliminary guidance. How can I assist you today?",
+                inputPlaceholder: "Describe your health concern...",
+                sendBtn: "Send",
+                quickActions: [
+                    "Fever & Headache",
+                    "Stomach Pain", 
+                    "Diabetes",
+                    "Mental Health",
+                    "BP Issues",
+                    "Cold & Cough",
+                    "Emergency"
+                ],
+                quickMessages: [
+                    "मुझे बुखार और सिरदर्द है",
+                    "मुझे पेट में दर्द है",
+                    "मुझे डायबिटीज है, सलाह चाहिए",
+                    "मुझे चिंता हो रही है",
+                    "मेरा ब्लड प्रेशर हाई है",
+                    "मुझे सर्दी-खांसी है",
+                    "आपातकालीन सहायता चाहिए"
+                ],
+                footerAboutTitle: "SwasthaAI के बारे में",
+                footerAboutText: "SwasthaAI भारत का विश्वसनीय प्लेटफॉर्म है जो सुरक्षित, निजी और सुविधाजनक स्वास्थ्य सेवा प्रदान करता है। स्वास्थ्य और परिवार कल्याण मंत्रालय द्वारा समर्थित, हम लाखों लोगों तक डिजिटल स्वास्थ्य पहुंच लाते हैं।",
+                footerContactTitle: "संपर्क",
+                footerContactText: "ईमेल: info@swasthaai.gov.in<br>फोन: 1800-123-4567<br>पता: निर्माण भवन, नई दिल्ली – 110011",
+                footerLinksTitle: "त्वरित लिंक",
+                footerHome: "होम",
+                footerServices: "स्वास्थ्य सेवाएं",
+                footerSchemes: "सरकारी योजनाएं",
+                footerCopyright: "© 2025 SwasthaAI | राष्ट्रीय डिजिटल स्वास्थ्य सहायक। सभी अधिकार सुरक्षित।"
+            }
+        };
+
+        // Current language
+        let currentLanguage = 'en';
+
+        // Language switching function
+        function setLanguage(lang) {
+            currentLanguage = lang;
+            
+            // Update button states
+            document.getElementById('en-btn').classList.toggle('active', lang === 'en');
+            document.getElementById('hi-btn').classList.toggle('active', lang === 'hi');
+            
+            // Update all text content
+            const t = translations[lang];
+            
+            document.getElementById('gov-header').textContent = t.govHeader;
+            document.getElementById('subtitle').textContent = t.subtitle;
+            document.getElementById('nav-home').textContent = t.navHome;
+            document.getElementById('nav-services').textContent = t.navServices;
+            document.getElementById('nav-maternal').textContent = t.navMaternal;
+            document.getElementById('nav-schemes').textContent = t.navSchemes;
+            document.getElementById('nav-telemedicine').textContent = t.navTelemedicine;
+            document.getElementById('nav-emergency').textContent = t.navEmergency;
+            document.getElementById('page-title').textContent = t.pageTitle;
+            document.getElementById('page-description').textContent = t.pageDescription;
+            document.getElementById('chat-title').textContent = t.chatTitle;
+            document.getElementById('chat-description').textContent = t.chatDescription;
+            document.getElementById('welcome-message').innerHTML = t.welcomeMessage;
+            document.getElementById('health-query').placeholder = t.inputPlaceholder;
+            document.getElementById('send-btn').textContent = t.sendBtn;
+            document.getElementById('footer-about-title').textContent = t.footerAboutTitle;
+            document.getElementById('footer-about-text').textContent = t.footerAboutText;
+            document.getElementById('footer-contact-title').textContent = t.footerContactTitle;
+            document.getElementById('footer-contact-text').innerHTML = t.footerContactText;
+            document.getElementById('footer-links-title').textContent = t.footerLinksTitle;
+            document.getElementById('footer-home').textContent = t.footerHome;
+            document.getElementById('footer-services').textContent = t.footerServices;
+            document.getElementById('footer-schemes').textContent = t.footerSchemes;
+            document.getElementById('footer-copyright').textContent = t.footerCopyright;
+            
+            // Update quick actions
+            const quickActions = document.querySelectorAll('.qa-text');
+            quickActions.forEach((action, index) => {
+                if (t.quickActions[index]) {
+                    action.textContent = t.quickActions[index];
+                }
+            });
+            
+            // Update quick action onclick handlers
+            const quickActionElements = document.querySelectorAll('.quick-action');
+            quickActionElements.forEach((element, index) => {
+                if (t.quickMessages[index]) {
+                    element.setAttribute('onclick', `sendQuickMessage('${t.quickMessages[index]}')`);
+                }
+            });
+            
+            // Clear existing chat messages and add new welcome message
+            const chatMessages = document.getElementById('chat-messages');
+            chatMessages.innerHTML = `
+                <div class="chat-row bot">
+                    <div class="avatar">🤖</div>
+                    <div class="chat-bubble">
+                        ${t.welcomeMessage}
+                    </div>
+                </div>
+            `;
+        }
+
+        const chatMessages = document.getElementById('chat-messages');
+        const healthQuery = document.getElementById('health-query');
+        const sendBtn = document.getElementById('send-btn');
+
+        // Multi-language AI responses
+        const aiResponses = {
+            'fever': {
+                'en': "Based on your symptoms of fever and headache, this could indicate a viral infection, flu, or other conditions. I recommend:\n\n• Rest and stay hydrated\n• Monitor your temperature\n• Consider paracetamol for fever relief\n• Consult a doctor if fever exceeds 102°F or persists for more than 3 days\n\n⚠️ If you experience difficulty breathing, severe headache, or chest pain, seek immediate medical attention.",
+                'hi': "बुखार और सिरदर्द के लक्षणों के आधार पर, यह वायरल संक्रमण, फ्लू या अन्य स्थितियों का संकेत हो सकता है। मैं सुझाता हूँ:\n\n• आराम करें और पानी पिएं\n• अपना तापमान मॉनिटर करें\n• बुखार के लिए पैरासिटामोल लें\n• यदि बुखार 102°F से अधिक है या 3 दिन से अधिक बना रहता है तो डॉक्टर से सलाह लें\n\n⚠️ यदि आपको सांस लेने में कठिनाई, गंभीर सिरदर्द, या सीने में दर्द हो तो तुरंत चिकित्सा सहायता लें।"
+            },
+            'stomach': {
+                'en': "Stomach pain can have various causes. Here's what I suggest:\n\n• Avoid spicy or fatty foods\n• Stay hydrated with clear fluids\n• Try small, frequent meals\n• Consider ORS if you have diarrhea\n• Rest and avoid stress\n\n⚠️ Seek immediate help if you have severe pain, blood in stool, or high fever.",
+                'hi': "पेट दर्द के कई कारण हो सकते हैं। मैं सुझाता हूँ:\n\n• मसालेदार या तली हुई चीजें न खाएं\n• पानी और तरल पदार्थ पिएं\n• थोड़ा-थोड़ा बार-बार खाना खाएं\n• दस्त होने पर ORS लें\n• आराम करें और तनाव से बचें\n\n⚠️ यदि गंभीर दर्द, मल में खून, या तेज बुखार हो तो तुरंत सहायता लें।"
+            },
+            'anxious': {
+                'en': "I understand you're feeling anxious. Mental health is important:\n\n• Try deep breathing exercises (4-7-8 technique)\n• Practice mindfulness or meditation\n• Maintain regular sleep schedule\n• Light exercise or walking can help\n• Talk to someone you trust\n\n💚 Remember, it's okay to seek professional help. Consider consulting a counselor or psychiatrist if anxiety persists.",
+                'hi': "मैं समझता हूँ कि आप चिंतित महसूस कर रहे हैं। मानसिक स्वास्थ्य महत्वपूर्ण है:\n\n• गहरी सांस की एक्सरसाइज करें (4-7-8 तकनीक)\n• ध्यान या माइंडफुलनेस का अभ्यास करें\n• नियमित नींद का समय रखें\n• हल्की एक्सरसाइज या टहलना फायदेमंद है\n• किसी विश्वसनीय व्यक्ति से बात करें\n\n💚 याद रखें, पेशेवर सहायता लेना ठीक है। यदि चिंता बनी रहती है तो काउंसलर या मनोचिकित्सक से सलाह लें।"
+            },
+            'emergency': {
+                'en': "🚨 For medical emergencies:\n\n• Call 108 (National Ambulance Service)\n• Call 102 (Free Medical Helpline)\n• Visit nearest hospital emergency room\n\n⚠️ Don't delay for:\n• Chest pain or heart attack symptoms\n• Difficulty breathing\n• Severe injuries\n• Unconsciousness\n• Severe allergic reactions\n\nStay calm and seek immediate professional help!",
+                'hi': "🚨 चिकित्सा आपातकाल के लिए:\n\n• 108 (राष्ट्रीय एम्बुलेंस सेवा) पर कॉल करें\n• 102 (मुफ्त मेडिकल हेल्पलाइन) पर कॉल करें\n• निकटतम अस्पताल के आपातकालीन कक्ष में जाएं\n\n⚠️ इन स्थितियों में देरी न करें:\n• सीने में दर्द या दिल का दौरा के लक्षण\n• सांस लेने में कठिनाई\n• गंभीर चोटें\n• बेहोशी\n• गंभीर एलर्जी रिएक्शन\n\nशांत रहें और तुरंत पेशेवर सहायता लें!"
+            },
+            'cold': {
+                'en': "Common cold symptoms can be managed with:\n\n• Rest and plenty of fluids\n• Warm salt water gargles\n• Steam inhalation\n• Honey and ginger tea\n• Avoid cold foods and drinks\n• Use a humidifier\n\n⚠️ Consult a doctor if symptoms worsen or persist beyond 7 days.",
+                'hi': "सामान्य सर्दी-जुकाम के लक्षणों को इससे ठीक किया जा सकता है:\n\n• आराम और भरपूर तरल पदार्थ\n• गर्म नमक के पानी से गरारे\n• भाप लें\n• शहद और अदरक की चाय पिएं\n• ठंडी चीजें न खाएं-पिएं\n• ह्यूमिडिफायर का उपयोग करें\n\n⚠️ यदि लक्षण बिगड़ें या 7 दिन से अधिक बने रहें तो डॉक्टर से सलाह लें।"
+            },
+            'diabetes': {
+                'en': "For diabetes management:\n\n• Monitor blood sugar regularly\n• Follow prescribed medication schedule\n• Maintain healthy diet (low sugar, high fiber)\n• Regular exercise (30 minutes daily)\n• Stay hydrated\n• Regular check-ups with doctor\n\n⚠️ Seek immediate help for extremely high/low blood sugar levels.",
+                'hi': "डायबिटीज के प्रबंधन के लिए:\n\n• नियमित रूप से ब्लड शुगर की जांच करें\n• निर्धारित दवा का समय रखें\n• स्वस्थ आहार लें (कम चीनी, अधिक फाइबर)\n• नियमित व्यायाम करें (दैनिक 30 मिनट)\n• पानी पिएं\n• डॉक्टर से नियमित जांच कराएं\n\n⚠️ अत्यधिक उच्च/निम्न ब्लड शुगर के लिए तुरंत सहायता लें।"
+            },
+            'hypertension': {
+                'en': "For high blood pressure:\n\n• Reduce salt intake\n• Regular exercise\n• Maintain healthy weight\n• Limit alcohol consumption\n• Manage stress\n• Take prescribed medications regularly\n• Monitor blood pressure at home\n\n⚠️ Seek immediate help for severe headache, chest pain, or vision problems.",
+                'hi': "उच्च रक्तचाप के लिए:\n\n• नमक का सेवन कम करें\n• नियमित व्यायाम करें\n• स्वस्थ वजन बनाए रखें\n• शराब कम पिएं\n• तनाव को नियंत्रित करें\n• निर्धारित दवाएं नियमित लें\n• घर पर BP मॉनिटर करें\n\n⚠️ गंभीर सिरदर्द, सीने में दर्द, या दृष्टि समस्या के लिए तुरंत सहायता लें।"
+            }
+        };
+
+        // Language detection function - now uses current selected language
+        function detectLanguage(query) {
+            return currentLanguage;
+        }
+
+        function getAIResponse(query) {
+            const lowerQuery = query.toLowerCase();
+            const language = currentLanguage; // Use selected language instead of detecting
+            
+            // Enhanced keyword matching with more conditions
+            if (lowerQuery.includes('fever') || lowerQuery.includes('headache') || lowerQuery.includes('temperature') || 
+                lowerQuery.includes('बुखार') || lowerQuery.includes('सिरदर्द') || lowerQuery.includes('तापमान')) {
+                return aiResponses.fever[language];
+            } 
+            else if (lowerQuery.includes('stomach') || lowerQuery.includes('pain') || lowerQuery.includes('nausea') || lowerQuery.includes('vomit') ||
+                lowerQuery.includes('पेट') || lowerQuery.includes('दर्द') || lowerQuery.includes('उल्टी') || lowerQuery.includes('मतली')) {
+                return aiResponses.stomach[language];
+            } 
+            else if (lowerQuery.includes('anxious') || lowerQuery.includes('stress') || lowerQuery.includes('mental') || lowerQuery.includes('depressed') ||
+                lowerQuery.includes('चिंता') || lowerQuery.includes('तनाव') || lowerQuery.includes('मानसिक') || lowerQuery.includes('डिप्रेशन')) {
+                return aiResponses.anxious[language];
+            } 
+            else if (lowerQuery.includes('emergency') || lowerQuery.includes('help') || lowerQuery.includes('urgent') ||
+                lowerQuery.includes('आपातकाल') || lowerQuery.includes('मदद') || lowerQuery.includes('सहायता') || lowerQuery.includes('तुरंत')) {
+                return aiResponses.emergency[language];
+            }
+            else if (lowerQuery.includes('cold') || lowerQuery.includes('cough') || lowerQuery.includes('runny nose') ||
+                lowerQuery.includes('जुकाम') || lowerQuery.includes('खांसी') || lowerQuery.includes('नाक बहना')) {
+                return aiResponses.cold[language];
+            }
+            else if (lowerQuery.includes('diabetes') || lowerQuery.includes('sugar') || lowerQuery.includes('blood glucose') ||
+                lowerQuery.includes('डायबिटीज') || lowerQuery.includes('शुगर') || lowerQuery.includes('मधुमेह')) {
+                return aiResponses.diabetes[language];
+            }
+            else if (lowerQuery.includes('blood pressure') || lowerQuery.includes('hypertension') || lowerQuery.includes('bp') ||
+                lowerQuery.includes('ब्लड प्रेशर') || lowerQuery.includes('उच्च रक्तचाप') || lowerQuery.includes('हाई बीपी')) {
+                return aiResponses.hypertension[language];
+            }
+            else {
+                if (language === 'hi') {
+                    return `"${query}" के बारे में आपकी पूछताछ के लिए धन्यवाद। आपके लक्षणों के आधार पर, कोई भी सुझाव देने से पहले, मैं इस पर अपने निर्माता हिमांशु के साथ चर्चा करना चाहूंगा।\n\n🤖 SwasthaAI: यह AI-जनरेटेड सलाह है। उचित निदान के लिए डॉक्टर से सलाह लें। आपातकाल में 108 पर कॉल करें।`;
+                } else {
+                    return `Thank you for your query about "${query}". Based on your symptoms, before giving any suggestions, I would like to discuss this with my creator, Himanshu.\n\n🤖 SwasthaAI: This is AI-generated advice. Please consult a doctor for proper diagnosis. In emergencies, call 108.`;
+                }
+            }
+        }
+
+        function addMessage(message, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `chat-row ${isUser ? 'user' : 'bot'}`;
+            
+            if (isUser) {
+                messageDiv.innerHTML = `
+                    <div class="chat-bubble">${message}</div>
+                    <div class="avatar">👤</div>
+                `;
+            } else {
+                messageDiv.innerHTML = `
+                    <div class="avatar">🤖</div>
+                    <div class="chat-bubble">
+                        <div class="typewriter">
+                            <span class="typewriter-text"></span>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            if (!isUser) {
+                const typewriterElement = messageDiv.querySelector('.typewriter-text');
+                typeText(typewriterElement, message);
+            }
+        }
+
+        function showTypingIndicator() {
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'chat-row bot';
+            typingDiv.id = 'typing-indicator';
+            typingDiv.innerHTML = `
+                <div class="avatar">🤖</div>
+                <div class="typing-indicator" style="display: block;">
+                    <div class="typing-dots">
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                    </div>
+                </div>
+            `;
+            chatMessages.appendChild(typingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function hideTypingIndicator() {
+            const typingIndicator = document.getElementById('typing-indicator');
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
+        }
+
+        function typeText(element, text) {
+            let index = 0;
+            const speed = 30; // Typing speed in milliseconds
+            
+            function type() {
+                if (index < text.length) {
+                    element.textContent += text.charAt(index);
+                    index++;
+                    setTimeout(type, speed);
+                } else {
+                    // Remove the blinking cursor after typing is complete
+                    element.style.borderRight = 'none';
+                    
+                    // Add AI badge after typing is complete
+                    const aiBadge = document.createElement('div');
+                    aiBadge.className = 'ai-badge';
+                    aiBadge.textContent = 'AI Powered';
+                    element.parentElement.appendChild(aiBadge);
+                    
+                    // Add disclaimer
+                    const disclaimer = document.createElement('small');
+                    const disclaimerText = currentLanguage === 'hi' ? 
+                        '<br><br>🤖 <b>SwasthaAI:</b> यह AI-जनरेटेड सलाह है। उचित निदान के लिए डॉक्टर से सलाह लें। आपातकाल में 108 पर कॉल करें।' :
+                        '<br><br>🤖 <b>SwasthaAI:</b> This is AI-generated advice. Please consult a doctor for proper diagnosis. In emergencies, call 108.';
+                    disclaimer.innerHTML = disclaimerText;
+                    disclaimer.style.color = '#727272';
+                    disclaimer.style.display = 'block';
+                    disclaimer.style.marginTop = '9px';
+                    element.parentElement.appendChild(disclaimer);
+                }
+            }
+            
+            type();
+        }
+
+        function sendMessage(event) {
+            event.preventDefault();
+            const query = healthQuery.value.trim();
+            
+            if (!query) return;
+            
+            // Disable send button and show loading
+            sendBtn.disabled = true;
+            const sendingText = currentLanguage === 'hi' ? 'भेजी जा रही है...' : 'Sending...';
+            sendBtn.textContent = sendingText;
+            
+            // Add user message
+            addMessage(query, true);
+            
+            // Clear input
+            healthQuery.value = '';
+            
+            // Show typing indicator
+            showTypingIndicator();
+            
+            // Simulate AI processing time
+            setTimeout(() => {
+                hideTypingIndicator();
+                const response = getAIResponse(query);
+                addMessage(response);
+                
+                // Re-enable send button
+                sendBtn.disabled = false;
+                const sendText = currentLanguage === 'hi' ? 'भेजें' : 'Send';
+                sendBtn.textContent = sendText;
+            }, 1500 + Math.random() * 1000); // Random delay between 1.5-2.5 seconds
+        }
+
+        function sendQuickMessage(message) {
+            healthQuery.value = message;
+            sendMessage({preventDefault: () => {}});
+        }
+
+        // Enable enter key to send message
+        healthQuery.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage(e);
+            }
+        });
+
+        // Initialize with English
+        setLanguage('en');
+    </script>
+</body>
+</html>

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - SwasthaAI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8eef3 100%);
+        }
+        
+        .dashboard-header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(30, 58, 138, 0.15);
+            margin-bottom: 2rem;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        .form-input {
+            border: 1px solid #d1d5db;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            background: #ffffff;
+            font-size: 14px;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #1e3a8a;
+            box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            padding: 0.875rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 14px;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(30, 58, 138, 0.3);
+        }
+        
+        .btn-danger {
+            background: #dc2626;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .btn-danger:hover {
+            background: #b91c1c;
+        }
+        
+        .doctor-card {
+            background: #f9fafb;
+            border-radius: 10px;
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+        
+        .doctor-card:hover {
+            border-color: #1e3a8a;
+            box-shadow: 0 4px 16px rgba(30, 58, 138, 0.1);
+        }
+        
+        .doctor-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 12px;
+            object-fit: cover;
+            border: 3px solid #1e3a8a;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 3px solid #1e3a8a;
+            display: inline-block;
+        }
+        
+        .stat-badge {
+            background: #1e3a8a;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+        
+        .info-label {
+            font-size: 0.813rem;
+            color: #6b7280;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .info-value {
+            font-size: 0.938rem;
+            color: #1f2937;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="p-6">
+
+<div class="max-w-7xl mx-auto">
+    <!-- Header -->
+    <div class="dashboard-header">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-bold mb-2">Admin Dashboard</h1>
+                <p class="text-blue-100 text-sm">Manage healthcare professionals and system operations</p>
+            </div>
+            <div class="text-right">
+                <div class="text-4xl mb-1">⚕️</div>
+                <div class="text-sm font-semibold">SwasthaAI</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add New Doctor Form -->
+    <div class="card p-8 mb-8">
+        <h2 class="section-title">Add New Doctor</h2>
+        <form method="POST" enctype="multipart/form-data" class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-6">
+            <div>
+                <label class="info-label block mb-2">Full Name</label>
+                <input type="text" name="name" placeholder="Enter full name" required class="form-input w-full">
+            </div>
+            <div>
+                <label class="info-label block mb-2">Degree / Qualification</label>
+                <input type="text" name="degree" placeholder="e.g., MBBS, MD" required class="form-input w-full">
+            </div>
+            <div>
+                <label class="info-label block mb-2">Experience (Years)</label>
+                <input type="text" name="experience" placeholder="Years of experience" required class="form-input w-full">
+            </div>
+            <div>
+                <label class="info-label block mb-2">Speciality</label>
+                <input type="text" name="speciality" placeholder="e.g., Cardiology" required class="form-input w-full">
+            </div>
+            <div>
+                <label class="info-label block mb-2">Consultation Fees (₹)</label>
+                <input type="text" name="fees" placeholder="Enter fees amount" required class="form-input w-full">
+            </div>
+            <div>
+                <label class="info-label block mb-2">Working Place / Hospital</label>
+                <input type="text" name="working_place" placeholder="Hospital or clinic name" required class="form-input w-full">
+            </div>
+            <div>
+                <label class="info-label block mb-2">Profile Picture</label>
+                <input type="file" name="profile_pic" accept="image/*" class="form-input w-full">
+            </div>
+            <div>
+                <label class="info-label block mb-2">Set Password</label>
+                <input type="password" name="password" placeholder="Create secure password" required class="form-input w-full">
+            </div>
+            <button type="submit" class="btn-primary col-span-full mt-4">Add Doctor to System</button>
+        </form>
+    </div>
+
+    <!-- Registered Doctors List -->
+    <div class="card p-8">
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="section-title mb-0">Registered Doctors</h2>
+            <span class="stat-badge">Total: {{ doctors|length }}</span>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+            {% for doc_id, doc in doctors.items() %}
+            <div class="doctor-card p-5 flex gap-5 items-start">
+                <img src="{{ url_for('static', filename='doctor_profiles/' + doc['profile_pic']) }}" alt="Profile" class="doctor-avatar flex-shrink-0">
+                <div class="flex-1 min-w-0">
+                    <h3 class="font-bold text-lg text-gray-900 mb-3">Dr. {{ doc['name'] }}</h3>
+                    
+                    <div class="space-y-2">
+                        <div>
+                            <span class="info-label">Degree:</span>
+                            <p class="info-value">{{ doc['degree'] }}</p>
+                        </div>
+                        <div>
+                            <span class="info-label">Speciality:</span>
+                            <p class="info-value">{{ doc['speciality'] }}</p>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <span class="info-label">Experience:</span>
+                                <p class="info-value">{{ doc['experience'] }} years</p>
+                            </div>
+                            <div>
+                                <span class="info-label">Fees:</span>
+                                <p class="info-value">₹{{ doc['fees'] }}</p>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="info-label">Working Place:</span>
+                            <p class="info-value">{{ doc['working_place'] }}</p>
+                        </div>
+                        <div>
+                            <span class="info-label">Password:</span>
+                            <p class="info-value font-mono">{{ doc['password'] }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-shrink-0">
+                    <a href="/admin/delete_doctor/{{ doc_id }}" class="btn-danger inline-block">Delete</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

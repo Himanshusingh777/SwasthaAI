@@ -1,0 +1,10 @@
+{
+    "6806dbec-5a12-41ef-bb21-3cba43e46d2e": {
+        "sender": "patient",
+        "message": "hii doctor"
+    },
+    "4a2dff3c-2941-4a32-9cf5-78e9d7df211e": {
+        "sender": "doctor",
+        "message": "hlo dearr how are u??"
+    }
+}

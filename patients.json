@@ -1,0 +1,26 @@
+{
+    "P-d8e39217": {
+        "id": "P-d8e39217",
+        "name": "Raja",
+        "age": "20",
+        "gender": "M",
+        "city": "Jhar",
+        "password": "3306"
+    },
+    "P-96c417a1": {
+        "id": "P-96c417a1",
+        "name": "Himanshu singh",
+        "age": "22",
+        "gender": "Male",
+        "city": "Bokaro",
+        "password": "3306"
+    },
+    "P-0847b5b1": {
+        "id": "P-0847b5b1",
+        "name": "sneha biju",
+        "age": "20",
+        "gender": "F",
+        "city": "Sambalpur",
+        "password": "sneha"
+    }
+}

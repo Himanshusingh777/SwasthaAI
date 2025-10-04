@@ -1,0 +1,24 @@
+{
+    "71c6bfd3": {
+        "id": "71c6bfd3",
+        "name": "Himanshu Singh",
+        "degree": "MBBS",
+        "experience": "5+",
+        "speciality": "Cardiology",
+        "fees": "500",
+        "working_place": "RIMS RANCHI",
+        "profile_pic": "71c6bfd3_IMG-20250523-WA0010.jpg",
+        "password": "3306"
+    },
+    "4dc5495b": {
+        "id": "4dc5495b",
+        "name": "Raja",
+        "degree": "MS",
+        "experience": "5+",
+        "speciality": "Neurologist",
+        "fees": "500",
+        "working_place": "BGH BKSC",
+        "profile_pic": "4dc5495b_IMG-20250523-WA0010.jpg",
+        "password": "raja"
+    }
+}

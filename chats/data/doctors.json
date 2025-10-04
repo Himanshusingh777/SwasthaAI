@@ -1,0 +1,29 @@
+{
+    "36a98e47": {
+        "id": "36a98e47",
+        "name": "HIMANSHU SINGH",
+        "degree": "MBBS",
+        "experience": "2tears",
+        "speciality": "Neurologist",
+        "profile_pic": "img.pdf",
+        "password": "Himanshu@3306"
+    },
+    "6416f7ee": {
+        "id": "6416f7ee",
+        "name": "HIMANSHU SINGH",
+        "degree": "MBBS",
+        "experience": "5 years",
+        "speciality": "nerosrgery",
+        "profile_pic": "img.pdf",
+        "password": "himanshu@3306"
+    },
+    "d9793fbd": {
+        "id": "d9793fbd",
+        "name": "Chandan kumar behera",
+        "degree": "MBBS",
+        "experience": "14 ",
+        "speciality": "cardio",
+        "profile_pic": "img.jpg",
+        "password": "Himanshu@3306"
+    }
+}

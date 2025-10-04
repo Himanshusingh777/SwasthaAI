@@ -1,0 +1,30 @@
+<!-- templates/patient_recommendation.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Recommended Doctors</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-indigo-50 via-white to-purple-50 p-8">
+    <div class="max-w-5xl mx-auto">
+        <h1 class="text-3xl font-bold mb-6 text-center">Recommended Doctors</h1>
+        <p class="text-center mb-6">Based on your symptoms: <span class="font-semibold">{{ symptoms|join(', ') }}</span></p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {% for doc_id, doc in doctors %}
+            <div class="bg-white p-6 rounded-xl shadow-lg">
+                <h2 class="text-xl font-bold mb-2">Dr. {{ doc['name'] }}</h2>
+                <p class="mb-2">Specialty: {{ doc['speciality'] }}</p>
+                <a href="/chat/{{ doc_id }}/{{ session['patient_id'] }}" 
+                   class="text-indigo-600 hover:text-indigo-800 font-semibold">Start Chat</a>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="mt-8 text-center">
+            <a href="/patient/dashboard" class="text-gray-500 hover:text-gray-800">Back to Dashboard</a>
+        </div>
+    </div>
+</body>
+</html>

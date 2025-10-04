@@ -1,0 +1,1440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SwasthaAI | Comprehensive Healthcare Management System</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8fafc;
+        }
+
+        /* Header Styles */
+        .header-top {
+            background:rgb(26, 90, 240);
+            color: white;
+            padding: 8px 0;
+            font-size: 0.9rem;
+        }
+
+        .header-top .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .contact-info {
+            display: flex;
+            gap: 20px;
+        }
+
+        .contact-info span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .emergency-notice {
+            background:rgb(220, 38, 38);
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: 600;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #3b82f6, #1e40af);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .logo-text h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #1e40af;
+            margin-bottom: 2px;
+        }
+
+        .logo-text p {
+            font-size: 0.9rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #3b82f6;
+            border: 2px solid #3b82f6;
+        }
+
+        .btn-outline:hover {
+            background: #3b82f6;
+            color: white;
+        }
+
+        /* Navigation Styles */
+        nav {
+            background:rgb(235, 238, 240);
+            border-top: 1px solid #e2e8f0;
+            padding: 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 18px 25px;
+            color: #475569;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        .nav-link:hover {
+            color: #3b82f6;
+            background: rgba(59, 130, 246, 0.05);
+            border-bottom-color: #3b82f6;
+        }
+
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            min-width: 280px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .nav-item:hover .dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 12px 20px;
+            color: #475569;
+            text-decoration: none;
+            border-bottom: 1px solid #f1f5f9;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-item:hover {
+            background: #f8fafc;
+            color: #3b82f6;
+            padding-left: 25px;
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-item i {
+            width: 20px;
+            margin-right: 10px;
+            color: #3b82f6;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+            color: white;
+            padding: 80px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        /* Services Section */
+        .services {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 15px;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: #64748b;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 1px solid #f1f5f9;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #1e40af);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .service-card:hover::before {
+            transform: translateX(0);
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.1);
+        }
+
+        .service-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #3b82f6, #1e40af);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            color: white;
+            font-size: 2rem;
+        }
+
+        .service-card h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 15px;
+        }
+
+        .service-card p {
+            color: #64748b;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .service-features {
+            list-style: none;
+            margin-bottom: 25px;
+        }
+
+        .service-features li {
+            padding: 5px 0;
+            color: #475569;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .service-features li::before {
+            content: '✓';
+            color: #10b981;
+            font-weight: bold;
+        }
+
+        /* About Section */
+        .about {
+            padding: 80px 0;
+            background:rgb(5, 5, 30);
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about-text h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 20px;
+        }
+
+
+        .about-text p {
+            color:rgb(247, 247, 247);
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        .about-features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px;
+            background: blue;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #3b82f6, #1e40af);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .about-image {
+            position: relative;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        /* Footer */
+        footer {
+            background: #1e293b;
+            color: white;
+            padding: 60px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .footer-section p {
+            color: #94a3b8;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #3b82f6;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background: #334155;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: #3b82f6;
+            transform: translateY(-2px);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #334155;
+            padding-top: 20px;
+            text-align: center;
+            color: #94a3b8;
+        }
+
+        .footer-bottom-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .footer-legal {
+            display: flex;
+            gap: 20px;
+        }
+
+        .footer-legal a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-legal a:hover {
+            color: #3b82f6;
+        }
+        h4{
+           font-size: 2.5rem;
+            color:rgb(246, 246, 247);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .header-top {
+                display: none;
+            }
+
+            .header-main {
+                flex-direction: column;
+                gap: 20px;
+                padding: 20px;
+            }
+
+            .nav-container {
+                flex-direction: column;
+            }
+
+            .nav-link {
+                padding: 15px 20px;
+                text-align: center;
+            }
+
+            .dropdown {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                background: #f8fafc;
+                border-radius: 0;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .about-features {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-bottom-content {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Top Bar -->
+    <div class="header-top">
+        <div class="container">
+            <div class="contact-info">
+                <span><i class="fas fa-phone"></i> +91-6200036129</span>
+                <span><i class="fas fa-envelope"></i> support@swasthaai.gov.in</span>
+                <span><i class="fas fa-clock"></i> 24/7 Emergency Support</span>
+            </div>
+            <div class="emergency-notice">
+                <i class="fas fa-exclamation-triangle"></i> Emergency Helpline: 108
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Header -->
+    <header>
+        <div class="header-main">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-heartbeat"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>SwasthaAI</h1>
+                    <p>National Healthcare Management System</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <a href="/patient" class="btn btn-outline">
+                    <i class="fas fa-user"></i> Patient Login
+                </a>
+                <a href="/admin" class="btn btn-primary">
+                    <i class="fas fa-calendar-check"></i> Admin Login
+                </a>
+                <a href="/doctor" class="btn btn-outline">
+                    <i class="fas fa-user"></i> Doctor Login
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="nav-item">
+                <a href="#" class="nav-link">Home</a>
+            </div>
+            <div class="nav-item">
+                <a href="#" class="nav-link">Healthcare Services</a>
+                <div class="dropdown">
+                    <a href="/maternal_health" class="dropdown-item">
+                        <i class="fas fa-baby"></i> Maternal & Child Health
+                    </a>
+                    <a href="/telemedicine" class="dropdown-item">
+                        <i class="fas fa-video"></i> Telemedicine Consultation
+                    </a>
+                    <a href="/health_form" class="dropdown-item">
+                        <i class="fas fa-diagnoses"></i> AI Health Assessment
+                    </a>
+                    <a href="/medicine" class="dropdown-item">
+                        <i class="fas fa-pills"></i> Medicine Management
+                    </a>
+                    <a href="/indx" class="dropdown-item">
+                        <i class="fas fa-shield-alt"></i> Medicine Verification
+                    </a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="#" class="nav-link">Mental Health</a>
+                <div class="dropdown">
+                    <a href="/mentalcheckin" class="dropdown-item">
+                        <i class="fas fa-brain"></i> Mental Health Check-in
+                    </a>
+                    <a href="/mental-support" class="dropdown-item">
+                        <i class="fas fa-comments"></i> AI Mental Health Support
+                    </a>
+                    <a href="/face-emotion" class="dropdown-item">
+                        <i class="fas fa-smile"></i> Emotion Analysis
+                    </a>
+                    <a href="/relaxation" class="dropdown-item">
+                        <i class="fas fa-spa"></i> Relaxation Hub
+                    </a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="#" class="nav-link">Patient Tools</a>
+                <div class="dropdown">
+                    <a href="/calendar-reminder" class="dropdown-item">
+                        <i class="fas fa-calendar-alt"></i> Health Calendar
+                    </a>
+                    <a href="/reminder" class="dropdown-item">
+                        <i class="fas fa-bell"></i> Set Reminders
+                    </a>
+                    <a href="/dashboard" class="dropdown-item">
+                        <i class="fas fa-tachometer-alt"></i> My Dashboard
+                    </a>
+                    <a href="/store" class="dropdown-item">
+                        <i class="fas fa-store"></i> Healthcare Store
+                    </a>
+                     <a href="/disease_form" class="dropdown-item">
+                        <i class="fas fa-store"></i> Check Health by Symptoms
+                    </a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="#" class="nav-link">Government Schemes</a>
+                <div class="dropdown">
+                    <a href="/scheme_awareness" class="dropdown-item">
+                        <i class="fas fa-info-circle"></i> Scheme Information
+                    </a>
+                    <a href="#" class="dropdown-item">
+                        <i class="fas fa-file-alt"></i> Apply for Benefits
+                    </a>
+                    <a href="/diet" class="dropdown-item">
+                        <i class="fas fa-check-circle"></i>Plan Your Diet with AI
+                    </a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="/admin" class="nav-link">Healthcare Providers</a>
+            </div>
+        </div>
+    </nav>
+
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Doctor - Healthcare Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a0f1c;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0a0f1c 0%, #1a2332 50%, #0f1929 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(0, 162, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(0, 255, 255, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(135, 206, 235, 0.06) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            max-width: 1400px;
+            width: 100%;
+            align-items: center;
+        }
+
+        .hero-text {
+            animation: fadeInLeft 1s ease-out;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #00a2ff 0%, #00ffff 50%, #87ceeb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .hero-text p {
+            font-size: 1.3rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            color: #b0c4de;
+            max-width: 600px;
+        }
+
+        .hero-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .hero-actions i {
+            font-size: 2rem;
+            color: #00a2ff;
+            animation: pulse 2s infinite;
+        }
+
+        .ai-visual {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeInRight 1s ease-out;
+        }
+
+        .ai-brain {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, rgba(0, 162, 255, 0.1) 0%, rgba(0, 255, 255, 0.1) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .ai-brain::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 2px solid rgba(0, 162, 255, 0.3);
+            border-radius: 50%;
+            animation: rotate 20s linear infinite;
+        }
+
+        .ai-brain::after {
+            content: '';
+            position: absolute;
+            width: 80%;
+            height: 80%;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-radius: 50%;
+            animation: rotate 15s linear infinite reverse;
+        }
+
+        .ai-text {
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #00a2ff 0%, #00ffff 50%, #87ceeb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            z-index: 3;
+            position: relative;
+        }
+
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #00a2ff;
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .particle:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { top: 80%; left: 20%; animation-delay: 1s; }
+        .particle:nth-child(3) { top: 30%; left: 80%; animation-delay: 2s; }
+        .particle:nth-child(4) { top: 70%; left: 90%; animation-delay: 3s; }
+        .particle:nth-child(5) { top: 50%; left: 5%; animation-delay: 4s; }
+        .particle:nth-child(6) { top: 10%; left: 70%; animation-delay: 5s; }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            grid-column: 1 / -1;
+            margin-top: 3rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1.5rem;
+            background: rgba(0, 162, 255, 0.1);
+            border-radius: 15px;
+            border: 1px solid rgba(0, 162, 255, 0.2);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+            background: rgba(0, 162, 255, 0.15);
+            border-color: rgba(0, 162, 255, 0.4);
+        }
+
+        .stat-number {
+            display: block;
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #00a2ff 0%, #00ffff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: #b0c4de;
+            font-weight: 500;
+        }
+
+        .doctor-text {
+            position: absolute;
+            right: 10%;
+            top: 20%;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #b0c4de;
+            opacity: 0.8;
+        }
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) opacity(0.7); }
+            50% { transform: translateY(-20px) opacity(1); }
+        }
+
+        @media (max-width: 768px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                text-align: center;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+            .ai-brain {
+                width: 300px;
+                height: 300px;
+            }
+
+            .ai-text {
+                font-size: 3rem;
+            }
+
+            .hero-stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+
+            .stat-number {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <div class="particles">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+        </div>
+        
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Empowering Healthcare Through AI Innovation</h1>
+                <p>Comprehensive digital healthcare platform providing maternal care, telemedicine, mental health support, and government scheme awareness across India</p>
+                <div class="hero-actions">
+                    <i class="fas fa-heartbeat"></i>
+                </div>
+            </div>
+            
+            <div class="ai-visual">
+                <div class="ai-brain">
+                    <div class="ai-text">AI</div>
+                </div>
+                <div class="doctor-text">AI Doctor</div>
+            </div>
+            
+         
+        </div>
+    </section>
+</body>
+</html>
+    <!-- Services Section -->
+    <section class="services">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Comprehensive Healthcare Services</h2>
+                <p class="section-subtitle">Advanced AI-powered healthcare solutions designed to provide accessible, quality care for all citizens</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-baby"></i>
+                    </div>
+                    <h3>Maternal & Child Health</h3>
+                    <p>Specialized care for mothers and children with AI-powered monitoring, vaccination schedules, and development tracking.</p>
+                    <ul class="service-features">
+                        <li>Pregnancy monitoring and care</li>
+                        <li>Child development tracking</li>
+                        <li>Vaccination reminders</li>
+                        <li>Nutritional guidance</li>
+                        <li>Emergency support</li>
+                    </ul>
+                    <a href="/maternal_health" class="btn btn-primary">Learn More</a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h3>AI-Powered Telemedicine</h3>
+                    <p>Connect with certified healthcare professionals through secure video consultations enhanced with AI diagnostics.</p>
+                    <ul class="service-features">
+                        <li>Video consultations</li>
+                        <li>AI symptom analysis</li>
+                        <li>Digital prescriptions</li>
+                        <li>Specialist referrals</li>
+                        <li>Medical records management</li>
+                    </ul>
+                    <a href="/telemedicine" class="btn btn-primary">Start Consultation</a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>Mental Health Support</h3>
+                    <p>Comprehensive mental health services including AI-powered mood analysis, counseling, and wellness programs.</p>
+                    <ul class="service-features">
+                        <li>Mood tracking and analysis</li>
+                        <li>AI counseling support</li>
+                        <li>Stress management tools</li>
+                        <li>Meditation and relaxation</li>
+                        <li>Crisis intervention</li>
+                    </ul>
+                    <a href="/mental-support" class="btn btn-primary">Access Support</a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Medicine Safety & Management</h3>
+                    <p>Advanced medicine verification system to detect counterfeit drugs and manage medication schedules.</p>
+                    <ul class="service-features">
+                        <li>Fake medicine detection</li>
+                        <li>Medication reminders</li>
+                        <li>Drug interaction checking</li>
+                        <li>Prescription management</li>
+                        <li>Pharmacy locator</li>
+                    </ul>
+                    <a href="/medicine" class="btn btn-primary">Verify Medicine</a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-university"></i>
+                    </div>
+                    <h3>Government Scheme Awareness</h3>
+                    <p>Complete information about healthcare schemes, eligibility criteria, and application processes.</p>
+                    <ul class="service-features">
+                        <li>Scheme eligibility checker</li>
+                        <li>Application assistance</li>
+                        <li>Benefit tracking</li>
+                        <li>Document management</li>
+                        <li>Status updates</li>
+                    </ul>
+                    <a href="/scheme_awareness" class="btn btn-primary">Explore Schemes</a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Health Analytics & Insights</h3>
+                    <p>Comprehensive health analytics providing personalized insights and predictive health assessments.</p>
+                    <ul class="service-features">
+                        <li>Personal health dashboard</li>
+                        <li>Predictive health analysis</li>
+                        <li>Risk assessment</li>
+                        <li>Health trends tracking</li>
+                        <li>Wellness recommendations</li>
+                    </ul>
+                    <a href="/health_form" class="btn btn-primary">View Analytics</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h4>About SwasthaAI Platform</h4>
+                     <br> <br>
+                    <p>SwasthaAI is India's premier digital healthcare platform, leveraging artificial intelligence to democratize healthcare access across the nation. Our comprehensive system integrates cutting-edge technology with traditional healthcare practices to deliver personalized, accessible, and affordable medical care.</p>
+                    <p>With a focus on maternal and child health, mental wellness, and preventive care, SwasthaAI serves as a bridge between patients and healthcare providers, ensuring quality care reaches every corner of India.</p>
+                    <div class="about-features">
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-certificate"></i>
+                            </div>
+                            <span>Government Certified</span>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-lock"></i>
+                            </div>
+                            <span>HIPAA Compliant</span>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-award"></i>
+                            </div>
+                            <span>ISO 27001 Certified</span>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <span>1M+ Users</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <img src="static/images/1.png">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>SwasthaAI Platform</h3>
+                    
+                    <p>India's leading AI-powered healthcare management system, committed to providing accessible, quality healthcare services to all citizens through innovative technology solutions.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Healthcare Services</h3>
+                    <ul class="footer-links">
+                        <li><a href="/maternal_health">Maternal & Child Health</a></li>
+                        <li><a href="/telemedicine">Telemedicine Consultation</a></li>
+                        <li><a href="/mental-support">Mental Health Support</a></li>
+                        <li><a href="/health_form">AI Health Assessment</a></li>
+                        <li><a href="/medicine">Medicine Management</a></li>
+                        <li><a href="/indx">Medicine Verification</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Patient Resources</h3>
+                    <ul class="footer-links">
+                        <li><a href="/calendar-reminder">Health Calendar</a></li>
+                        <li><a href="/reminder">Medication Reminders</a></li>
+                        <li><a href="/dashboard">Patient Dashboard</a></li>
+                        <li><a href="/scheme_awareness">Government Schemes</a></li>
+                        <li><a href="/store">Healthcare Store</a></li>
+                        <li><a href="/relaxation">Wellness Hub</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Support & Information</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Contact Support</a></li>
+                        <li><a href="#">Emergency Services</a></li>
+                        <li><a href="#">Healthcare Providers</a></li>
+                        <li><a href="#">System Status</a></li>
+                        <li><a href="#">Accessibility</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Contact Information</h3>
+                    <div style="margin-bottom: 15px;">
+                        <i class="fas fa-map-marker-alt" style="color: #3b82f6; margin-right: 10px;"></i>
+                        <span>Ministry of Health & Family Welfare<br>Government of India<br>New Delhi - 110001</span>
+                    </div>
+                    <div style="margin-bottom: 15px;">
+                        <i class="fas fa-phone" style="color: #3b82f6; margin-right: 10px;"></i>
+                        <span>Toll-Free: 1800-XXX-XXXX</span>
+                    </div>
+                    <div style="margin-bottom: 15px;">
+                        <i class="fas fa-envelope" style="color: #3b82f6; margin-right: 10px;"></i>
+                        <span>support@swasthaai.gov.in</span>
+                    </div>
+                    <div>
+                        <i class="fas fa-clock" style="color: #3b82f6; margin-right: 10px;"></i>
+                        <span>24/7 Emergency Support</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <div>
+                        <p>&copy; 2025 SwasthaAI Platform </p>
+                    </div>
+                    <div class="footer-legal">
+                        <a href="#">Privacy Policy</a>
+                        <a href="#">Terms of Service</a>
+                        <a href="#">Data Protection</a>
+                        <a href="#">Cookies Policy</a>
+                        <a href="#">Disclaimer</a>
+                    </div>
+                </div>
+                <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #334155; text-align: center;">
+                    <p style="font-size: 0.9rem; color: #94a3b8;">
+                        <i class="fas fa-shield-alt" style="color: #10b981; margin-right: 5px;"></i>
+                        This platform is secured with 256-bit SSL encryption and complies with all  healthcare data protection standards.
+                    </p>
+                    <p style="font-size: 0.85rem; color: #64748b; margin-top: 10px;">
+                        Last updated: June 2025 | Version 2.1.0 | 
+                        <a href="#" style="color: #3b82f6;">Report Technical Issues</a> | 
+                        <a href="#" style="color: #3b82f6;">Feedback</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Emergency Floating Button -->
+    <div style="position: fixed; bottom: 30px; right: 30px; z-index: 1000;">
+    <a href="/ai" style="
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 65px;
+        height: 65px;
+        background: linear-gradient(135deg, #2563eb, #1d4ed8);
+        color: white;
+        border-radius: 50%;
+        text-decoration: none;
+        font-size: 1.7rem;
+        box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+        animation: pulse 2s infinite;
+        transition: all 0.3s ease;
+    " onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+        <i class="fas fa-brain"></i>
+    </a>
+</div>
+
+
+
+<style>
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+</style>
+
+        <div style="
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            background: #1f2937;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        " id="emergency-tooltip">Emergency: 108</div>
+    </div>
+
+    <script>
+        // Add hover effect for emergency button tooltip
+        const emergencyBtn = document.querySelector('[href="tel:108"]');
+        const tooltip = document.getElementById('emergency-tooltip');
+        
+        emergencyBtn.addEventListener('mouseenter', () => {
+            tooltip.style.opacity = '1';
+        });
+        
+        emergencyBtn.addEventListener('mouseleave', () => {
+            tooltip.style.opacity = '0';
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Mobile menu toggle functionality
+        function toggleMobileMenu() {
+            const nav = document.querySelector('nav');
+            nav.classList.toggle('mobile-open');
+        }
+
+        // Add loading states for buttons
+        document.querySelectorAll('.btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                if (this.href && !this.href.includes('#')) {
+                    this.style.opacity = '0.7';
+                    this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+                }
+            });
+        });
+
+        // Accessibility: Add keyboard navigation for dropdowns
+        document.querySelectorAll('.nav-item').forEach(item => {
+            const link = item.querySelector('.nav-link');
+            const dropdown = item.querySelector('.dropdown');
+            
+            if (dropdown) {
+                link.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        dropdown.style.opacity = dropdown.style.opacity === '1' ? '0' : '1';
+                        dropdown.style.visibility = dropdown.style.visibility === 'visible' ? 'hidden' : 'visible';
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

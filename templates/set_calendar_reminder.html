@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Set Calendar Reminder | SwasthaAI Healthcare</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            background: linear-gradient(135deg, #e3f2fd 0%, #f8f9fa 50%, #e8f5e8 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Medical pattern overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(76, 175, 80, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(33, 150, 243, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(156, 39, 176, 0.02) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Navigation bar */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 15px 0;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #1565c0;
+        }
+
+        .logo i {
+            font-size: 2rem;
+            color: #4caf50;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #555;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #1565c0;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #1565c0;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .emergency-btn {
+            background: linear-gradient(135deg, #f44336, #d32f2f);
+            color: white !important;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            animation: pulse-emergency 2s infinite;
+        }
+
+        @keyframes pulse-emergency {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(244, 67, 54, 0.4); }
+            50% { box-shadow: 0 0 0 10px rgba(244, 67, 54, 0); }
+        }
+
+        .emergency-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(244, 67, 54, 0.3);
+        }
+
+        .emergency-btn::after {
+            display: none;
+        }
+
+        /* Main content */
+        .main-content {
+            margin-top: 80px;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+            min-height: calc(100vh - 80px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .hero-section {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #1565c0, #4caf50);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
+
+        .trust-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .trust-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #4caf50;
+            font-weight: 600;
+        }
+
+        .trust-item i {
+            font-size: 1.2rem;
+        }
+
+        /* Enhanced container styling */
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 50px;
+            border-radius: 24px;
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.08),
+                0 10px 30px rgba(0, 0, 0, 0.04),
+                inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            animation: slideIn 0.8s ease-out;
+            position: relative;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #1565c0, #4caf50, #2196f3, #81c784);
+            border-radius: 24px 24px 0 0;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            text-align: center;
+            color: #1565c0;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        h2 i {
+            color: #4caf50;
+            font-size: 2.2rem;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            color: #2c3e50;
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+            letter-spacing: 0.3px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        label i {
+            color: #4caf50;
+            font-size: 1.1rem;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        select {
+            width: 100%;
+            padding: 18px 24px;
+            border: 2px solid #e8f0fe;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: inherit;
+            background: rgba(255, 255, 255, 0.9);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            color: #2c3e50;
+            backdrop-filter: blur(10px);
+        }
+
+        input[type="text"]:focus,
+        input[type="date"]:focus,
+        select:focus {
+            outline: none;
+            border-color: #1565c0;
+            background: white;
+            box-shadow: 
+                0 0 0 3px rgba(21, 101, 192, 0.1),
+                0 4px 12px rgba(21, 101, 192, 0.15);
+            transform: translateY(-2px);
+        }
+
+        input[type="text"]:hover,
+        input[type="date"]:hover,
+        select:hover {
+            border-color: #bbdefb;
+            transform: translateY(-1px);
+        }
+
+        select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234caf50' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 20px center;
+            background-size: 20px;
+            padding-right: 55px;
+        }
+
+        select option {
+            padding: 12px;
+            background: #ffffff;
+            color: #2c3e50;
+        }
+
+        button {
+            width: 100%;
+            background: linear-gradient(135deg, #1565c0, #1976d2);
+            color: white;
+            border: none;
+            padding: 20px 24px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 10px;
+            box-shadow: 0 8px 25px rgba(21, 101, 192, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(21, 101, 192, 0.4);
+        }
+
+        button:hover::before {
+            left: 100%;
+        }
+
+        button:active {
+            transform: translateY(-1px);
+        }
+
+        /* Mail button styling */
+        a button[type="button"] {
+            background: linear-gradient(135deg, #4caf50, #66bb6a);
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.3);
+            margin-top: 15px;
+        }
+
+        a button[type="button"]:hover {
+            box-shadow: 0 15px 35px rgba(76, 175, 80, 0.4);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        /* AI Suggestion enhanced styling */
+        #ai-suggestion {
+            display: none;
+            padding: 20px !important;
+            background: linear-gradient(135deg, #e8f5e8, #f1f8e9) !important;
+            border-left: 4px solid #4caf50 !important;
+            border-radius: 12px !important;
+            margin-bottom: 20px !important;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.1);
+            animation: slideInSuggestion 0.4s ease-out;
+        }
+
+        @keyframes slideInSuggestion {
+            from { transform: translateX(-30px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        #ai-suggestion strong {
+            color: #2e7d32;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        #ai-suggestion p {
+            color: #4a5568;
+            line-height: 1.5;
+        }
+
+        /* Footer */
+        .footer {
+            background: linear-gradient(135deg, #1565c0, #0d47a1);
+            color: white;
+            padding: 60px 20px 30px;
+            margin-top: 80px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .footer-section h4 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #bbdefb;
+        }
+
+        .footer-section p, .footer-section a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            margin-bottom: 10px;
+            display: block;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero-title {
+                font-size: 2.2rem;
+            }
+            
+            .trust-indicators {
+                gap: 20px;
+            }
+            
+            .container {
+                padding: 30px 20px;
+                margin: 0 10px;
+            }
+            
+            .main-content {
+                padding: 20px 10px;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            h2 {
+                font-size: 1.6rem;
+            }
+        }
+
+        /* Input validation styling */
+        input:invalid {
+            border-color: #f44336;
+        }
+
+        input:valid {
+            border-color: #4caf50;
+        }
+
+        /* Focus ring for accessibility */
+        *:focus-visible {
+            outline: 2px solid #1565c0;
+            outline-offset: 2px;
+        }
+
+        /* Loading animation for form submission */
+        .loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .loading button {
+            background: #ccc;
+            position: relative;
+        }
+
+        .loading button::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            margin: -10px 0 0 -10px;
+            border: 2px solid #fff;
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Floating medical elements */
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .floating-element {
+            position: absolute;
+            color: rgba(76, 175, 80, 0.1);
+            font-size: 2rem;
+            animation: floatAround 20s infinite linear;
+        }
+
+        .floating-element:nth-child(1) {
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-element:nth-child(2) {
+            top: 60%;
+            right: 15%;
+            animation-delay: -7s;
+        }
+
+        .floating-element:nth-child(3) {
+            bottom: 20%;
+            left: 20%;
+            animation-delay: -14s;
+        }
+
+        @keyframes floatAround {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, -30px) rotate(120deg); }
+            66% { transform: translate(-20px, 20px) rotate(240deg); }
+            100% { transform: translate(0, 0) rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating medical elements -->
+    <div class="floating-elements">
+        <i class="fas fa-stethoscope floating-element"></i>
+        <i class="fas fa-heartbeat floating-element"></i>
+        <i class="fas fa-user-md floating-element"></i>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-heartbeat"></i>
+                SwasthaAI
+            </div>
+            <div class="nav-links">
+                <a href="#"><i class="fas fa-home"></i> Home</a>
+                <a href="#"><i class="fas fa-calendar-alt"></i> Appointments</a>
+                <a href="#"><i class="fas fa-user-md"></i> Doctors</a>
+                <a href="#"><i class="fas fa-info-circle"></i> About</a>
+                <a href="#" class="emergency-btn">
+                    <i class="fas fa-phone"></i> Emergency: 108
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <h1 class="hero-title">
+                <i class="fas fa-calendar-plus"></i>
+                Smart Calendar Integration
+            </h1>
+            <p class="hero-subtitle">
+                Seamlessly integrate your health appointments with your personal calendar. Never miss another important medical check-up with our intelligent scheduling system.
+            </p>
+            
+            <div class="trust-indicators">
+                <div class="trust-item">
+                    <i class="fas fa-sync"></i>
+                    Auto-Sync
+                </div>
+                <div class="trust-item">
+                    <i class="fas fa-bell"></i>
+                    Smart Alerts
+                </div>
+                <div class="trust-item">
+                    <i class="fas fa-mobile-alt"></i>
+                    Multi-Device
+                </div>
+                <div class="trust-item">
+                    <i class="fas fa-shield-alt"></i>
+                    Secure
+                </div>
+            </div>
+        </div>
+
+        <!-- Enhanced Form Container -->
+        <div class="container">
+            <h2><i class="fas fa-calendar-check"></i> Set Calendar Reminder</h2>
+            <form method="POST" id="calendarForm">
+                <div class="form-group">
+                    <label><i class="fas fa-user"></i> Name:</label>
+                    <input type="text" name="name" required placeholder="Enter your full name">
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-stethoscope"></i> Reminder Type:</label>
+                    <select name="reminder_type" id="reminder_type" required onchange="suggestReminder()">
+                        <option value="">-- Select Reminder Type --</option>
+                        <option value="Pregnancy Checkup">🤱 Pregnancy Checkup</option>
+                        <option value="Child Vaccination">💉 Child Vaccination</option>
+                        <option value="Routine Health Screening">🩺 Routine Health Screening</option>
+                    </select>
+                </div>
+
+                <!-- AI Suggestion Display -->
+                <div id="ai-suggestion" style="display: none; padding: 10px; background: #e6f7ff; border-left: 4px solid #1890ff; margin-bottom: 15px;">
+                    <strong><i class="fas fa-robot"></i> Smart Health Suggestion:</strong>
+                    <p id="suggestion-text"></p>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-calendar-alt"></i> Date:</label>
+                    <input type="date" name="date" id="date" required>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-notes-medical"></i> Reason:</label>
+                    <input type="text" name="reason" id="reason" required placeholder="Brief description of the appointment">
+                </div>
+
+                <button type="submit">
+                    <i class="fas fa-calendar-plus"></i>
+                    Generate Calendar Event
+                </button>
+
+                <a href="/reminder">
+                    <button type="button">
+                        <i class="fas fa-envelope"></i>
+                        Generate Reminder on Mail
+                    </button>
+                </a>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4><i class="fas fa-heartbeat"></i> SwasthaAI</h4>
+                <p>Your trusted healthcare companion, providing AI-powered calendar integration and wellness solutions.</p>
+                <p><i class="fas fa-phone"></i> Emergency: 108</p>
+                <p><i class="fas fa-envelope"></i> support@swasthaai.com</p>
+            </div>
+            <div class="footer-section">
+                <h4>Calendar Features</h4>
+                <a href="#"><i class="fas fa-arrow-right"></i> Google Calendar Sync</a>
+                <a href="#"><i class="fas fa-arrow-right"></i> Outlook Integration</a>
+                <a href="#"><i class="fas fa-arrow-right"></i> Apple Calendar</a>
+                <a href="#"><i class="fas fa-arrow-right"></i> Mobile Reminders</a>
+            </div>
+            <div class="footer-section">
+                <h4>Health Services</h4>
+                <a href="#"><i class="fas fa-arrow-right"></i> Find Doctors</a>
+                <a href="#"><i class="fas fa-arrow-right"></i> Book Appointment</a>
+                <a href="#"><i class="fas fa-arrow-right"></i> Health Records</a>
+                <a href="#"><i class="fas fa-arrow-right"></i> Telemedicine</a>
+            </div>
+            <div class="footer-section">
+                <h4>Support</h4>
+                <a href="#"><i class="fas fa-arrow-right"></i> Help Center</a>
+                <a href="#"><i class="fas fa-arrow-right"></i> Contact Us</a>
+                <a href="#"><i class="fas fa-arrow-right"></i> Privacy Policy</a>
+                <a href="#"><i class="fas fa-arrow-right"></i> Terms of Service</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 SwasthaAI Healthcare. All rights reserved. | Trusted by 10,000+ patients nationwide</p>
+        </div>
+    </footer>
+
+    <script>
+        // Your existing JavaScript logic (preserved exactly as is)
+        function suggestReminder() {
+            const type = document.getElementById("reminder_type").value;
+            const suggestionBox = document.getElementById("ai-suggestion");
+            const suggestionText = document.getElementById("suggestion-text");
+            const dateInput = document.getElementById("date");
+            const reasonInput = document.getElementById("reason");
+
+            let suggestion = "";
+            let date = "";
+            let reason = "";
+
+            const today = new Date();
+            const futureDate = (days) => {
+                const d = new Date();
+                d.setDate(d.getDate() + days);
+                return d.toISOString().split('T')[0];
+            };
+
+            if (type === "Pregnancy Checkup") {
+                date = futureDate(30);  // 1 month later
+                reason = "1st Trimester Checkup";
+                suggestion = `We recommend scheduling a checkup every month. Next one on <strong>${date}</strong>.`;
+            } else if (type === "Child Vaccination") {
+                date = futureDate(15);  // 15 days later
+                reason = "Scheduled Vaccination";
+                suggestion = `Vaccines are time-sensitive. Suggested next on <strong>${date}</strong>.`;
+            } else if (type === "Routine Health Screening") {
+                date = futureDate(90);  // 3 months later
+                reason = "Quarterly Health Check";
+                suggestion = `Routine health checkups are advised every 3 months. Suggested date: <strong>${date}</strong>.`;
+            }
+
+            if (suggestion) {
+                suggestionBox.style.display = "block";
+                suggestionText.innerHTML = suggestion;
+                dateInput.value = date;
+                reasonInput.value = reason;
+            } else {
+                suggestionBox.style.display = "none";
+                suggestionText.innerHTML = "";
+                dateInput.value = "";
+                reasonInput.value = "";
+            }
+        }
+
+        // Additional enhancements
+        document.getElementById('calendarForm').addEventListener('submit', function() {
+            this.classList.add('loading');
+        });
+
+        // Set minimum date to today
+        document.getElementById('date').min = new Date().toISOString().split('T')[0];
+    </script>
+</body>
+</html>

@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mental Health Support | SwasthaAI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        h2 {
+            color: #2d3748;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            color: #718096;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            font-weight: 400;
+        }
+
+        .input-container {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        #moodText {
+            width: 100%;
+            min-height: 150px;
+            padding: 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 15px;
+            font-size: 1rem;
+            font-family: inherit;
+            resize: vertical;
+            background: #f8fafc;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        #moodText:focus {
+            border-color: #667eea;
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: translateY(-2px);
+        }
+
+        #moodText::placeholder {
+            color: #a0aec0;
+            font-style: italic;
+        }
+
+        .analyze-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .analyze-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+        }
+
+        .analyze-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .analyze-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .analyze-btn:hover::before {
+            left: 100%;
+        }
+
+        #result {
+            margin-top: 30px;
+            font-size: 1.2rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+            border-radius: 15px;
+            border: 2px solid transparent;
+        }
+
+        #result.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .mood-icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            display: block;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .floating-shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .shape {
+            position: absolute;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .shape:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            width: 60px;
+            height: 60px;
+            top: 70%;
+            right: 10%;
+            animation-delay: 2s;
+        }
+
+        .shape:nth-child(3) {
+            width: 40px;
+            height: 40px;
+            top: 40%;
+            left: 80%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+            }
+        }
+
+        .loading {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #e2e8f0;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+                margin: 10px;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            #moodText {
+                min-height: 120px;
+                padding: 15px;
+            }
+
+            .analyze-btn {
+                padding: 12px 30px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <div class="container">
+        <h2>Mental Health Support</h2>
+        <p class="subtitle">Share your thoughts and let AI help understand your mood</p>
+        
+        <div class="input-container">
+            <textarea id="moodText" rows="6" cols="50" placeholder="How are you feeling today? Share what's on your mind..."></textarea>
+        </div>
+        
+        <button class="analyze-btn" onclick="analyzeMood()">
+            <span>Analyze My Mood</span>
+        </button>
+        
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p style="margin-top: 10px; color: #718096;">Analyzing your mood...</p>
+        </div>
+        
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function analyzeMood() {
+            const text = document.getElementById("moodText").value;
+            const result = document.getElementById("result");
+            const loading = document.getElementById("loading");
+
+            if (!text.trim()) {
+                result.innerHTML = "Please share your thoughts first 💭";
+                result.style.backgroundColor = "#fff3cd";
+                result.style.color = "#856404";
+                result.style.padding = "15px";
+                result.style.borderRadius = "15px";
+                result.style.marginTop = "20px";
+                result.style.border = "2px solid #ffeaa7";
+                result.classList.add("show");
+                return;
+            }
+
+            // Show loading
+            loading.classList.add("show");
+            result.classList.remove("show");
+
+            fetch("/analyze-text", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ text })
+            })
+            .then(res => res.json())
+            .then(data => {
+                let emoji = "";
+                let moodLabel = "";
+                let color = "";
+                let borderColor = "";
+                let textColor = "";
+
+                if (data.score < -0.3) {
+                    emoji = "😔";
+                    moodLabel = "Feeling Low";
+                    color = "#ffeaa7";
+                    borderColor = "#fdcb6e";
+                    textColor = "#2d3436";
+                } else if (data.score < 0.1) {
+                    emoji = "😐";
+                    moodLabel = "Neutral";
+                    color = "#e8f4f8";
+                    borderColor = "#74b9ff";
+                    textColor = "#2d3436";
+                } else {
+                    emoji = "😊";
+                    moodLabel = "Happy & Positive";
+                    color = "#d1f2eb";
+                    borderColor = "#00b894";
+                    textColor = "#2d3436";
+                }
+
+                // Hide loading
+                loading.classList.remove("show");
+
+                result.innerHTML = `
+                    <span class="mood-icon">${emoji}</span>
+                    <strong style="font-size: 1.3rem; color: ${textColor};">${moodLabel}</strong><br>
+                    <span style="color: #718096; font-size: 1rem; margin-top: 10px; display: block;">You're feeling this way today. Remember, every emotion is valid. 💙</span>
+                `;
+                result.style.backgroundColor = color;
+                result.style.color = textColor;
+                result.style.padding = "25px";
+                result.style.borderRadius = "15px";
+                result.style.marginTop = "20px";
+                result.style.border = `2px solid ${borderColor}`;
+                result.classList.add("show");
+            })
+            .catch(err => {
+                console.error(err);
+                loading.classList.remove("show");
+                result.innerHTML = `
+                    <span style="font-size: 2rem;">⚠️</span><br>
+                    <strong>Unable to analyze mood right now</strong><br>
+                    <span style="color: #718096; font-size: 0.9rem;">Please try again in a moment</span>
+                `;
+                result.style.backgroundColor = "#fed7d7";
+                result.style.color = "#c53030";
+                result.style.padding = "20px";
+                result.style.borderRadius = "15px";
+                result.style.marginTop = "20px";
+                result.style.border = "2px solid #fc8181";
+                result.classList.add("show");
+            });
+        }
+
+        // Add enter key support for textarea
+        document.getElementById('moodText').addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'Enter') {
+                analyzeMood();
+            }
+        });
+    </script>
+</body>
+</html>

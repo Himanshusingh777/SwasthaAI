@@ -1,0 +1,27 @@
+{
+  "paracetamol": {
+    "name": "Paracetamol",
+    "genericName": "Acetaminophen",
+    "description": {
+      "english": "Paracetamol is used to relieve pain and reduce fever.",
+      "hindi": "पैरासिटामोल का उपयोग दर्द कम करने और बुखार घटाने के लिए किया जाता है।"
+    },
+    "price_hint": "₹15–35 (10 tabs)",
+    "similarMedicines": [
+      {"name":"Crocin", "generic":"Paracetamol", "price":"₹18–30"},
+      {"name":"Dolo", "generic":"Paracetamol", "price":"₹20–35"}
+    ]
+  },
+  "ibuprofen": {
+    "name":"Ibuprofen",
+    "genericName":"Ibuprofen",
+    "description":{
+      "english":"Ibuprofen is an NSAID used for pain, inflammation, and fever.",
+      "hindi":"इबुप्रोफेन एक NSAID है जो दर्द, सूजन और बुखार के लिए उपयोग किया जाता है।"
+    },
+    "price_hint":"₹25–40 (10 tabs)",
+    "similarMedicines":[
+      {"name":"Brufen", "generic":"Ibuprofen", "price":"₹25–35"}
+    ]
+  }
+}

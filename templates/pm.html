@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pradhan Mantri Matru Vandana Yojana</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border-left: 5px solid #28a745;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .section h2 {
+            color: #2c3e50;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section h2::before {
+            content: '🔸';
+            margin-right: 10px;
+        }
+        
+        .benefit-amount {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 20px 0;
+            font-size: 1.5rem;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+        }
+        
+        .criteria-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .criteria-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+        
+        .criteria-item:hover {
+            border-color: #667eea;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .criteria-item h3 {
+            color: #495057;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .installment-timeline {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+        
+        .installment-step {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .step-number {
+            background: #667eea;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 20px;
+        }
+        
+        .documents-list {
+            background: #fff3cd;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #ffc107;
+            margin: 20px 0;
+        }
+        
+        .documents-list ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .documents-list li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .documents-list li::before {
+            content: '📄';
+            position: absolute;
+            left: 0;
+        }
+        
+        .application-steps {
+            background: #d1ecf1;
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 4px solid #17a2b8;
+            margin: 20px 0;
+        }
+        
+        .application-steps ol {
+            padding-left: 20px;
+        }
+        
+        .application-steps li {
+            padding: 10px 0;
+            font-size: 1.1rem;
+        }
+        
+        .highlight {
+            background: linear-gradient(120deg, #ffeaa7, #fab1a0);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #e17055;
+        }
+        
+        .contact-info {
+            background: #e8f5e8;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 30px;
+            border: 2px solid #28a745;
+        }
+        
+        .contact-info h3 {
+            color: #155724;
+            margin-bottom: 15px;
+        }
+        
+        .website-link {
+            display: inline-block;
+            background: #007bff;
+            color: white;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            margin: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .website-link:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤱 Pradhan Mantri Matru Vandana Yojana (PMMVY)</h1>
+            <p>Financial Support for Pregnant & Lactating Women</p>
+        </div>
+        
+        <div class="content">
+            <div class="section">
+                <h2>🎯 Scheme Overview</h2>
+                <p>The Pradhan Mantri Matru Vandana Yojana (PMMVY) is a government initiative launched on January 1, 2017, under Section 4 of the National Food Security Act, 2013. This scheme provides financial assistance to pregnant and lactating women to improve maternal and child health outcomes while compensating for wage loss during pregnancy and childbirth.</p>
+                
+                <div class="benefit-amount">
+                    💰 Financial Benefit: ₹5,000 for First Live Birth
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>✅ Eligibility Criteria</h2>
+                <div class="criteria-grid">
+                    <div class="criteria-item">
+                        <h3>👩‍🦱 Basic Requirements</h3>
+                        <ul>
+                            <li>Must be an Indian citizen</li>
+                            <li>Minimum age: 19 years</li>
+                            <li>First live birth only</li>
+                            <li>Pregnancy occurred on or after 01.01.2017</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="criteria-item">
+                        <h3>💼 Employment Status</h3>
+                        <ul>
+                            <li>Must have been employed before pregnancy</li>
+                            <li>Should experience wage loss due to pregnancy</li>
+                            <li>Excludes central/state government employees with similar benefits</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="criteria-item">
+                        <h3>💰 Income Criteria</h3>
+                        <ul>
+                            <li>Net family income less than ₹8 lakh per annum</li>
+                            <li>Primarily targeted at lower income brackets</li>
+                            <li>Women covered under PM-JAY (Ayushman Bharat) eligible</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>💳 Payment Structure</h2>
+                <div class="installment-timeline">
+                    <h3 style="text-align: center; margin-bottom: 20px;">Payment Schedule - Total ₹5,000</h3>
+                    
+                    <div class="installment-step">
+                        <div class="step-number">1</div>
+                        <div>
+                            <strong>First Installment: ₹1,000</strong><br>
+                            On early registration of pregnancy at Anganwadi/Health Center
+                        </div>
+                    </div>
+                    
+                    <div class="installment-step">
+                        <div class="step-number">2</div>
+                        <div>
+                            <strong>Second Installment: ₹2,000</strong><br>
+                            After completing 6 months of pregnancy and getting at least one ANC check-up
+                        </div>
+                    </div>
+                    
+                    <div class="installment-step">
+                        <div class="step-number">3</div>
+                        <div>
+                            <strong>Third Installment: ₹2,000</strong><br>
+                            After childbirth and completing first cycle of immunization (within 12 weeks)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>📋 Required Documents</h2>
+                <div class="documents-list">
+                    <ul>
+                        <li>Identity Proof (Aadhaar Card)</li>
+                        <li>Bank Account Details</li>
+                        <li>Pregnancy Registration Certificate</li>
+                        <li>MCP Card (Mother and Child Protection Card)</li>
+                        <li>Employment Certificate (if applicable)</li>
+                        <li>Income Certificate</li>
+                        <li>Residence Proof</li>
+                        <li>Hospital Discharge Certificate (for final installment)</li>
+                        <li>Child's Birth Certificate (for final installment)</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>🚀 How to Apply</h2>
+                <div class="application-steps">
+                    <h3>Application Process:</h3>
+                    <ol>
+                        <li><strong>Visit Anganwadi Center or Health Center</strong> - Register your pregnancy early</li>
+                        <li><strong>Contact ASHA/ANM Workers</strong> - They will help with the application process</li>
+                        <li><strong>Fill Application Form</strong> - Complete Form 1A for registration</li>
+                        <li><strong>Submit Required Documents</strong> - Provide all necessary certificates and proofs</li>
+                        <li><strong>Follow Up for Installments</strong> - Complete required health check-ups and submit additional forms (1B and 1C) for subsequent installments</li>
+                        <li><strong>Bank Account Linking</strong> - Ensure your bank account is linked with Aadhaar for direct benefit transfer</li>
+                    </ol>
+                </div>
+                
+                <div class="highlight">
+                    <h3>📱 Online Registration</h3>
+                    <p>Beneficiaries can also apply online through the official PMMVY portal. Visit the official website and fill out the registration form with all required details.</p>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>🎯 Key Objectives</h2>
+                <ul>
+                    <li>Improve maternal and child health outcomes</li>
+                    <li>Provide financial support to compensate for wage loss</li>
+                    <li>Encourage early registration of pregnancy</li>
+                    <li>Promote institutional delivery and immunization</li>
+                    <li>Reduce maternal and infant mortality rates</li>
+                    <li>Enhance nutritional support for mothers and children</li>
+                </ul>
+            </div>
+            
+            <div class="section">
+                <h2>⚠️ Important Notes</h2>
+                <div class="highlight">
+                    <ul>
+                        <li>Only for first live birth - not applicable for subsequent pregnancies</li>
+                        <li>Must complete required health check-ups to receive payments</li>
+                        <li>Registration should be done as early as possible during pregnancy</li>
+                        <li>Government employees with similar maternity benefits are excluded</li>
+                        <li>Direct Benefit Transfer (DBT) ensures payments reach beneficiaries directly</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="contact-info">
+                <h3>📞 For More Information</h3>
+                <p>Contact your nearest Anganwadi Center, ASHA worker, or ANM for assistance with application and documentation.</p>
+                <a href="#" class="website-link">🌐 Visit Official PMMVY Portal</a>
+                <a href="#" class="website-link">📋 Check Eligibility Online</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

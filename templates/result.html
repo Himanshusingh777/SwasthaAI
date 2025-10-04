@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SwasthAI - Verification Result</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #2c3e50;
+        }
+
+        .container {
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            padding: 40px;
+            max-width: 700px;
+            width: 100%;
+            text-align: center;
+            border: 2px solid #e9ecef;
+            animation: slideIn 0.6s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            margin-bottom: 30px;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 20px;
+        }
+
+        .logo h1 {
+            color: #1a365d;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            color: #4a5568;
+            font-size: 1rem;
+            margin-bottom: 0;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .result-header {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            padding: 25px;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .result-title {
+            color: #1a365d;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .result-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            font-weight: bold;
+            background: #28a745;
+            color: white;
+        }
+
+        .result-content {
+            background: #ffffff;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            padding: 30px;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .result-text {
+            color: #2c3e50;
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-bottom: 25px;
+            white-space: pre-wrap;
+        }
+
+        .verified-sources {
+            border-top: 1px solid #e9ecef;
+            padding-top: 20px;
+        }
+
+        .verified-sources h3 {
+            color: #1a365d;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .verified-sources ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .verified-sources li {
+            margin-bottom: 8px;
+            padding: 8px 0;
+            border-bottom: 1px solid #f1f3f4;
+        }
+
+        .verified-sources li:last-child {
+            border-bottom: none;
+        }
+
+        .verified-sources li a {
+            color: #0056b3;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .verified-sources li a:hover {
+            color: #004085;
+            text-decoration: underline;
+        }
+
+        .action-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .back-button {
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: 500;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 8px rgba(0, 123, 255, 0.2);
+            text-transform: none;
+            letter-spacing: 0;
+        }
+
+        .back-button:hover {
+            background: #0056b3;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+            text-decoration: none;
+        }
+
+        .back-button:active {
+            transform: translateY(0);
+        }
+
+        .disclaimer {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 6px;
+            padding: 20px;
+            margin-top: 25px;
+            text-align: left;
+        }
+
+        .disclaimer h4 {
+            color: #856404;
+            margin-bottom: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .disclaimer p {
+            color: #856404;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .status-indicator {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #28a745;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(40, 167, 69, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(40, 167, 69, 0);
+            }
+        }
+
+        .analysis-complete {
+            color: #28a745;
+            font-size: 0.9rem;
+            margin-top: 8px;
+            font-weight: 500;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+                margin: 10px;
+            }
+
+            .logo h1 {
+                font-size: 1.8rem;
+            }
+
+            .result-title {
+                font-size: 1.3rem;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+            .result-text {
+                font-size: 1rem;
+            }
+
+            .back-button {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="status-indicator"></div>
+        
+        <div class="logo">
+            <h1>SwasthAI</h1>
+            <div class="subtitle">Medicine Verification Report</div>
+        </div>
+
+        <div class="result-header">
+            <div class="result-title">
+                <div class="result-icon">
+                    ✓
+                </div>
+                Verification Analysis Results
+            </div>
+            <div class="analysis-complete">Verification process completed successfully</div>
+        </div>
+
+        <div class="result-content">
+            <div class="result-text">{{ result }}</div>
+            
+           {% if sources %}
+    <div class="source-section">
+        <h3>📋 Verified Medical Sources</h3>
+        <ul>
+        {% for source in sources %}
+            <li><a href="{{ source }}" target="_blank">{{ source }}</a></li>
+        {% endfor %}
+        </ul>
+    </div>
+{% endif %}
+        <div class="action-section">
+            <a href="/indx" class="back-button">
+                ← Return to Medicine Scanner
+            </a>
+        </div>
+
+        <div class="disclaimer">
+            <h4>
+                ⚠️ Important Medical Disclaimer
+            </h4>
+            <p>
+                This automated verification analysis is provided for informational purposes only and does not constitute medical advice, diagnosis, or treatment recommendations. Always consult with qualified healthcare professionals before making any medical decisions. Verify medication authenticity through official regulatory channels and authorized pharmaceutical distributors.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

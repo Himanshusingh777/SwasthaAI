@@ -1,0 +1,111 @@
+{
+    "products": [{
+            "id": "bp_monitor",
+            "name": "Blood Pressure Monitor",
+            "image": "bp_monitor.png",
+            "flipkart_link": "https://www.flipkart.com/bp-monitor-link",
+            "description": {
+                "en": "A digital BP monitor to track your blood pressure accurately at home.",
+                "hi": "एक डिजिटल बीपी मॉनिटर जिससे आप घर पर ही अपना रक्तचाप सही से माप सकते हैं।"
+            },
+            "uses": {
+                "en": "Use on clean skin, wrap cuff around arm, press start.",
+                "hi": "स्वच्छ त्वचा पर उपयोग करें, कफ बांधें और स्टार्ट बटन दबाएं।"
+            },
+            "safety": {
+                "en": "Keep away from water. Do not disassemble.",
+                "hi": "इसे पानी से दूर रखें। इसे खोलने की कोशिश न करें।"
+            }
+        },
+        {
+            "id": "sugar_test",
+            "name": "Sugar Test Machine",
+            "image": "sugar.jpeg",
+            "flipkart_link": "https://www.flipkart.com/sugar-test-link",
+            "description": {
+                "en": "A compact glucometer to monitor your sugar levels.",
+                "hi": "आपकी शुगर की मात्रा को मापने के लिए एक छोटा ग्लूकोमीटर।"
+            },
+            "uses": {
+                "en": "Insert strip, prick finger, apply blood to strip.",
+                "hi": "स्ट्रिप डालें, उंगली में सुई चुभाएं और रक्त डालें।"
+            },
+            "safety": {
+                "en": "Use new strips. Don’t share needles.",
+                "hi": "नई स्ट्रिप का उपयोग करें। सुई साझा न करें।"
+            }
+        },
+        {
+            "id": "thermometer",
+            "name": "Digital Thermometer",
+            "image": "thermo.png",
+            "flipkart_link": "https://www.flipkart.com/thermometer-link",
+            "description": {
+                "en": "Digital thermometer for fast and accurate temperature readings.",
+                "hi": "तेज़ और सटीक तापमान मापने के लिए डिजिटल थर्मामीटर।"
+            },
+            "uses": {
+                "en": "Place under tongue/armpit, wait for beep.",
+                "hi": "जीभ के नीचे या बगल में रखें, बीप की प्रतीक्षा करें।"
+            },
+            "safety": {
+                "en": "Sanitize before/after use.",
+                "hi": "प्रयोग से पहले और बाद में सैनिटाइज़ करें।"
+            }
+        },
+        {
+            "id": "oximeter",
+            "name": "Pulse Oximeter",
+            "image": "Pulse Oximeter.jpeg",
+            "flipkart_link": "https://www.flipkart.com/oximeter-link",
+            "description": {
+                "en": "Check your blood oxygen levels and pulse rate.",
+                "hi": "अपने रक्त में ऑक्सीजन स्तर और नाड़ी की दर जांचें।"
+            },
+            "uses": {
+                "en": "Insert finger and press button. Wait for reading.",
+                "hi": "उंगली डालें और बटन दबाएं। रीडिंग का इंतजार करें।"
+            },
+            "safety": {
+                "en": "Avoid moisture. Don’t drop.",
+                "hi": "नमी से दूर रखें। गिरने न दें।"
+            }
+        },
+        {
+            "id": "stethoscope",
+            "name": "Stethoscope",
+            "image": "stethoscope.jpeg",
+            "flipkart_link": "https://www.flipkart.com/stethoscope-link",
+            "description": {
+                "en": "Used to hear internal body sounds like heartbeat or lungs.",
+                "hi": "दिल या फेफड़ों जैसी शरीर की आंतरिक ध्वनियों को सुनने के लिए उपयोग किया जाता है।"
+            },
+            "uses": {
+                "en": "Place on chest, use earpieces to hear.",
+                "hi": "छाती पर रखें, कानों में ईयरपीस लगाएं और सुनें।"
+            },
+            "safety": {
+                "en": "Sanitize after each use.",
+                "hi": "प्रत्येक उपयोग के बाद सैनिटाइज़ करें।"
+            }
+        },
+        {
+            "id": "weighing_scale",
+            "name": "Digital Weighing Scale",
+            "image": "weighing_scale.png",
+            "flipkart_link": "https://www.flipkart.com/weighing-scale-link",
+            "description": {
+                "en": "Accurately measures your body weight.",
+                "hi": "आपके शरीर के वजन को सटीक रूप से मापता है।"
+            },
+            "uses": {
+                "en": "Step on the scale barefoot.",
+                "hi": "तुला पर नंगे पांव खड़े हों।"
+            },
+            "safety": {
+                "en": "Use on flat surface. Avoid overload.",
+                "hi": "समतल सतह पर उपयोग करें। अधिक वजन न डालें।"
+            }
+        }
+    ]
+}

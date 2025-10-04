@@ -1,0 +1,8 @@
+<!DOCTYPE html>
+<html><body>
+<h2>Results</h2>
+<img src="/{{ image }}" width="300"><br>
+<p>Diagnosis: <strong>{{ label }}</strong></p>
+<p>Confidence: {{ '%.2f'%(score*100) }}%</p>
+<a href="/analyse">Try another image</a>
+</body></html>

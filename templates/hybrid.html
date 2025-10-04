@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>SwasthaAI — Hybrid Lookup</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+</head>
+<body>
+  <h2>🔎 AI Symptom → Disease & Medicine Lookup</h2>
+  <form method="POST">
+    <label>Enter symptoms or medicine name</label>
+    <input type="text" name="query" value="{{ query }}">
+    <select name="type">
+      <option value="auto">Auto detect</option>
+      <option value="symptom">Symptom → Disease</option>
+      <option value="medicine">Medicine lookup</option>
+    </select>
+    <button type="submit">Analyze</button>
+  </form>
+
+  {% if result %}
+    {% if result.mode == 'medicine' %}
+      {% if result.error %}<p>Error: {{ result.error }}</p>
+      {% else %}
+        <h3>{{ result.name }}</h3>
+        <p><strong>English:</strong> {{ result.description_en }}</p>
+        <p><strong>हिंदी:</strong> {{ result.description_hi }}</p>
+        <p>Price: {{ result.price_hint }}</p>
+      {% endif %}
+    {% elif result.mode == 'symptom' %}
+      <h3>Predicted Conditions</h3>
+      <ul>{% for p in result.predictions %}<li>{{ p.disease }} — {{ p.confidence }}%</li>{% endfor %}</ul>
+      <p>{{ result.advice_en }}</p>
+      <p>{{ result.advice_hi }}</p>
+    {% endif %}
+  {% endif %}
+</body>
+</html>

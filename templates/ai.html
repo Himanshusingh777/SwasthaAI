@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SwasthaAI Medical Assistant</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: 
+        linear-gradient(135deg, #f8fafc 0%, #f1f5f9 25%, #e2e8f0 50%, #cbd5e1 75%, #94a3b8 100%);
+      height: 100vh;
+      overflow: hidden;
+      position: fixed;
+      width: 100%;
+      color: #1e293b;
+      background-attachment: fixed;
+    }
+
+    /* Subtle professional pattern overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.03), transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.03), transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(99, 102, 241, 0.02), transparent 50%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .container {
+      display: grid;
+      grid-template-areas: 
+        "header header"
+        "avatar chat"
+        "footer footer";
+      grid-template-rows: 100px 1fr 70px;
+      grid-template-columns: 400px 1fr;
+      height: 100vh;
+      gap: 20px;
+      padding: 20px;
+      max-width: 1400px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    h1 {
+      grid-area: header;
+      text-align: center;
+      color: #1e293b;
+      font-size: 2.2rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ffffff;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      position: relative;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      letter-spacing: -0.02em;
+    }
+
+    h1::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #3b82f6, #10b981, #6366f1);
+      border-radius: 12px 12px 0 0;
+    }
+
+    .ai-section {
+      grid-area: avatar;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #ffffff;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      padding: 40px;
+      position: relative;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .ai-avatar {
+      width: 200px;
+      height: 200px;
+      background: 
+        radial-gradient(circle at 30% 30%, #3b82f6 0%, #1e40af 50%, #1e293b 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      box-shadow: 
+        0 8px 32px rgba(59, 130, 246, 0.15),
+        0 4px 12px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      overflow: hidden;
+      border: 4px solid #ffffff;
+    }
+
+    .ai-avatar::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: conic-gradient(
+        from 0deg, 
+        transparent, 
+        rgba(59, 130, 246, 0.1), 
+        transparent
+      );
+      animation: rotate 8s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .ai-face {
+      width: 160px;
+      height: 160px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+    }
+
+    .ai-eyes {
+      display: flex;
+      gap: 30px;
+      margin-bottom: 20px;
+    }
+
+    .eye {
+      width: 40px;
+      height: 40px;
+      background: #ffffff;
+      border-radius: 50%;
+      position: relative;
+      box-shadow: 
+        inset 0 2px 8px rgba(0, 0, 0, 0.1),
+        0 2px 4px rgba(0, 0, 0, 0.1);
+      border: 2px solid #e2e8f0;
+      transition: all 0.3s ease;
+    }
+
+    .pupil {
+      width: 24px;
+      height: 24px;
+      background: 
+        radial-gradient(circle at 30% 30%, #1e293b 0%, #0f172a 70%);
+      border-radius: 50%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      transition: all 0.3s ease;
+    }
+
+    .iris {
+      width: 18px;
+      height: 18px;
+      background: #475569;
+      border-radius: 50%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .highlight {
+      width: 6px;
+      height: 6px;
+      background: #ffffff;
+      border-radius: 50%;
+      position: absolute;
+      top: 25%;
+      left: 30%;
+      animation: subtle-twinkle 4s ease-in-out infinite;
+    }
+
+    @keyframes subtle-twinkle {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    .ai-mouth {
+      width: 32px;
+      height: 18px;
+      border: 2px solid #64748b;
+      border-top: none;
+      border-radius: 0 0 32px 32px;
+      margin-top: 10px;
+      transition: all 0.3s ease;
+    }
+
+    .ai-avatar:hover {
+      transform: translateY(-2px);
+      box-shadow: 
+        0 12px 40px rgba(59, 130, 246, 0.2),
+        0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    .ai-avatar {
+      animation: gentle-float 6s ease-in-out infinite;
+    }
+
+    @keyframes gentle-float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-3px); }
+    }
+  
+    .blink .eye {
+      animation: professional-blink 0.3s ease-in-out;
+    }
+
+    @keyframes professional-blink {
+      0%, 100% { 
+        transform: scaleY(1); 
+      }
+      50% { 
+        transform: scaleY(0.1); 
+      }
+    }
+
+    .speaking .ai-avatar {
+      box-shadow: 
+        0 8px 32px rgba(59, 130, 246, 0.25),
+        0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .speaking .ai-mouth {
+      animation: professional-talk 0.5s ease-in-out infinite;
+    }
+
+    .speaking .pupil {
+      animation: subtle-eye-move 3s ease-in-out infinite;
+    }
+
+    @keyframes professional-talk {
+      0%, 100% { 
+        width: 32px;
+        height: 18px;
+      }
+      50% { 
+        width: 38px;
+        height: 22px;
+      }
+    }
+
+    @keyframes subtle-eye-move {
+      0%, 100% { transform: translate(-50%, -50%); }
+      33% { transform: translate(-48%, -48%); }
+      66% { transform: translate(-52%, -50%); }
+    }
+
+    .ai-status {
+      margin-top: 25px;
+      color: #475569;
+      font-size: 0.95rem;
+      font-weight: 500;
+      text-align: center;
+      padding: 10px 20px;
+      background: #f8fafc;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+      transition: all 0.3s ease;
+    }
+
+    .chat-section {
+      grid-area: chat;
+      display: flex;
+      flex-direction: column;
+      background: #ffffff;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      position: relative;
+    }
+
+    .log {
+      flex: 1;
+      padding: 30px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      scroll-behavior: smooth;
+    }
+
+    .message {
+      max-width: 80%;
+      padding: 16px 20px;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      animation: fade-in 0.4s ease-out;
+      position: relative;
+      word-wrap: break-word;
+      font-weight: 400;
+    }
+
+    .user-message {
+      background: #3b82f6;
+      color: white;
+      margin-left: auto;
+      border-bottom-right-radius: 4px;
+      box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+    }
+
+    .ai-message {
+      background: #f8fafc;
+      color: #1e293b;
+      margin-right: auto;
+      border-bottom-left-radius: 4px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    @keyframes fade-in {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .typing-indicator {
+      padding: 20px 30px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.3s ease;
+      pointer-events: none;
+    }
+
+    .typing-indicator.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .typing-dots {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      padding: 12px 16px;
+      background: #f8fafc;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .typing-dots::before {
+      content: "Processing your request";
+      color: #64748b;
+      margin-right: 12px;
+      font-style: normal;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    .typing-dot {
+      width: 8px;
+      height: 8px;
+      background: #64748b;
+      border-radius: 50%;
+      animation: professional-typing 1.4s infinite ease-in-out;
+    }
+
+    .typing-dot:nth-child(2) { 
+      animation-delay: 0.2s; 
+    }
+    
+    .typing-dot:nth-child(3) { 
+      animation-delay: 0.4s;
+    }
+
+    @keyframes professional-typing {
+      0%, 80%, 100% { 
+        opacity: 0.3; 
+        transform: scale(0.8); 
+      }
+      40% { 
+        opacity: 1; 
+        transform: scale(1.2); 
+      }
+    }
+
+    .controls {
+      padding: 25px;
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      background: #f8fafc;
+      border-top: 1px solid #e2e8f0;
+      position: relative;
+    }
+
+    #textInput {
+      flex: 1;
+      padding: 12px 16px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      background: #ffffff;
+      color: #1e293b;
+      outline: none;
+      transition: all 0.3s ease;
+      font-weight: 400;
+    }
+
+    #textInput::placeholder {
+      color: #64748b;
+      font-weight: 400;
+    }
+
+    #textInput:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    button {
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      text-transform: none;
+      letter-spacing: normal;
+      border: 1px solid transparent;
+    }
+
+    #sendBtn {
+      background: #3b82f6;
+      color: white;
+      min-width: 80px;
+      border-color: #3b82f6;
+    }
+
+    #sendBtn:hover {
+      background: #2563eb;
+      border-color: #2563eb;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    }
+
+    #sendBtn:active {
+      transform: translateY(0);
+    }
+
+    #micBtn {
+      background: #10b981;
+      color: white;
+      min-width: 120px;
+      border-color: #10b981;
+    }
+
+    #micBtn:hover {
+      background: #059669;
+      border-color: #059669;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    }
+
+    #micBtn:active {
+      transform: translateY(0);
+    }
+
+    #micBtn.recording {
+      background: #ef4444;
+      border-color: #ef4444;
+      animation: recording-pulse 1.5s infinite ease-in-out;
+    }
+
+    @keyframes recording-pulse {
+      0%, 100% { 
+        transform: scale(1); 
+        box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+      }
+      50% { 
+        transform: scale(1.05); 
+        box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+      }
+    }
+
+    .toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #475569;
+      font-size: 0.9rem;
+      cursor: pointer;
+      user-select: none;
+      padding: 8px 12px;
+      border-radius: 6px;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      transition: all 0.3s ease;
+      font-weight: 500;
+    }
+
+    .toggle:hover {
+      background: #f1f5f9;
+      border-color: #cbd5e1;
+    }
+
+    .toggle input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: #3b82f6;
+      cursor: pointer;
+    }
+
+    footer {
+      grid-area: footer;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ffffff;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      position: relative;
+    }
+
+    footer a {
+      color: #3b82f6;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      padding: 12px 24px;
+      border-radius: 6px;
+      border: 1px solid transparent;
+    }
+
+    footer a:hover {
+      color: #2563eb;
+      background: #eff6ff;
+      border-color: #bfdbfe;
+      text-decoration: none;
+    }
+
+    .followup-options {
+      margin-top: 15px;
+      display: flex;
+      gap: 12px;
+      animation: fade-in 0.4s ease-out;
+    }
+
+    .followup-options button {
+      flex: 1;
+      padding: 10px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      border: 1px solid;
+      transition: all 0.3s ease;
+      font-size: 0.85rem;
+    }
+
+    .followup-yes {
+      background: #10b981;
+      color: white;
+      border-color: #10b981;
+    }
+
+    .followup-yes:hover {
+      background: #059669;
+      border-color: #059669;
+      transform: translateY(-1px);
+    }
+
+    .followup-no {
+      background: #6b7280;
+      color: white;
+      border-color: #6b7280;
+    }
+
+    .followup-no:hover {
+      background: #4b5563;
+      border-color: #4b5563;
+      transform: translateY(-1px);
+    }
+
+    /* Professional scrollbar */
+    .log::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .log::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+
+    .log::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+
+    .log::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+
+    /* Subtle hover effects */
+    .message:hover {
+      transform: translateY(-1px);
+      transition: all 0.2s ease;
+    }
+
+    .user-message:hover {
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+    }
+
+    .ai-message:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Responsive design */
+    @media (max-width: 1024px) {
+      .container {
+        grid-template-columns: 350px 1fr;
+        gap: 15px;
+        padding: 15px;
+      }
+      
+      h1 {
+        font-size: 1.8rem;
+      }
+      
+      .ai-avatar {
+        width: 160px;
+        height: 160px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        grid-template-areas: 
+          "header"
+          "avatar"
+          "chat"
+          "footer";
+        grid-template-columns: 1fr;
+        grid-template-rows: 80px auto 1fr 60px;
+      }
+      
+      .ai-section {
+        padding: 30px;
+      }
+      
+      .ai-avatar {
+        width: 140px;
+        height: 140px;
+      }
+      
+      .controls {
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+      
+      #textInput {
+        min-width: 100%;
+        margin-bottom: 10px;
+      }
+      
+      .followup-options {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+
+    /* Focus states for accessibility */
+    button:focus-visible,
+    input:focus-visible {
+      outline: 2px solid #3b82f6;
+      outline-offset: 2px;
+    }
+
+    /* Smooth font rendering */
+    * {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Professional loading state */
+    .ai-avatar.loading {
+      animation: professional-loading 2s ease-in-out infinite;
+    }
+
+    @keyframes professional-loading {
+      0%, 100% { 
+        opacity: 1; 
+      }
+      50% { 
+        opacity: 0.8; 
+      }
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>SwasthaAI Medical Assistant</h1>
+    
+    <div class="ai-section">
+      <div class="ai-avatar" id="aiAvatar">
+        <div class="ai-face">
+          <div class="ai-eyes">
+            <div class="eye" id="leftEye">
+              <div class="pupil">
+                <div class="iris">
+                  <div class="highlight"></div>
+                </div>
+              </div>
+            </div>
+            <div class="eye" id="rightEye">
+              <div class="pupil">
+                <div class="iris">
+                  <div class="highlight"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ai-mouth" id="aiMouth"></div>
+        </div>
+      </div>
+      <div class="ai-status" id="aiStatus">Ready to assist with your health inquiries</div>
+    </div>
+    
+    <div class="chat-section">
+      <div id="log" class="log"></div>
+      
+      <div class="typing-indicator" id="typingIndicator">
+        <div class="typing-dots">
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+        </div>
+      </div>
+      
+      <div class="controls">
+        <input id="textInput" type="text" placeholder="Enter your health-related question here..." />
+        <button id="sendBtn">Send</button>
+        <button id="micBtn" title="Voice input">
+          <span id="micLabel">🎤 Voice</span>
+        </button>
+        <label class="toggle">
+          <input id="ttsToggle" type="checkbox" checked />
+          <span>Audio response</span>
+        </label>
+      </div>
+    </div>
+    
+    <footer>
+      <a href="/health" target="_blank">Health Dashboard</a>
+    </footer>
+  </div>
+</body>
+</html>
+
+  <script>
+    const logEl = document.getElementById("log");
+    const textInput = document.getElementById("textInput");
+    const sendBtn = document.getElementById("sendBtn");
+    const micBtn = document.getElementById("micBtn");
+    const ttsToggle = document.getElementById("ttsToggle");
+    const typingIndicator = document.getElementById("typingIndicator");
+    const aiAvatar = document.getElementById("aiAvatar");
+    const aiStatus = document.getElementById("aiStatus");
+    const leftEye = document.getElementById("leftEye");
+    const rightEye = document.getElementById("rightEye");
+
+    // AI Animation Functions
+    function blinkEyes() {
+      leftEye.classList.add("blink");
+      rightEye.classList.add("blink");
+      setTimeout(() => {
+        leftEye.classList.remove("blink");
+        rightEye.classList.remove("blink");
+      }, 300);
+    }
+
+    function startSpeaking() {
+      aiAvatar.classList.add("speaking");
+      aiStatus.textContent = "Speaking...";
+    }
+
+    function stopSpeaking() {
+      aiAvatar.classList.remove("speaking");
+      aiStatus.textContent = "Ready to help you";
+    }
+
+    function startThinking() {
+      aiStatus.textContent = "Thinking...";
+    }
+
+    // Random blinking
+    function scheduleNextBlink() {
+      const delay = Math.random() * 3000 + 2000; // 2-5 seconds
+      setTimeout(() => {
+        blinkEyes();
+        scheduleNextBlink();
+      }, delay);
+    }
+
+    // Start blinking cycle
+    scheduleNextBlink();
+
+    // Utility: add messages
+    function addMessage(text, sender = "ai") {
+      const msg = document.createElement("div");
+      msg.className = "message " + (sender === "user" ? "user-message" : "ai-message");
+      msg.innerHTML = text;
+      logEl.appendChild(msg);
+      logEl.scrollTop = logEl.scrollHeight;
+
+      // Blink when AI responds
+      if (sender === "ai") {
+        setTimeout(() => blinkEyes(), 500);
+      }
+    }
+
+    // Handle send
+    function sendMessage(query) {
+      if (!query) return;
+      addMessage(query, "user");
+      textInput.value = "";
+
+      startThinking();
+      typingIndicator.classList.add("show");
+
+      fetch("/ask", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ query })
+      })
+      .then(res => res.json())
+      .then(data => {
+        typingIndicator.classList.remove("show");
+
+        let answer = data.answer || "Sorry, I didn't get that.";
+        addMessage(answer, "ai");
+
+        // If follow-up is suggested, show Yes/No buttons
+        if (answer.includes("Would you like me to help with this?")) {
+          showFollowUpOptions();
+        }
+
+        if (ttsToggle.checked && window.speechSynthesis) {
+          startSpeaking();
+          const utterance = new SpeechSynthesisUtterance(answer);
+          
+          utterance.onend = () => {
+            stopSpeaking();
+          };
+          
+          utterance.onerror = () => {
+            stopSpeaking();
+          };
+          
+          speechSynthesis.speak(utterance);
+        } else {
+          stopSpeaking();
+        }
+      })
+      .catch(() => {
+        typingIndicator.classList.remove("show");
+        addMessage("Error connecting to server.", "ai");
+        stopSpeaking();
+      });
+    }
+
+    // Show Yes/No follow-up buttons
+    function showFollowUpOptions() {
+      const container = document.createElement("div");
+      container.className = "followup-options";
+
+      const yesBtn = document.createElement("button");
+      yesBtn.textContent = "Yes 👍";
+      yesBtn.className = "followup-yes";
+      yesBtn.onclick = () => handleFollowUp("yes");
+
+      const noBtn = document.createElement("button");
+      noBtn.textContent = "No 👎";
+      noBtn.className = "followup-no";
+      noBtn.onclick = () => handleFollowUp("no");
+
+      container.appendChild(yesBtn);
+      container.appendChild(noBtn);
+      logEl.appendChild(container);
+      logEl.scrollTop = logEl.scrollHeight;
+    }
+
+    // Send follow-up choice
+    function handleFollowUp(choice) {
+      // Remove the follow-up buttons
+      const followupContainer = document.querySelector('.followup-options');
+      if (followupContainer) {
+        followupContainer.remove();
+      }
+
+      startThinking();
+
+      fetch("/ask", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ query: choice })
+      })
+      .then(res => res.json())
+      .then(data => {
+        addMessage(data.answer, "ai");
+        
+        if (ttsToggle.checked && window.speechSynthesis) {
+          startSpeaking();
+          const utterance = new SpeechSynthesisUtterance(data.answer);
+          
+          utterance.onend = () => {
+            stopSpeaking();
+          };
+          
+          utterance.onerror = () => {
+            stopSpeaking();
+          };
+          
+          speechSynthesis.speak(utterance);
+        } else {
+          stopSpeaking();
+        }
+      })
+      .catch(() => {
+        addMessage("Error connecting to server.", "ai");
+        stopSpeaking();
+      });
+    }
+
+    // Bind events
+    sendBtn.onclick = () => sendMessage(textInput.value.trim());
+    textInput.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") sendMessage(textInput.value.trim());
+    });
+
+    // Speech recognition
+    let recognition;
+    if ("webkitSpeechRecognition" in window) {
+      recognition = new webkitSpeechRecognition();
+      recognition.continuous = false;
+      recognition.lang = "en-US";
+      recognition.interimResults = false;
+
+      recognition.onstart = function() {
+        aiStatus.textContent = "Listening...";
+      };
+
+      recognition.onresult = function(event) {
+        const transcript = event.results[0][0].transcript;
+        sendMessage(transcript);
+      };
+
+      recognition.onerror = function() {
+        micBtn.classList.remove("recording");
+        aiStatus.textContent = "Ready to help you";
+      };
+
+      recognition.onend = function() {
+        micBtn.classList.remove("recording");
+        aiStatus.textContent = "Ready to help you";
+      };
+    }
+
+    micBtn.onclick = () => {
+      if (!recognition) {
+        alert("Speech recognition not supported in this browser.");
+        return;
+      }
+      recognition.start();
+      micBtn.classList.add("recording");
+    };
+
+    // Welcome message
+    setTimeout(() => {
+      addMessage("Hello! I'm SwasthaAI, your personal health assistant. How can I help you today?", "ai");
+      blinkEyes();
+    }, 1000);
+  </script>
+</body>
+</html>

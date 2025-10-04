@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SwasthaAI Store - Premium Healthcare Products</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .glass-effect { backdrop-filter: blur(10px); background: rgba(255, 255, 255, 0.9); }
+        .hover-lift { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .hover-lift:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
+        .search-focus:focus { box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1); }
+        .product-badge { background: linear-gradient(45deg, #f093fb 0%, #f5576c 100%); }
+        .premium-shadow { box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation Header -->
+    <nav class="gradient-bg text-white sticky top-0 z-50 premium-shadow">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-4">
+                    <i class="fas fa-heartbeat text-2xl"></i>
+                    <span class="text-xl font-bold">SwasthaAI</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-6 text-sm">
+                    <a href="#" class="hover:text-blue-200 transition-colors">Home</a>
+                    <a href="#" class="hover:text-blue-200 transition-colors">Products</a>
+                    <a href="#" class="hover:text-blue-200 transition-colors">About</a>
+                    <a href="#" class="hover:text-blue-200 transition-colors">Contact</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <i class="fas fa-shopping-cart text-lg hover:text-blue-200 cursor-pointer transition-colors"></i>
+                    <i class="fas fa-user text-lg hover:text-blue-200 cursor-pointer transition-colors"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Hero Section -->
+        <div class="glass-effect rounded-2xl p-8 mb-8 premium-shadow">
+            <div class="text-center mb-8">
+                <h1 class="text-5xl font-bold text-gray-800 mb-4">
+                    <span class="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                        SwasthaAI Store
+                    </span>
+                </h1>
+                <p class="text-xl text-gray-600 mb-8">Premium Healthcare Solutions & Medical Products</p>
+                
+                <!-- Search and Filter Section -->
+                <div class="max-w-4xl mx-auto">
+                    <div class="flex flex-col md:flex-row gap-4 items-center justify-between">
+                        <!-- Search Bar -->
+                        <div class="relative flex-1 max-w-2xl">
+                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                <i class="fas fa-search text-gray-400"></i>
+                            </div>
+                            <input type="text" 
+                                   id="searchInput"
+                                   placeholder="Search for healthcare products, medicines, equipment..."
+                                   class="w-full pl-12 pr-4 py-4 text-lg border-2 border-gray-200 rounded-xl focus:border-blue-500 search-focus transition-all duration-300 bg-white">
+                        </div>
+                        
+                        <!-- Language Selector -->
+                        <form method="GET" action="/store" class="flex items-center space-x-3">
+                            <label class="text-sm font-medium text-gray-700">Language:</label>
+                            <select name="lang" onchange="this.form.submit()" 
+                                    class="border-2 border-gray-200 px-4 py-2 rounded-lg focus:border-blue-500 transition-colors bg-white">
+                                <option value="en" {% if lang == 'en' %}selected{% endif %}>🇺🇸 English</option>
+                                <option value="hi" {% if lang == 'hi' %}selected{% endif %}>🇮🇳 हिंदी</option>
+                            </select>
+                        </form>
+                    </div>
+                    
+                    <!-- Filter Tags -->
+                    <div class="flex flex-wrap justify-center gap-3 mt-6">
+                        <button class="filter-tag bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium hover:bg-blue-200 transition-colors" data-filter="all">
+                            All Products
+                        </button>
+                        <button class="filter-tag bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-medium hover:bg-green-200 transition-colors" data-filter="medicine">
+                            Medicines
+                        </button>
+                        <button class="filter-tag bg-purple-100 text-purple-800 px-4 py-2 rounded-full text-sm font-medium hover:bg-purple-200 transition-colors" data-filter="equipment">
+                            Equipment
+                        </button>
+                        <button class="filter-tag bg-orange-100 text-orange-800 px-4 py-2 rounded-full text-sm font-medium hover:bg-orange-200 transition-colors" data-filter="supplements">
+                            Supplements
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Products Section -->
+        <div class="mb-6">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-bold text-gray-800">Featured Products</h2>
+                <div class="flex items-center space-x-4">
+                    <span class="text-gray-600" id="productCount">Showing all products</span>
+                    <select class="border border-gray-300 px-3 py-2 rounded-lg text-sm bg-white">
+                        <option>Sort by: Featured</option>
+                        <option>Price: Low to High</option>
+                        <option>Price: High to Low</option>
+                        <option>Newest First</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Products Grid -->
+        <div id="productsGrid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+            {% for product in products %}
+            <div class="product-card bg-white rounded-2xl premium-shadow overflow-hidden hover-lift transition-all duration-300" data-product-name="{{ product.name|lower }}">
+                <!-- Product Image -->
+                <div class="relative group">
+                    <img src="{{ url_for('static', filename='images/products/' + product.image) }}" 
+                         alt="{{ product.name }}" 
+                         class="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300"></div>
+                    
+                    <!-- Product Badge -->
+                    <div class="absolute top-4 right-4 product-badge text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
+                        {{ 'Premium' if lang == 'en' else 'प्रीमियम' }}
+                    </div>
+                    
+                    <!-- Quick Actions -->
+                    <div class="absolute top-4 left-4 flex flex-col space-y-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <button class="bg-white rounded-full p-2 shadow-lg hover:bg-gray-50 transition-colors">
+                            <i class="fas fa-heart text-gray-600 hover:text-red-500"></i>
+                        </button>
+                        <button class="bg-white rounded-full p-2 shadow-lg hover:bg-gray-50 transition-colors">
+                            <i class="fas fa-eye text-gray-600 hover:text-blue-500"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Product Details -->
+                <div class="p-6">
+                    <div class="flex items-start justify-between mb-4">
+                        <h3 class="text-xl font-bold text-gray-900 line-clamp-2">{{ product.name }}</h3>
+                        <div class="flex text-yellow-400 text-sm ml-2">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-800 uppercase tracking-wider mb-2 flex items-center">
+                                <i class="fas fa-info-circle text-blue-500 mr-2"></i>
+                                {{ 'Description' if lang == 'en' else 'विवरण' }}
+                            </h4>
+                            <p class="text-gray-600 text-sm leading-relaxed line-clamp-3">{{ product.description[lang] }}</p>
+                        </div>
+                        
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-800 uppercase tracking-wider mb-2 flex items-center">
+                                <i class="fas fa-clipboard-list text-green-500 mr-2"></i>
+                                {{ 'How to Use' if lang == 'en' else 'उपयोग कैसे करें' }}
+                            </h4>
+                            <p class="text-gray-600 text-sm leading-relaxed line-clamp-2">{{ product.uses[lang] }}</p>
+                        </div>
+                        
+                        <div>
+                            <h4 class="text-sm font-semibold text-gray-800 uppercase tracking-wider mb-2 flex items-center">
+                                <i class="fas fa-shield-alt text-red-500 mr-2"></i>
+                                {{ 'Safety Tips' if lang == 'en' else 'सुरक्षा टिप्स' }}
+                            </h4>
+                            <p class="text-gray-600 text-sm leading-relaxed line-clamp-2">{{ product.safety[lang] }}</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Price and Actions -->
+                    <div class="mt-6 pt-6 border-t border-gray-100">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <span class="text-2xl font-bold text-gray-900">₹999</span>
+                                <span class="text-sm text-gray-500 line-through ml-2">₹1299</span>
+                                <span class="text-sm text-green-600 font-medium ml-2">23% off</span>
+                            </div>
+                            <div class="flex items-center text-sm text-gray-500">
+                                <i class="fas fa-truck mr-1"></i>
+                                Free delivery
+                            </div>
+                        </div>
+                        
+                        <div class="flex space-x-3">
+                            <button class="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 text-white px-4 py-3 rounded-xl font-medium hover:from-blue-700 hover:to-blue-800 transition-all duration-300 transform hover:scale-105 flex items-center justify-center">
+                                <i class="fas fa-shopping-cart mr-2"></i>
+                                {{ 'Add to Cart' if lang == 'en' else 'कार्ट में डालें' }}
+                            </button>
+                            <a href="{{ product.flipkart_link }}" 
+                               target="_blank" 
+                               class="flex-1 bg-orange-500 text-white px-4 py-3 rounded-xl font-medium hover:bg-orange-600 transition-all duration-300 transform hover:scale-105 flex items-center justify-center">
+                                <i class="fab fa-flipkart mr-2"></i>
+                                {{ 'Buy Now' if lang == 'en' else 'अभी खरीदें' }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Load More Button -->
+        <div class="text-center mt-12">
+            <button class="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-4 rounded-xl font-medium hover:from-purple-700 hover:to-blue-700 transition-all duration-300 transform hover:scale-105">
+                Load More Products
+            </button>
+        </div>
+
+        <!-- Newsletter Section -->
+        <div class="glass-effect rounded-2xl p-8 mt-16 premium-shadow">
+            <div class="text-center">
+                <h3 class="text-2xl font-bold text-gray-800 mb-4">Stay Updated</h3>
+                <p class="text-gray-600 mb-6">Get the latest health tips and product updates delivered to your inbox</p>
+                <div class="flex max-w-md mx-auto">
+                    <input type="email" placeholder="Enter your email" class="flex-1 px-4 py-3 border border-gray-300 rounded-l-xl focus:border-blue-500 transition-colors">
+                    <button class="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-r-xl font-medium hover:from-blue-700 hover:to-purple-700 transition-all duration-300">
+                        Subscribe
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="fas fa-heartbeat text-2xl text-blue-400"></i>
+                        <span class="text-xl font-bold">SwasthaAI</span>
+                    </div>
+                    <p class="text-gray-300 text-sm leading-relaxed">Your trusted partner for premium healthcare solutions and medical products.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li><a href="#" class="hover:text-blue-400 transition-colors">About Us</a></li>
+                        <li><a href="#" class="hover:text-blue-400 transition-colors">Products</a></li>
+                        <li><a href="#" class="hover:text-blue-400 transition-colors">Contact</a></li>
+                        <li><a href="#" class="hover:text-blue-400 transition-colors">Support</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Customer Care</h4>
+                    <ul class="space-y-2 text-sm text-gray-300">
+                        <li><a href="#" class="hover:text-blue-400 transition-colors">Help Center</a></li>
+                        <li><a href="#" class="hover:text-blue-400 transition-colors">Return Policy</a></li>
+                        <li><a href="#" class="hover:text-blue-400 transition-colors">Shipping Info</a></li>
+                        <li><a href="#" class="hover:text-blue-400 transition-colors">Track Order</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Connect</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-300 hover:text-blue-400 transition-colors"><i class="fab fa-facebook text-xl"></i></a>
+                        <a href="#" class="text-gray-300 hover:text-blue-400 transition-colors"><i class="fab fa-twitter text-xl"></i></a>
+                        <a href="#" class="text-gray-300 hover:text-blue-400 transition-colors"><i class="fab fa-instagram text-xl"></i></a>
+                        <a href="#" class="text-gray-300 hover:text-blue-400 transition-colors"><i class="fab fa-linkedin text-xl"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-sm text-gray-400">
+                <p>© 2025 SwasthaAI Store. All rights reserved. | Privacy Policy | Terms of Service</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        const productCards = document.querySelectorAll('.product-card');
+        const productCount = document.getElementById('productCount');
+        
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            let visibleCount = 0;
+            
+            productCards.forEach(card => {
+                const productName = card.dataset.productName;
+                if (productName.includes(searchTerm)) {
+                    card.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            
+            productCount.textContent = `Showing ${visibleCount} of ${productCards.length} products`;
+        });
+        
+        // Filter functionality
+        const filterTags = document.querySelectorAll('.filter-tag');
+        
+        filterTags.forEach(tag => {
+            tag.addEventListener('click', function() {
+                // Remove active class from all tags
+                filterTags.forEach(t => t.classList.remove('bg-blue-500', 'text-white'));
+                filterTags.forEach(t => t.classList.add('bg-blue-100', 'text-blue-800'));
+                
+                // Add active class to clicked tag
+                this.classList.remove('bg-blue-100', 'text-blue-800');
+                this.classList.add('bg-blue-500', 'text-white');
+                
+                const filter = this.dataset.filter;
+                // Filter logic would go here based on product categories
+            });
+        });
+        
+        // Smooth scroll for better UX
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+        
+        // Add to cart animation
+        document.querySelectorAll('.product-card button').forEach(button => {
+            button.addEventListener('click', function() {
+                this.innerHTML = '<i class="fas fa-check mr-2"></i>Added!';
+                this.classList.add('bg-green-500');
+                setTimeout(() => {
+                    this.innerHTML = '<i class="fas fa-shopping-cart mr-2"></i>Add to Cart';
+                    this.classList.remove('bg-green-500');
+                }, 2000);
+            });
+        });
+    </script>
+</body>
+</html>

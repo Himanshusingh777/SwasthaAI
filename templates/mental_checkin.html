@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mental Health Check-in</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="/static/mental_script.js" defer></script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body { 
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 20px; 
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: 
+        radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 80%, rgba(120, 119, 198, 0.2) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .logo {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 10px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    }
+
+    .logo .swastha {
+      color: #ffd700;
+    }
+
+    h2 { 
+      font-size: 1.8rem;
+      color: white;
+      font-weight: 300;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      color: rgba(255,255,255,0.8);
+      font-size: 1rem;
+      font-weight: 300;
+    }
+
+    form { 
+      max-width: 600px; 
+      margin: auto; 
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      padding: 40px; 
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .form-grid {
+      display: grid;
+      gap: 25px;
+    }
+
+    .form-group {
+      position: relative;
+    }
+
+    label { 
+      display: block; 
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #2c3e50;
+      font-size: 0.95rem;
+    }
+
+    input, select, textarea { 
+      width: 100%; 
+      padding: 15px 20px; 
+      border-radius: 12px; 
+      border: 2px solid #e1e8ed;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      background: #f8f9fa;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #667eea;
+      background: white;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      transform: translateY(-2px);
+    }
+
+    select {
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+      background-position: right 12px center;
+      background-repeat: no-repeat;
+      background-size: 16px;
+      padding-right: 50px;
+    }
+
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+      font-family: inherit;
+    }
+
+    button { 
+      margin-top: 30px; 
+      padding: 18px 40px; 
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white; 
+      border: none; 
+      border-radius: 12px; 
+      width: 100%;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+    }
+
+    button:active {
+      transform: translateY(-1px);
+    }
+
+    #tips { 
+      margin-top: 25px; 
+      color: #e74c3c; 
+      font-weight: 600; 
+      text-align: center;
+      padding: 15px;
+      background: rgba(231, 76, 60, 0.1);
+      border-radius: 10px;
+      border-left: 4px solid #e74c3c;
+    }
+
+    .chart-container {
+      margin-top: 50px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .chart-title {
+      text-align: center;
+      color: #2c3e50;
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    canvas { 
+      max-width: 100%;
+      border-radius: 10px;
+    }
+
+    .mood-indicators {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 15px;
+      padding: 15px;
+      background: rgba(102, 126, 234, 0.1);
+      border-radius: 10px;
+    }
+
+    .mood-indicator {
+      text-align: center;
+      flex: 1;
+    }
+
+    .mood-indicator .emoji {
+      font-size: 1.5rem;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .mood-indicator .label {
+      font-size: 0.8rem;
+      color: #666;
+      font-weight: 500;
+    }
+
+    .wellness-tip {
+      background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+      color: #2c3e50;
+      padding: 20px;
+      border-radius: 15px;
+      margin-top: 30px;
+      text-align: center;
+      font-weight: 500;
+    }
+
+    .wellness-tip::before {
+      content: "💡";
+      font-size: 1.5rem;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 15px;
+      }
+      
+      form {
+        padding: 25px;
+        margin: 0 10px;
+      }
+      
+      .logo {
+        font-size: 2rem;
+      }
+      
+      h2 {
+        font-size: 1.5rem;
+      }
+      
+      .chart-container {
+        padding: 20px;
+        margin: 30px 10px 0;
+      }
+    }
+
+    .floating-elements {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .floating-elements::before,
+    .floating-elements::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .floating-elements::before {
+      width: 100px;
+      height: 100px;
+      top: 20%;
+      left: 10%;
+      animation-delay: -2s;
+    }
+
+    .floating-elements::after {
+      width: 150px;
+      height: 150px;
+      top: 60%;
+      right: 10%;
+      animation-delay: -4s;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(180deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="floating-elements"></div>
+  
+  <div class="container">
+    <div class="header">
+      <div class="logo">
+        <span class="swastha">Swastha</span>AI
+      </div>
+      <h2>Daily Mood Check-in</h2>
+      <p class="subtitle">Track your mental wellness journey with intelligent insights</p>
+    </div>
+
+    <form id="moodForm">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>📅 Date:</label>
+          <input type="date" id="date" required>
+        </div>
+
+        <div class="form-group">
+          <label>😊 Mood (1 = Low, 5 = Excellent):</label>
+          <select id="mood" required>
+            <option value="">Select your mood</option>
+            <option value="1">1 😞 Very Low</option>
+            <option value="2">2 😐 Low</option>
+            <option value="3">3 🙂 Neutral</option>
+            <option value="4">4 😀 Good</option>
+            <option value="5">5 😄 Excellent</option>
+          </select>
+          <div class="mood-indicators">
+            <div class="mood-indicator">
+              <span class="emoji">😞</span>
+              <span class="label">Very Low</span>
+            </div>
+            <div class="mood-indicator">
+              <span class="emoji">😐</span>
+              <span class="label">Low</span>
+            </div>
+            <div class="mood-indicator">
+              <span class="emoji">🙂</span>
+              <span class="label">Neutral</span>
+            </div>
+            <div class="mood-indicator">
+              <span class="emoji">😀</span>
+              <span class="label">Good</span>
+            </div>
+            <div class="mood-indicator">
+              <span class="emoji">😄</span>
+              <span class="label">Excellent</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>😰 Anxiety Level (1 = None, 5 = High):</label>
+          <select id="anxiety" required>
+            <option value="1">1 - No Anxiety</option>
+            <option value="2">2 - Mild</option>
+            <option value="3">3 - Moderate</option>
+            <option value="4">4 - High</option>
+            <option value="5">5 - Very High</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>😴 Sleep Hours:</label>
+          <input type="number" id="sleep" min="0" max="24" required placeholder="Enter hours of sleep">
+        </div>
+
+        <div class="form-group">
+          <label>⚡ Energy Level (1 = Low, 5 = High):</label>
+          <select id="energy" required>
+            <option value="1">1 - Very Low Energy</option>
+            <option value="2">2 - Low Energy</option>
+            <option value="3">3 - Moderate Energy</option>
+            <option value="4">4 - High Energy</option>
+            <option value="5">5 - Very High Energy</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>📝 Notes (optional):</label>
+          <textarea id="note" placeholder="Share any thoughts, feelings, or experiences from today..."></textarea>
+        </div>
+      </div>
+
+      <button type="submit">🚀 Log My Mood</button>
+      <div id="tips"></div>
+    </form>
+
+    <div class="wellness-tip">
+      Remember: Small daily check-ins can lead to big insights about your mental health patterns. You're taking a positive step towards wellness!
+    </div>
+
+    <div class="chart-container">
+      <h3 class="chart-title">📊 Your Mood Journey</h3>
+      <canvas id="moodChart" height="200"></canvas>
+    </div>
+  </div>
+</body>
+</html>

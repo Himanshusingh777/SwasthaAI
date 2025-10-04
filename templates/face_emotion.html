@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Facial Emotion Detection | SwasthaAI</title>
+  <script defer src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --bg-light: #f0f2f5;
+      --bg-dark: #1c1c1c;
+      --text-light: #222;
+      --text-dark: #f3f3f3;
+      --card-bg-light: #fff;
+      --card-bg-dark: #2c2c2c;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--bg-light);
+      color: var(--text-light);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      transition: all 0.3s ease;
+    }
+
+    body.dark {
+      background-color: var(--bg-dark);
+      color: var(--text-dark);
+    }
+
+    h2 {
+      margin-top: 10px;
+      font-size: 2rem;
+    }
+
+    video {
+      border-radius: 10px;
+      border: 4px solid #3498db;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+      margin: 20px 0;
+    }
+
+    canvas {
+      position: absolute;
+      top: 160px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+    }
+
+    .content-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+
+    #emotionText {
+      margin-top: 15px;
+      font-size: 1.5rem;
+      font-weight: bold;
+      padding: 10px 20px;
+      background-color: var(--card-bg-light);
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    body.dark #emotionText {
+      background-color: var(--card-bg-dark);
+    }
+
+    #errorText {
+      color: red;
+      margin-top: 10px;
+    }
+
+ #toggleBtn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 50px;
+      background: linear-gradient(45deg, #2c3e50, #34495e);
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+      font-size: 0.9rem;
+    }
+
+    #toggleBtn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+      background: linear-gradient(45deg, #34495e, #2c3e50);
+    }
+     body.dark #toggleBtn {
+      background: linear-gradient(45deg, #74b9ff, #0984e3);
+    }
+
+    body.dark #toggleBtn:hover {
+      background: linear-gradient(45deg, #0984e3, #74b9ff);
+    }
+
+    #downloadBtn {
+      margin-top: 15px;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 8px;
+      background-color:rgb(29, 67, 255);
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    #chart-container {
+      margin-top: 30px;
+      width: 80%;
+      max-width: 700px;
+    }
+
+    audio {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      video, canvas {
+        width: 95% !important;
+        height: auto !important;
+      }
+
+      #emotionText {
+        font-size: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <button id="toggleBtn">🌓 Toggle Theme</button>
+  <h2>Facial Emotion Detection</h2>
+
+  <div class="content-container">
+    <video id="video" width="720" height="560" autoplay muted playsinline></video>
+    <p id="emotionText">Detecting...</p>
+    <p id="errorText"></p>
+
+    <div id="chart-container">
+      <canvas id="emotionChart"></canvas>
+    </div>
+    <button id="downloadBtn">Download Emotion Data</button>
+  </div>
+
+  <!-- Ambient background music -->
+  <audio id="bgMusic" autoplay loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_d14b4d43df.mp3?filename=soft-piano-ambient-112191.mp3" type="audio/mpeg">
+    Your browser does not support the audio tag.
+  </audio>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const toggleBtn = document.getElementById("toggleBtn");
+      toggleBtn.addEventListener("click", () => {
+        document.body.classList.toggle("dark");
+      });
+
+      if (typeof faceapi === 'undefined') {
+        document.getElementById('errorText').innerText = 'face-api.js failed to load.';
+        console.error("face-api.js not loaded");
+        return;
+      }
+
+      const video = document.getElementById("video");
+      const emotionText = document.getElementById("emotionText");
+      const errorText = document.getElementById("errorText");
+      const downloadBtn = document.getElementById("downloadBtn");
+
+      const emotionHistory = [];
+      const emotionLabels = [];
+      const maxHistory = 20;
+
+      const ctx = document.getElementById('emotionChart').getContext('2d');
+      const chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: emotionLabels,
+          datasets: [{
+            label: 'Detected Emotion Score',
+            data: emotionHistory,
+            backgroundColor: '#3498db'
+          }]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 1
+            }
+          }
+        }
+      });
+
+      downloadBtn.addEventListener("click", () => {
+        let csv = 'Emotion,Score\n';
+        for (let i = 0; i < emotionLabels.length; i++) {
+          csv += `${emotionLabels[i]},${emotionHistory[i]}\n`;
+        }
+        const blob = new Blob([csv], { type: 'text/csv' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'emotion_data.csv';
+        a.click();
+        URL.revokeObjectURL(url);
+      });
+
+      async function loadModels() {
+        try {
+          await Promise.all([
+            faceapi.nets.tinyFaceDetector.loadFromUri('/static/models'),
+            faceapi.nets.faceExpressionNet.loadFromUri('/static/models')
+          ]);
+          startVideo();
+        } catch (err) {
+          errorText.innerText = "Model loading failed.";
+          console.error("Model loading error:", err);
+        }
+      }
+
+      function startVideo() {
+        navigator.mediaDevices.getUserMedia({ video: true })
+          .then((stream) => {
+            video.srcObject = stream;
+          })
+          .catch((err) => {
+            errorText.innerText = "Camera access error.";
+            console.error("Camera error:", err);
+          });
+      }
+
+      video.addEventListener("playing", () => {
+        const canvas = faceapi.createCanvasFromMedia(video);
+        document.body.append(canvas);
+        const displaySize = { width: video.width, height: video.height };
+        faceapi.matchDimensions(canvas, displaySize);
+
+        setInterval(async () => {
+          const detections = await faceapi
+            .detectAllFaces(video, new faceapi.TinyFaceDetectorOptions())
+            .withFaceExpressions();
+
+          const ctx2d = canvas.getContext("2d");
+          ctx2d.clearRect(0, 0, canvas.width, canvas.height);
+
+          const resized = faceapi.resizeResults(detections, displaySize);
+          faceapi.draw.drawDetections(canvas, resized);
+          faceapi.draw.drawFaceExpressions(canvas, resized);
+
+          if (detections.length > 0) {
+            const emotions = detections[0].expressions;
+            const sorted = Object.entries(emotions).sort((a, b) => b[1] - a[1]);
+            const topEmotion = sorted[0][0];
+            const score = sorted[0][1];
+
+            const emojiMap = {
+              happy: "😊", sad: "😢", angry: "😠", fearful: "😨",
+              disgusted: "🤢", surprised: "😲", neutral: "😐"
+            };
+            emotionText.innerText = `Current Emotion: ${topEmotion.toUpperCase()} ${emojiMap[topEmotion] || ""}`;
+
+            if (emotionLabels.length >= maxHistory) {
+              emotionLabels.shift();
+              emotionHistory.shift();
+            }
+            emotionLabels.push(topEmotion);
+            emotionHistory.push(score);
+            chart.update();
+          } else {
+            emotionText.innerText = `No face detected`;
+          }
+        }, 1000);
+      });
+
+      loadModels();
+    });
+  </script>
+</body>
+</html>

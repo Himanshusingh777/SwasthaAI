@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthcare Scheme Awareness | SwasthaAI - Your Health, Our Priority</title>
+    <style>
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    line-height: 1.7;
+    background: #f8f9fa;
+    color: #212529;
+    min-height: 100vh;
+}
+
+/* Header - Official Government Style */
+header {
+    background: linear-gradient(135deg, #1a365d 0%, #2d5a87 100%);
+    color: white;
+    padding: 30px 20px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    border-bottom: 4px solid #b8860b;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    letter-spacing: 0.5px;
+}
+
+.subtitle {
+    font-size: 1rem;
+    opacity: 0.9;
+    font-weight: 400;
+    margin-top: 5px;
+    font-style: italic;
+}
+
+/* Navigation - Clean and Professional */
+nav {
+    background: #ffffff;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border-bottom: 1px solid #dee2e6;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+nav a {
+    display: inline-block;
+    margin: 0 15px;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #1a365d;
+    font-weight: 600;
+    border-radius: 4px;
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+}
+
+nav a:hover {
+    background: #1a365d;
+    color: white;
+    border-color: #1a365d;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(26, 54, 93, 0.2);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 20px 100px;
+}
+
+/* Hero Section - Government Branding */
+.hero-section {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 40px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-top: 4px solid #1a365d;
+    text-align: center;
+}
+
+.hero-title {
+    font-size: 2.2rem;
+    color: #1a365d;
+    margin-bottom: 20px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.hero-description {
+    font-size: 1.1rem;
+    color: #495057;
+    margin-bottom: 25px;
+    line-height: 1.8;
+    text-align: center;
+}
+
+/* Statistics Cards - Official Format */
+.stats-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    margin: 25px 0;
+}
+
+.stat-card {
+    background: #ffffff;
+    border: 2px solid #1a365d;
+    color: #1a365d;
+    padding: 25px;
+    border-radius: 6px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    box-shadow: 0 4px 12px rgba(26, 54, 93, 0.15);
+    transform: translateY(-2px);
+}
+
+.stat-number {
+    font-size: 2.2rem;
+    font-weight: 800;
+    display: block;
+    color: #1a365d;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin-top: 8px;
+    font-weight: 500;
+}
+
+/* Main Section - Professional Layout */
+.main-section {
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 40px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-top: 4px solid #1a365d;
+    margin-bottom: 30px;
+}
+
+.section-title {
+    font-size: 2rem;
+    color: #1a365d;
+    margin-bottom: 25px;
+    text-align: center;
+    font-weight: 700;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: #b8860b;
+}
+
+/* Forms - Government Standard */
+form {
+    margin: 30px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.form-row {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    max-width: 600px;
+    align-items: end;
+}
+
+.form-group {
+    flex: 1;
+    position: relative;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    color: #1a365d;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+select, input[type="text"], button {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 16px;
+    border: 2px solid #ced4da;
+    border-radius: 4px;
+    background: #ffffff;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+select:focus, input[type="text"]:focus {
+    outline: none;
+    border-color: #1a365d;
+    box-shadow: 0 0 0 3px rgba(26, 54, 93, 0.1);
+}
+
+input[type="text"]::placeholder {
+    color: #6c757d;
+    font-style: italic;
+}
+
+button {
+    background: #1a365d;
+    color: white;
+    border: 2px solid #1a365d;
+    cursor: pointer;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    padding: 15px 25px;
+}
+
+button:hover {
+    background: #2d5a87;
+    border-color: #2d5a87;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(26, 54, 93, 0.3);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+/* Category Cards - Professional Grid */
+.scheme-categories {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.category-card {
+    background: #ffffff;
+    border-radius: 6px;
+    padding: 30px;
+    text-align: center;
+    transition: all 0.3s ease;
+    border: 2px solid #e9ecef;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.category-card:hover {
+    border-color: #1a365d;
+    box-shadow: 0 4px 12px rgba(26, 54, 93, 0.15);
+    transform: translateY(-3px);
+}
+
+.category-icon {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    display: block;
+    color: #1a365d;
+}
+
+.category-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #1a365d;
+    margin-bottom: 10px;
+}
+
+.category-desc {
+    color: #6c757d;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+/* Information Section - Official Styling */
+.info-section {
+    background: #f8f9fa;
+    border-left: 5px solid #1a365d;
+    border-radius: 6px;
+    padding: 30px;
+    margin-top: 30px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.info-title {
+    color: #1a365d;
+    font-size: 1.6rem;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.info-item {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 6px;
+    border: 1px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.info-item:hover {
+    border-color: #1a365d;
+    box-shadow: 0 2px 8px rgba(26, 54, 93, 0.1);
+}
+
+.info-item h4 {
+    color: #1a365d;
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.info-item p {
+    color: #495057;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+/* Call to Action - Government Emphasis */
+.cta-section {
+    background: #1a365d;
+    color: white;
+    border-radius: 6px;
+    padding: 40px;
+    text-align: center;
+    margin-top: 30px;
+    border: 3px solid #b8860b;
+}
+
+.cta-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.cta-text {
+    font-size: 1rem;
+    margin-bottom: 20px;
+    opacity: 0.9;
+    line-height: 1.6;
+}
+
+.cta-button {
+    background: #b8860b;
+    color: white;
+    border: 2px solid #b8860b;
+    padding: 12px 30px;
+    border-radius: 4px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.cta-button:hover {
+    background: #996f0a;
+    border-color: #996f0a;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(184, 134, 11, 0.3);
+}
+
+/* Footer - Official Government Footer */
+footer {
+    background: #1a365d;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+    border-top: 3px solid #b8860b;
+}
+
+footer p {
+    font-weight: 400;
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+}
+
+.footer-links {
+    margin-top: 10px;
+}
+
+.footer-links a {
+    color: rgba(255,255,255,0.8);
+    text-decoration: none;
+    margin: 0 15px;
+    font-size: 0.85rem;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: white;
+    text-decoration: underline;
+}
+
+/* Loading Animation - Professional */
+.loading {
+    display: none;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.spinner {
+    width: 35px;
+    height: 35px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #1a365d;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2rem;
+    }
+    
+    nav a {
+        margin: 5px 8px;
+        padding: 8px 15px;
+        font-size: 0.9rem;
+    }
+
+    .container {
+        padding: 20px 15px 100px;
+    }
+
+    .hero-section, .main-section {
+        padding: 25px 20px;
+    }
+
+    .hero-title {
+        font-size: 1.8rem;
+    }
+
+    .section-title {
+        font-size: 1.6rem;
+    }
+
+    .form-row {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .stats-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .scheme-categories {
+        grid-template-columns: 1fr;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cta-section {
+        padding: 30px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    header {
+        padding: 20px 15px;
+    }
+
+    header h1 {
+        font-size: 1.6rem;
+    }
+
+    .hero-title {
+        font-size: 1.5rem;
+    }
+
+    .section-title {
+        font-size: 1.4rem;
+    }
+
+    .stats-container {
+        grid-template-columns: 1fr;
+    }
+
+    nav a {
+        display: block;
+        margin: 5px 0;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="background-pattern"></div>
+    
+    
+
+    <header>
+        <h1>SwasthaAI Healthcare</h1>
+        <p class="subtitle">Empowering Communities Through Healthcare Scheme Awareness</p>
+    </header>
+
+    <nav>
+        <a href="/">🏠 Home</a>
+        <a href="/maternal_health">👶 Maternal Health</a>
+        <a href="/telemedicine">💻 Telemedicine</a>
+        <a href="/emergency">🚨 Emergency</a>
+        <a href="/contact">📞 Contact</a>
+    </nav>
+    
+    <div class="container">
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <h2 class="hero-title">Your Gateway to Healthcare Benefits</h2>
+            <p class="hero-description">
+                Discover and access government healthcare schemes designed to support you and your family. 
+                Our comprehensive platform helps you navigate through various healthcare benefits available across India.
+            </p>
+            
+            <div class="stats-container">
+                <div class="stat-card">
+                    <span class="stat-number">50+</span>
+                    <span class="stat-label">Healthcare Schemes</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">10M+</span>
+                    <span class="stat-label">Beneficiaries Served</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">₹1000Cr+</span>
+                    <span class="stat-label">Coverage Provided</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">24/7</span>
+                    <span class="stat-label">Support Available</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Search Section -->
+        <div class="main-section">
+            <h2 class="section-title">Find Your Healthcare Schemes</h2>
+            <form method="POST" id="schemeForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Select Category</label>
+                        <select name="category" required>
+                            <option value="">-- Choose your category --</option>
+                            <option value="pregnant_women">🤱 Pregnant Women & New Mothers</option>
+                            <option value="children">👶 Children & Infants</option>
+                            <option value="elderly">👴 Senior Citizens (60+)</option>
+                            <option value="general">👥 General Public</option>
+                            <option value="disability">♿ Persons with Disabilities</option>
+                            <option value="rural">🌾 Rural Population</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Search Keywords (Optional)</label>
+                        <input type="text" name="keyword" placeholder="🔍 e.g., vaccination, insurance, treatment..." />
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit">🔎 Discover Schemes</button>
+                    </div>
+                </div>
+            </form>
+
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Searching for relevant schemes...</p>
+            </div>
+
+            <!-- Sample Scheme Categories -->
+            <div class="scheme-categories">
+                <div class="category-card" onclick="selectCategory('pregnant_women')">
+                    <span class="category-icon">🤱</span>
+                    <h3 class="category-title">Maternal Health</h3>
+                    <p class="category-desc">Comprehensive care for expectant mothers, prenatal support, and childbirth assistance programs.</p>
+                </div>
+                
+                <div class="category-card" onclick="selectCategory('children')">
+                    <span class="category-icon">👶</span>
+                    <h3 class="category-title">Child Welfare</h3>
+                    <p class="category-desc">Vaccination programs, nutrition support, and healthcare coverage for children up to 18 years.</p>
+                </div>
+                
+                <div class="category-card" onclick="selectCategory('elderly')">
+                    <span class="category-icon">👴</span>
+                    <h3 class="category-title">Senior Care</h3>
+                    <p class="category-desc">Specialized healthcare services, insurance coverage, and wellness programs for senior citizens.</p>
+                </div>
+                
+                <div class="category-card" onclick="selectCategory('general')">
+                    <span class="category-icon">👥</span>
+                    <h3 class="category-title">Universal Health</h3>
+                    <p class="category-desc">General healthcare schemes covering treatment, emergency care, and preventive services.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Information Section -->
+        <div class="info-section">
+            <h3 class="info-title">🌟 Why Choose SwasthaAI Healthcare?</h3>
+            <div class="info-grid">
+                <div class="info-item">
+                    <h4>🎯 Personalized Recommendations</h4>
+                    <p>Get customized scheme suggestions based on your specific needs, location, and eligibility criteria.</p>
+                </div>
+                
+                <div class="info-item">
+                    <h4>📚 Comprehensive Database</h4>
+                    <p>Access detailed information about 50+ central and state government healthcare schemes in one place.</p>
+                </div>
+                
+                <div class="info-item">
+                    <h4>🔒 Secure & Confidential</h4>
+                    <p>Your personal information is protected with bank-level security and strict privacy protocols.</p>
+                </div>
+                
+                <div class="info-item">
+                    <h4>📱 Easy Application Process</h4>
+                    <p>Step-by-step guidance for scheme applications with document checklists and submission tracking.</p>
+                </div>
+                
+                <div class="info-item">
+                    <h4>🏥 Hospital Network</h4>
+                    <p>Find nearby empaneled hospitals and healthcare providers for cashless treatment options.</p>
+                </div>
+                
+                <div class="info-item">
+                    <h4>🆘 24/7 Support</h4>
+                    <p>Round-the-clock assistance through helpline, chat support, and emergency healthcare guidance.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="cta-section">
+            <h3 class="cta-title">Ready to Access Your Healthcare Benefits?</h3>
+            <p class="cta-text">Join millions of Indians who have successfully accessed healthcare schemes through our platform. Your health is our priority.</p>
+            <a href="#schemeForm" class="cta-button">Start Your Journey Today</a>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 SwasthaAI Healthcare | Making Healthcare Accessible for All</p>
+        <div class="footer-links">
+            <a href="/privacy">Privacy Policy</a>
+            <a href="/terms">Terms of Service</a>
+            <a href="/help">Help Center</a>
+            <a href="/feedback">Feedback</a>
+        </div>
+    </footer>
+
+    <script>
+        // Add interactive functionality
+        function selectCategory(category) {
+            const select = document.querySelector('select[name="category"]');
+            select.value = category;
+            select.focus();
+            
+            // Add visual feedback
+            const card = event.currentTarget;
+            card.style.transform = 'translateY(-15px) scale(1.02)';
+            setTimeout(() => {
+                card.style.transform = 'translateY(-10px)';
+            }, 200);
+        }
+
+        // Form submission with loading animation
+        document.getElementById('schemeForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const loading = document.getElementById('loading');
+            loading.style.display = 'block';
+            
+            // Simulate API call
+            setTimeout(() => {
+                loading.style.display = 'none';
+                showResults();
+            }, 2000);
+        });
+
+        function showResults() {
+            const category = document.querySelector('select[name="category"]').value;
+            const keyword = document.querySelector('input[name="keyword"]').value;
+            
+            let schemes = [];
+            
+            // Sample scheme data based on category
+            switch(category) {
+                case 'pregnant_women':
+                    schemes = [
+                        '🤱 Pradhan Mantri Matru Vandana Yojana - ₹5,000 cash incentive for pregnant women',
+                        '👶 Janani Suraksha Yojana - Safe delivery and postnatal care assistance',
+                        '🏥 Janani Shishu Suraksha Karyakram - Free delivery and treatment for mothers and infants',
+                        '💊 Iron Folic Acid Supplementation - Free supplements during pregnancy',
+                        '🩺 Pradhan Mantri Surakshit Matritva Abhiyan - Free antenatal check-ups'
+                    ];
+                    break;
+                case 'children':
+                    schemes = [
+                        '💉 Universal Immunization Programme - Free vaccines for children',
+                        '🍼 Integrated Child Development Services - Nutrition and healthcare for children under 6',
+                        '🏥 Rashtriya Bal Swasthya Karyakram - Comprehensive healthcare for children',
+                        '🥛 Mid Day Meal Scheme - Nutritional support in schools',
+                        '👶 Pradhan Mantri Matru Vandana Yojana - Support for child development'
+                    ];
+                    break;
+                case 'elderly':
+                    schemes = [
+                        '👴 Pradhan Mantri Jan Arogya Yojana - ₹5 lakh health insurance cover',
+                        '🏥 National Programme for Health Care of Elderly - Specialized geriatric care',
+                        '💊 Free Medicine Initiative - Essential medicines at government facilities',
+                        '🩺 Senior Citizen Health Insurance - Additional coverage for 60+ age group',
+                        '🚑 Emergency Medical Services - 24/7 ambulance and emergency care'
+                    ];
+                    break;
+                case 'general':
+                    schemes = [
+                        '🏥 Ayushman Bharat - ₹5 lakh health insurance for eligible families',
+                        '💊 Jan Aushadhi Scheme - Generic medicines at affordable prices',
+                        '🩺 National Health Mission - Comprehensive primary healthcare',
+                        '🚑 National Ambulance Service - Emergency medical transportation',
+                        '🏨 Central Government Health Scheme - Healthcare for government employees'
+                    ];
+                    break;
+                case 'disability':
+                    schemes = [
+                        '♿ Assistance to Disabled Persons - Financial aid and healthcare support',
+                        '🩺 National Programme for Rehabilitation - Comprehensive rehabilitation services',
+                        '🦽 Aids and Appliances Scheme - Free assistive devices and equipment',
+                        '🏥 Disability Insurance - Specialized healthcare coverage',
+                        '👨‍⚕️ Specialized Treatment Centers - Expert care for various disabilities'
+                    ];
+                    break;
+                case 'rural':
+                    schemes = [
+                        '🏥 National Rural Health Mission - Comprehensive rural healthcare',
+                        '🚑 Mobile Medical Units - Healthcare delivery in remote areas',
+                        '💊 Village Health and Nutrition Days - Community health programs',
+                        '🩺 Telemedicine Services - Remote consultation and diagnosis',
+                        '👩‍⚕️ ASHA Worker Programme - Community health support'
+                    ];
+                    break;
+                default:
+                    schemes = [
+                        '🏥 Ayushman Bharat - Universal health coverage',
+                        '💊 Jan Aushadhi - Affordable generic medicines',
+                        '🩺 National Health Mission - Primary healthcare services',
+                        '🚑 Emergency Medical Services - 24/7 emergency care',
+                        '👨‍⚕️ Specialist Consultation - Expert medical advice'
+                    ];
+            }
+            
+            // Filter schemes based on keyword if provided
+            if (keyword && keyword.trim() !== '') {
+                schemes = schemes.filter(scheme => 
+                    scheme.toLowerCase().includes(keyword.toLowerCase())
+                );
+            }
+            
+            displaySchemes(schemes, category);
+        }
+
+        function displaySchemes(schemes, category) {
+            // Remove existing results
+            const existingResults = document.querySelector('.results-section');
+            if (existingResults) {
+                existingResults.remove();
+            }
+            
+            // Create results section
+            const resultsSection = document.createElement('div');
+            resultsSection.className = 'results-section';
+            resultsSection.innerHTML = `
+                <div class="results-container">
+                    <h3 class="results-title">🎯 Available Healthcare Schemes for You</h3>
+                    <div class="results-grid">
+                        ${schemes.map((scheme, index) => `
+                            <div class="scheme-card" style="animation-delay: ${index * 0.1}s">
+                                <div class="scheme-content">
+                                    <p class="scheme-text">${scheme}</p>
+                                    <div class="scheme-actions">
+                                        <button class="action-btn primary" onclick="learnMore('${scheme}')">📖 Learn More</button>
+                                        <button class="action-btn secondary" onclick="applyNow('${scheme}')">📝 Apply Now</button>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="results-footer">
+                        <p class="results-note">💡 <strong>Need help choosing?</strong> Our healthcare advisors are available 24/7 to guide you through the application process.</p>
+                        <button class="help-btn" onclick="contactSupport()">🤝 Get Personal Assistance</button>
+                    </div>
+                </div>
+            `;
+            
+            // Add CSS for results
+            const style = document.createElement('style');
+            style.textContent = `
+                .results-section {
+                    margin-top: 40px;
+                    animation: slideInUp 0.6s ease-out;
+                }
+                
+                .results-container {
+                    background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(240,255,240,0.95));
+                    backdrop-filter: blur(20px);
+                    border-radius: 25px;
+                    padding: 40px;
+                    box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+                    border-left: 6px solid #2ecc71;
+                }
+                
+                .results-title {
+                    font-size: 2rem;
+                    color: #2c3e50;
+                    text-align: center;
+                    margin-bottom: 30px;
+                    font-weight: 700;
+                }
+                
+                .results-grid {
+                    display: grid;
+                    gap: 20px;
+                    margin-bottom: 30px;
+                }
+                
+                .scheme-card {
+                    background: rgba(255,255,255,0.9);
+                    border-radius: 15px;
+                    padding: 25px;
+                    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+                    border-left: 4px solid #0077cc;
+                    transition: all 0.3s ease;
+                    animation: fadeInUp 0.6s ease-out forwards;
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                
+                @keyframes fadeInUp {
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+                
+                .scheme-card:hover {
+                    transform: translateY(-5px);
+                    box-shadow: 0 15px 40px rgba(0,119,204,0.15);
+                    border-left-color: #2ecc71;
+                }
+                
+                .scheme-content {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    gap: 20px;
+                }
+                
+                .scheme-text {
+                    flex: 1;
+                    color: #2c3e50;
+                    font-size: 1.1rem;
+                    line-height: 1.6;
+                    margin: 0;
+                    font-weight: 500;
+                }
+                
+                .scheme-actions {
+                    display: flex;
+                    gap: 10px;
+                    flex-shrink: 0;
+                }
+                
+                .action-btn {
+                    padding: 8px 16px;
+                    border: none;
+                    border-radius: 8px;
+                    font-size: 0.9rem;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    text-decoration: none;
+                    display: inline-block;
+                }
+                
+                .action-btn.primary {
+                    background: linear-gradient(135deg, #0077cc, #3498db);
+                    color: white;
+                }
+                
+                .action-btn.secondary {
+                    background: linear-gradient(135deg, #2ecc71, #27ae60);
+                    color: white;
+                }
+                
+                .action-btn:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                }
+                
+                .results-footer {
+                    text-align: center;
+                    padding-top: 30px;
+                    border-top: 2px solid rgba(0,119,204,0.1);
+                }
+                
+                .results-note {
+                    color: #5a6c7d;
+                    font-size: 1.1rem;
+                    margin-bottom: 20px;
+                    line-height: 1.6;
+                }
+                
+                .help-btn {
+                    background: linear-gradient(135deg, #f39c12, #e67e22);
+                    color: white;
+                    border: none;
+                    padding: 15px 30px;
+                    border-radius: 25px;
+                    font-size: 1rem;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                }
+                
+                .help-btn:hover {
+                    transform: translateY(-3px);
+                    box-shadow: 0 10px 25px rgba(243,156,18,0.3);
+                }
+                
+                @media (max-width: 768px) {
+                    .scheme-content {
+                        flex-direction: column;
+                        align-items: flex-start;
+                        gap: 15px;
+                    }
+                    
+                    .scheme-actions {
+                        width: 100%;
+                        justify-content: space-between;
+                    }
+                    
+                    .action-btn {
+                        flex: 1;
+                        text-align: center;
+                    }
+                }
+            `;
+            
+            document.head.appendChild(style);
+            
+            // Insert results after the main section
+            const mainSection = document.querySelector('.main-section');
+            mainSection.parentNode.insertBefore(resultsSection, mainSection.nextSibling);
+            
+            // Scroll to results
+            resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function learnMore(scheme) {
+            alert(`📚 Learn More about: ${scheme.split(' - ')[0]}\n\nThis will redirect you to detailed information about eligibility criteria, benefits, application process, and required documents.\n\n🔗 Feature coming soon in the full application!`);
+        }
+
+        function applyNow(scheme) {
+            alert(`📝 Apply for: ${scheme.split(' - ')[0]}\n\nThis will guide you through the application process with step-by-step instructions and document upload.\n\n🚀 Application portal opening soon!`);
+        }
+
+        function contactSupport() {
+            alert(`🤝 Healthcare Support\n\n📞 Helpline: 1800-XXX-XXXX\n💬 Chat: Available 24/7\n📧 Email: support@swasthaai.gov.in\n\n👨‍⚕️ Our healthcare advisors are ready to assist you with scheme selection and application process.`);
+        }
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add some interactive elements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate stats on scroll
+            const observerOptions = {
+                threshold: 0.5,
+                rootMargin: '0px 0px -100px 0px'
+            };
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const statNumbers = entry.target.querySelectorAll('.stat-number');
+                        statNumbers.forEach(stat => {
+                            const finalValue = stat.textContent;
+                            animateValue(stat, 0, finalValue);
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            const statsContainer = document.querySelector('.stats-container');
+            if (statsContainer) {
+                observer.observe(statsContainer);
+            }
+        });
+
+        function animateValue(element, start, end) {
+            // Simple animation for numbers
+            const isNumber = !isNaN(parseFloat(end));
+            if (!isNumber) return;
+            
+            const duration = 2000;
+            const startTime = performance.now();
+            const endValue = parseFloat(end.replace(/[^\d.-]/g, ''));
+            const suffix = end.replace(/[\d.-]/g, '');
+            
+            function updateValue(currentTime) {
+                const progress = Math.min((currentTime - startTime) / duration, 1);
+                const currentValue = Math.floor(progress * endValue);
+                element.textContent = currentValue + suffix;
+                
+                if (progress < 1) {
+                    requestAnimationFrame(updateValue);
+                }
+            }
+            
+            requestAnimationFrame(updateValue);
+        }
+
+        // Add keyboard navigation support
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && e.target.classList.contains('category-card')) {
+                e.target.click();
+            }
+        });
+
+        // Make category cards focusable for accessibility
+        document.querySelectorAll('.category-card').forEach(card => {
+            card.setAttribute('tabindex', '0');
+            card.setAttribute('role', 'button');
+            card.setAttribute('aria-label', 'Select ' + card.querySelector('.category-title').textContent + ' category');
+        });
+    </script>
+</body>
+</html>

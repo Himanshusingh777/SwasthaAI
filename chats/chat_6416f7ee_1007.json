@@ -1,0 +1,22 @@
+{
+    "65ed6ccb-5520-4bbf-bb0c-1f6483678cff": {
+        "sender": "patient",
+        "message": "hii doctor"
+    },
+    "76a205a1-e985-47fa-bbd2-2af13b978468": {
+        "sender": "doctor",
+        "message": "hlo dearr how are u??"
+    },
+    "c5c55ac4-6db1-4b68-9545-214404b1d3bb": {
+        "sender": "patient",
+        "message": "i hav some issue related to my neck pain"
+    },
+    "44a69512-7585-4c71-b940-c56bc4e19b9c": {
+        "sender": "patient",
+        "message": "hii doctor"
+    },
+    "318c18de-e065-4c23-9fb5-254952815948": {
+        "sender": "doctor",
+        "message": "yes yes tell me your issue"
+    }
+}

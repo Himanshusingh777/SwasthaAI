@@ -1,0 +1,22 @@
+{
+    "fc55ea62-00f9-4bc0-b4f5-23e2c2535757": {
+        "sender": "patient",
+        "message": "hii doctor"
+    },
+    "ff326923-3581-4ad7-92c3-f0b7c375bc0d": {
+        "sender": "patient",
+        "message": "hii doc"
+    },
+    "85012357-13ee-4377-94f1-55adb5bfb6d4": {
+        "sender": "doctor",
+        "message": "hlo himanshu how are you"
+    },
+    "3d75c529-6e7c-4e67-afc3-1e0f831a569b": {
+        "sender": "patient",
+        "message": "i hav some issue related to my neck pain"
+    },
+    "d2a8fecf-299d-4582-9bef-f503edc1e92d": {
+        "sender": "doctor",
+        "message": ""
+    }
+}

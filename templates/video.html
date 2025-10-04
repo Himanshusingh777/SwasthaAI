@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Educational Content Hub - Maternal & Child Care</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            padding: 50px 30px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            color: white;
+            font-size: 3rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+            font-weight: 700;
+        }
+
+        .header p {
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 1.3rem;
+            font-weight: 300;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .section:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+        }
+
+        .section-title {
+            color: #2d3748;
+            font-size: 2.2rem;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-weight: 600;
+        }
+
+        .section-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .section > p {
+            color: #4a5568;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .video-card {
+            background: linear-gradient(145deg, #f8fafc, #e2e8f0);
+            border-radius: 18px;
+            padding: 0;
+            border: 2px solid transparent;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        }
+
+        .video-card:hover {
+            border-color: #667eea;
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.2);
+        }
+
+        .video-thumbnail {
+            width: 100%;
+            height: 220px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .video-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .video-card:hover .video-thumbnail img {
+            transform: scale(1.05);
+        }
+
+        .play-button {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #667eea;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+
+        .video-card:hover .play-button {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 1);
+        }
+
+        .video-info {
+            padding: 25px;
+        }
+
+        .video-title {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .video-duration {
+            color: #718096;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .guide-steps {
+            display: grid;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .step {
+            background: linear-gradient(145deg, #f7fafc, #edf2f7);
+            border-left: 5px solid #667eea;
+            padding: 25px;
+            border-radius: 0 15px 15px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .step:hover {
+            transform: translateX(5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .step-number {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+            font-size: 1.2rem;
+            box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
+        }
+
+        .step-content h4 {
+            color: #2d3748;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .step-content p {
+            color: #4a5568;
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+
+        .myth-fact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .myth-fact-item {
+            border-radius: 15px;
+            padding: 25px;
+            border: 2px solid;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .myth-fact-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .myth {
+            background: linear-gradient(145deg, #fed7d7, #feb2b2);
+            border-color: #fc8181;
+        }
+
+        .fact {
+            background: linear-gradient(145deg, #c6f6d5, #9ae6b4);
+            border-color: #68d391;
+        }
+
+        .myth-fact-label {
+            font-weight: bold;
+            font-size: 1rem;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .myth .myth-fact-label {
+            color: #c53030;
+        }
+
+        .fact .myth-fact-label {
+            color: #2f855a;
+        }
+
+        .myth-fact-item p {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .myth-fact-item p:first-of-type {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .cultural-tabs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+
+        .tab {
+            padding: 15px 25px;
+            background: linear-gradient(145deg, #e2e8f0, #cbd5e0);
+            border-radius: 30px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            border: 2px solid transparent;
+        }
+
+        .tab:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .tab-content {
+            background: linear-gradient(145deg, #f7fafc, #edf2f7);
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid #e2e8f0;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .practice-item {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 5px solid #667eea;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .practice-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .practice-title {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .practice-desc {
+            color: #4a5568;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .medical-note {
+            background: linear-gradient(145deg, #e6fffa, #b2f5ea);
+            border: 1px solid #81e6d9;
+            border-radius: 8px;
+            padding: 15px;
+            font-size: 0.95rem;
+            color: #234e52;
+            line-height: 1.6;
+        }
+
+        .medical-note strong {
+            color: #2c7a7b;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .header {
+                padding: 40px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .video-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .video-card {
+                max-width: 100%;
+            }
+            
+            .video-thumbnail {
+                height: 200px;
+            }
+            
+            .section {
+                padding: 25px;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .myth-fact-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .cultural-tabs {
+                gap: 10px;
+            }
+            
+            .tab {
+                padding: 12px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .header p {
+                font-size: 1.1rem;
+            }
+            
+            .section-title {
+                font-size: 1.6rem;
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+            
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .video-thumbnail {
+                height: 180px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Educational Content Hub</h1>
+            <p>Comprehensive resources for maternal and child care</p>
+        </div>
+
+        <!-- Video Library Section -->
+        <div class="section">
+            <h2 class="section-title">
+                <div class="section-icon">📹</div>
+                Video Library
+            </h2>
+            <p>Learn essential childcare techniques through our comprehensive video collection</p>
+            
+            <div class="video-grid">
+                <div class="video-card" onclick="playVideo('https://youtube.com/shorts/frqccOhQ6VI?si=ohhDDuzra20mINaJ')">
+                    <div class="video-thumbnail">
+                        <img src="static/videos/breastfeeding.jpg" alt="Breastfeeding Techniques">
+                        <div class="play-button">▶</div>
+                    </div>
+                    <div class="video-info">
+                        <div class="video-title">Proper Breastfeeding Techniques</div>
+                        <div class="video-duration">12:30 mins</div>
+                    </div>
+                </div>
+                
+                <div class="video-card" onclick="playVideo('massage')">
+                    <div class="video-thumbnail">
+                        <img src="static/videos/massage.jpg" alt="Baby Massage">
+                        <div class="play-button">▶</div>
+                    </div>
+                    <div class="video-info">
+                        <div class="video-title">Baby Massage Fundamentals</div>
+                        <div class="video-duration">8:45 mins</div>
+                    </div>
+                </div>
+                
+                <div class="video-card" onclick="playVideo('swaddling')">
+                    <div class="video-thumbnail">
+                        <img src="static/videos/swaddling.jpeg" alt="Swaddling Methods">
+                        <div class="play-button">▶</div>
+                    </div>
+                    <div class="video-info">
+                        <div class="video-title">Safe Swaddling Methods</div>
+                        <div class="video-duration">6:20 mins</div>
+                    </div>
+                </div>
+                
+                <div class="video-card" onclick="playVideo('cpr')">
+                    <div class="video-thumbnail">
+                        <img src="static/videos/cpr.jpeg" alt="Infant CPR">
+                        <div class="play-button">▶</div>
+                    </div>
+                    <div class="video-info">
+                        <div class="video-title">Infant CPR Training</div>
+                        <div class="video-duration">15:10 mins</div>
+                    </div>
+                </div>
+
+                <div class="video-card" onclick="playVideo('burping')">
+                    <div class="video-thumbnail">
+                        <img src="static/videos/burping.jpeg" alt="Burping Techniques">
+                        <div class="play-button">▶</div>
+                    </div>
+                    <div class="video-info">
+                        <div class="video-title">Effective Burping Techniques</div>
+                        <div class="video-duration">5:40 mins</div>
+                    </div>
+                </div>
+
+                <div class="video-card" onclick="playVideo('bathing')">
+                    <div class="video-thumbnail">
+                        <img src="static/videos/bathing.jpeg" alt="Baby Bathing">
+                        <div class="play-button">▶</div>
+                    </div>
+                    <div class="video-info">
+                        <div class="video-title">Baby Bathing Basics</div>
+                        <div class="video-duration">10:20 mins</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interactive Guides Section -->
+        <div class="section">
+            <h2 class="section-title">
+                <div class="section-icon">📖</div>
+                Interactive Guides
+            </h2>
+            <p>Step-by-step visual guides for common childcare procedures</p>
+            
+            <div class="guide-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>Preparing for Feeding</h4>
+                        <p>Ensure proper hygiene, comfortable positioning, and have all necessary supplies within reach.</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>Positioning the Baby</h4>
+                        <p>Support baby's head and neck, ensure proper alignment for comfortable feeding.</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>Initiating Latch</h4>
+                        <p>Guide baby to proper latch position, ensuring comfort for both mother and child.</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>Monitoring and Adjusting</h4>
+                        <p>Watch for proper feeding cues and adjust positioning as needed throughout the session.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Myth vs Fact Section -->
+        <div class="section">
+            <h2 class="section-title">
+                <div class="section-icon">🔍</div>
+                Myth vs. Fact Section
+            </h2>
+            <p>Separating common misconceptions from evidence-based practices</p>
+            
+            <div class="myth-fact-grid">
+                <div class="myth-fact-item myth">
+                    <div class="myth-fact-label">Myth</div>
+                    <p><strong>Breastfeeding mothers must avoid all spicy foods</strong></p>
+                    <p>Many believe spicy foods will upset the baby through breast milk.</p>
+                </div>
+                
+                <div class="myth-fact-item fact">
+                    <div class="myth-fact-label">Fact</div>
+                    <p><strong>Most babies tolerate spicy foods in breast milk well</strong></p>
+                    <p>Research shows that most infants are not affected by moderate spice consumption in maternal diet.</p>
+                </div>
+                
+                <div class="myth-fact-item myth">
+                    <div class="myth-fact-label">Myth</div>
+                    <p><strong>Babies should sleep on their stomachs for better digestion</strong></p>
+                    <p>Some believe stomach sleeping prevents reflux and aids digestion.</p>
+                </div>
+                
+                <div class="myth-fact-item fact">
+                    <div class="myth-fact-label">Fact</div>
+                    <p><strong>Back sleeping is safest and reduces SIDS risk by 50%</strong></p>
+                    <p>Medical evidence clearly shows back sleeping is the safest position for infant sleep.</p>
+                </div>
+                
+                <div class="myth-fact-item myth">
+                    <div class="myth-fact-label">Myth</div>
+                    <p><strong>Holding babies too much will spoil them</strong></p>
+                    <p>Common belief that frequent holding creates dependency.</p>
+                </div>
+                
+                <div class="myth-fact-item fact">
+                    <div class="myth-fact-label">Fact</div>
+                    <p><strong>Responsive caregiving builds secure attachment</strong></p>
+                    <p>Research shows that responding to babies' needs promotes healthy emotional development.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cultural Considerations Section -->
+        <div class="section">
+            <h2 class="section-title">
+                <div class="section-icon">🌍</div>
+                Cultural Considerations
+            </h2>
+            <p>Understanding regional practices alongside modern medical recommendations</p>
+            
+            <div class="cultural-tabs">
+                <div class="tab active" onclick="showCulture('indian')">Indian Traditions</div>
+                <div class="tab" onclick="showCulture('asian')">Asian Practices</div>
+                <div class="tab" onclick="showCulture('african')">African Customs</div>
+                <div class="tab" onclick="showCulture('modern')">Modern Guidelines</div>
+            </div>
+            
+            <div id="cultural-content">
+                <div class="tab-content" id="indian-content">
+                    <div class="practice-item">
+                        <div class="practice-title">Postpartum Confinement (Jaapa)</div>
+                        <div class="practice-desc">Traditional 40-day rest period for new mothers with specific dietary guidelines and restricted activities.</div>
+                        <div class="medical-note">
+                            <strong>Medical Perspective:</strong> Rest is beneficial, but complete isolation isn't necessary. Gentle movement and fresh air are encouraged for recovery.
+                        </div>
+                    </div>
+                    
+                    <div class="practice-item">
+                        <div class="practice-title">Oil Massage for Babies</div>
+                        <div class="practice-desc">Daily full-body oil massage using mustard oil, coconut oil, or other traditional oils.</div>
+                        <div class="medical-note">
+                            <strong>Medical Perspective:</strong> Gentle massage is beneficial for bonding and circulation. Use mild, tested oils and avoid if baby has skin sensitivities.
+                        </div>
+                    </div>
+                    
+                    <div class="practice-item">
+                        <div class="practice-title">Kajal Application</div>
+                        <div class="practice-desc">Applying traditional kohl around baby's eyes for protection and aesthetics.</div>
+                        <div class="medical-note">
+                            <strong>Medical Perspective:</strong> Commercial kajal may contain lead. If used, ensure it's certified safe and avoid application inside the eye area.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function playVideo(videoUrl) {
+            window.open(videoUrl, '_blank');
+        }
+
+        function showCulture(culture) {
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+            
+            // Update content based on selection
+            const content = document.getElementById('cultural-content');
+            
+            const culturalData = {
+                indian: `
+                    <div class="tab-content">
+                        <div class="practice-item">
+                            <div class="practice-title">Postpartum Confinement (Jaapa)</div>
+                            <div class="practice-desc">Traditional 40-day rest period for new mothers with specific dietary guidelines and restricted activities.</div>
+                            <div class="medical-note">
+                                <strong>Medical Perspective:</strong> Rest is beneficial, but complete isolation isn't necessary. Gentle movement and fresh air are encouraged for recovery.
+                            </div>
+                        </div>
+                        
+                        <div class="practice-item">
+                            <div class="practice-title">Oil Massage for Babies</div>
+                            <div class="practice-desc">Daily full-body oil massage using mustard oil, coconut oil, or other traditional oils.</div>
+                            <div class="medical-note">
+                                <strong>Medical Perspective:</strong> Gentle massage is beneficial for bonding and circulation. Use mild, tested oils and avoid if baby has skin sensitivities.
+                            </div>
+                        </div>
+                        
+                        <div class="practice-item">
+                            <div class="practice-title">Kajal Application</div>
+                            <div class="practice-desc">Applying traditional kohl around baby's eyes for protection and aesthetics.</div>
+                            <div class="medical-note">
+                                <strong>Medical Perspective:</strong> Commercial kajal may contain lead. If used, ensure it's certified safe and avoid application inside the eye area.
+                            </div>
+                        </div>
+                    </div>
+                `,
+                asian: `
+                    <div class="tab-content">
+                        <div class="practice-item">
+                            <div class="practice-title">Confinement Period (Zuoyuezi)</div>
+                            <div class="practice-desc">Month-long recovery period with specific foods, limited exposure to cold, and restricted activities.</div>
+                            <div class="medical-note">
+                                <strong>Medical Perspective:</strong> Nutritious diet and rest are important, but avoiding all cold foods/air isn't medically necessary.
+                            </div>
+                        </div>
+                        
+                        <div class="practice-item">
+                            <div class="practice-title">Red Egg and Ginger Party</div>
+                            <div class="practice-desc">Celebration held one month after birth, introducing baby to extended family and community.</div>
+                            <div class="medical-note">
+                                <strong>Medical Perspective:</strong> Social support is beneficial, but ensure baby's immunizations are current before large gatherings.
+                            </div>
+                        </div>
+                        
+                        <div class="practice-item">
+                            <div class="practice-title">Herbal Baths</div>
+                            <div class="practice-desc">Using traditional herbs in mother's bath water for healing and purification.</div>
+                            <div class="medical-note">
+                                <strong>Medical Perspective:</strong> Some herbs can be beneficial, but avoid those that may cause allergic reactions or interfere with healing.
+                            </div>
+                        </div>
+                    </div>
+                `,
+                african: `
+                    <div class="tab-content">
+                        <div class="practice-item">
+                            <div class="practice-title">Community Support System</div>
+                            <div class="practice-desc">Extended family and community members actively participate in childcare and support new mothers.</div>
+                            <div class="medical-note">
+                                <strong>Medical Perspective:</strong> Strong social support networks are excellent for maternal mental health and child development.
+                            </div>
+                        </div>
+                        
+                        <div class="practice-item">
+                            <div class="practice-title">Back Carrying</div>
+                            <div class="practice-desc">Traditional cloth wraps and carriers that keep baby close while allowing mother mobility.</div>
+                            <div class="medical-note">
+                                <strong>Medical Perspective:</strong> Proper babywearing supports bonding and development. Ensure carrier supports baby's spine and airways.
+                            </div>
+                        </div>
+                        
+                        <div class="practice-item">
+                            <div class="practice-title">Naming Ceremonies</div>
+                            <div class="practice-desc">Ritual ceremonies held days or weeks after birth to officially name and welcome the child.</div>
+                            <div class="medical-note">
+                                <strong>Medical Perspective:</strong> Cultural ceremonies are important for family bonding. Consider baby's health status when planning gatherings.
+                            </div>
+                        </div>
+                    </div>
+                `,
+                modern: `
+                    <div class="tab-content">
+                        <div class="practice-item">
+                            <div class="practice-title">Evidence-Based Care</div>
+                            <div class="practice-desc">Modern pediatric and obstetric care based on scientific research and clinical studies.</div>
+                            <div class="medical-note">
+                                <strong>Key Principles:</strong> Regular checkups, immunizations, safe sleep practices, and responsive feeding.
+                            </div>
+                        </div>
+                        
+                        <div class="practice-item">
+                            <div class="practice-title">Safe Sleep Guidelines</div>
+                            <div class="practice-desc">Back sleeping, firm mattress, no loose bedding, room sharing without bed sharing.</div>
+                            <div class="medical-note">
+                                <strong>Research Shows:</strong> These practices reduce SIDS risk by up to 50% and promote safer infant sleep.
+                            </div>
+                        </div>
+                        
+                        <div class="practice-item">
+                            <div class="practice-title">Breastfeeding Support</div>
+                            <div class="practice-desc">WHO recommends exclusive breastfeeding for first 6 months, with continued breastfeeding up to 2 years.</div>
+                            <div class="medical-note">
+                                <strong>Benefits:</strong> Optimal nutrition, immune protection, and bonding for both mother and baby.
+                            </div>
+                        </div>
+                    </div>
+                `
+            };
+            
+            content.innerHTML = culturalData[culture];
+        }
+    </script>
+</body>
+</html>

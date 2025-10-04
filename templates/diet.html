@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Diet & Nutrition Planner</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+ * {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+}
+
+body {
+   font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+   background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+   min-height: 100vh;
+   padding: 20px;
+   color: #334155;
+}
+
+.container {
+   max-width: 1200px;
+   margin: 0 auto;
+   background: #ffffff;
+   border-radius: 16px;
+   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+   overflow: hidden;
+   border: 1px solid #e2e8f0;
+}
+
+.header {
+   background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%);
+   padding: 60px 40px;
+   text-align: center;
+   color: white;
+   position: relative;
+   overflow: hidden;
+}
+
+.header::before {
+   content: '';
+   position: absolute;
+   top: 0;
+   left: 0;
+   right: 0;
+   bottom: 0;
+   background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+   opacity: 0.3;
+}
+
+.header h1 {
+   font-size: 3.5rem;
+   font-weight: 700;
+   margin-bottom: 16px;
+   letter-spacing: -0.025em;
+   position: relative;
+   z-index: 1;
+}
+
+.header h1::after {
+   content: 'SwasthaAI';
+   position: absolute;
+   top: -10px;
+   right: -20px;
+   font-size: 0.75rem;
+   background: rgba(255, 255, 255, 0.2);
+   padding: 4px 12px;
+   border-radius: 20px;
+   font-weight: 500;
+   letter-spacing: 0.05em;
+}
+
+.header p {
+   font-size: 1.25rem;
+   opacity: 0.95;
+   font-weight: 400;
+   position: relative;
+   z-index: 1;
+   max-width: 600px;
+   margin: 0 auto;
+   line-height: 1.6;
+}
+
+.form-section {
+   padding: 60px 40px;
+   background: #fafafa;
+}
+
+.form-grid {
+   display: grid;
+   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+   gap: 32px;
+   margin-bottom: 40px;
+}
+
+.form-group {
+   position: relative;
+}
+
+label {
+   display: block;
+   font-weight: 600;
+   color: #1e293b;
+   margin-bottom: 12px;
+   font-size: 1rem;
+   text-transform: uppercase;
+   letter-spacing: 0.025em;
+}
+
+input, select {
+   width: 100%;
+   padding: 16px 20px;
+   border: 2px solid #e2e8f0;
+   border-radius: 8px;
+   font-size: 1rem;
+   font-weight: 500;
+   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+   background: white;
+   color: #334155;
+}
+
+input:focus, select:focus {
+   outline: none;
+   border-color: #3b82f6;
+   box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+   background: #ffffff;
+}
+
+input:hover, select:hover {
+   border-color: #cbd5e1;
+}
+
+.submit-btn {
+   background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+   color: white;
+   border: none;
+   padding: 20px 48px;
+   border-radius: 8px;
+   font-size: 1.1rem;
+   font-weight: 600;
+   cursor: pointer;
+   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+   display: block;
+   margin: 0 auto;
+   box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.4);
+   text-transform: uppercase;
+   letter-spacing: 0.05em;
+   position: relative;
+   overflow: hidden;
+}
+
+.submit-btn::before {
+   content: '';
+   position: absolute;
+   top: 0;
+   left: -100%;
+   width: 100%;
+   height: 100%;
+   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+   transition: left 0.5s;
+}
+
+.submit-btn:hover::before {
+   left: 100%;
+}
+
+.submit-btn:hover {
+   transform: translateY(-2px);
+   box-shadow: 0 20px 40px -5px rgba(59, 130, 246, 0.5);
+}
+
+.submit-btn:active {
+   transform: translateY(0);
+}
+
+.results-section {
+   display: none;
+   padding: 60px 40px;
+   background: #ffffff;
+   border-top: 2px solid #f1f5f9;
+}
+
+.results-header {
+   text-align: center;
+   margin-bottom: 48px;
+   padding-bottom: 24px;
+   border-bottom: 2px solid #f1f5f9;
+}
+
+.results-header h2 {
+   color: #1e293b;
+   font-size: 2.5rem;
+   font-weight: 700;
+   margin-bottom: 16px;
+   letter-spacing: -0.025em;
+}
+
+.download-btn {
+   background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+   color: white;
+   border: none;
+   padding: 14px 32px;
+   border-radius: 8px;
+   font-weight: 600;
+   cursor: pointer;
+   margin-left: 16px;
+   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+   font-size: 0.95rem;
+   text-transform: uppercase;
+   letter-spacing: 0.05em;
+}
+
+.download-btn:hover {
+   transform: translateY(-2px);
+   box-shadow: 0 12px 28px -5px rgba(220, 38, 38, 0.4);
+}
+
+.schedule-grid {
+   display: grid;
+   grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+   gap: 32px;
+   margin-bottom: 48px;
+}
+
+.schedule-card {
+   background: white;
+   border-radius: 12px;
+   padding: 32px;
+   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+   border: 1px solid #f1f5f9;
+   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+   position: relative;
+}
+
+.schedule-card::before {
+   content: '';
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 4px;
+   height: 100%;
+   background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+   border-radius: 0 12px 12px 0;
+}
+
+.schedule-card:hover {
+   transform: translateY(-4px);
+   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.schedule-card h3 {
+   color: #1e293b;
+   font-size: 1.5rem;
+   font-weight: 700;
+   margin-bottom: 24px;
+   display: flex;
+   align-items: center;
+   gap: 12px;
+   text-transform: uppercase;
+   letter-spacing: 0.025em;
+}
+
+.meal-item {
+   background: #f8fafc;
+   padding: 20px;
+   border-radius: 8px;
+   margin-bottom: 16px;
+   border: 1px solid #e2e8f0;
+   transition: all 0.2s ease;
+}
+
+.meal-item:hover {
+   background: #f1f5f9;
+   border-color: #cbd5e1;
+}
+
+.meal-time {
+   font-weight: 700;
+   color: #3b82f6;
+   font-size: 1rem;
+   text-transform: uppercase;
+   letter-spacing: 0.05em;
+}
+
+.meal-desc {
+   color: #64748b;
+   margin-top: 8px;
+   line-height: 1.6;
+   font-weight: 500;
+}
+
+.lifestyle-section {
+   background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+   padding: 48px;
+   border-radius: 12px;
+   margin-top: 48px;
+   border: 1px solid #e2e8f0;
+}
+
+.lifestyle-section h3 {
+   color: #1e293b;
+   font-size: 2rem;
+   font-weight: 700;
+   margin-bottom: 32px;
+   text-align: center;
+   text-transform: uppercase;
+   letter-spacing: 0.025em;
+}
+
+.lifestyle-grid {
+   display: grid;
+   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+   gap: 24px;
+}
+
+.lifestyle-item {
+   background: white;
+   padding: 32px;
+   border-radius: 12px;
+   text-align: center;
+   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+   border: 1px solid #f1f5f9;
+   transition: all 0.3s ease;
+}
+
+.lifestyle-item:hover {
+   transform: translateY(-2px);
+   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.lifestyle-icon {
+   font-size: 2.5rem;
+   margin-bottom: 16px;
+}
+
+.lifestyle-item h4 {
+   color: #1e293b;
+   font-weight: 700;
+   margin-bottom: 8px;
+   text-transform: uppercase;
+   letter-spacing: 0.025em;
+}
+
+.lifestyle-item p {
+   color: #64748b;
+   line-height: 1.5;
+   font-weight: 500;
+}
+
+.tips-section {
+   background: white;
+   padding: 48px;
+   border-radius: 12px;
+   margin-top: 48px;
+   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+   border: 1px solid #f1f5f9;
+}
+
+.tips-section h3 {
+   color: #1e293b;
+   font-size: 2rem;
+   font-weight: 700;
+   margin-bottom: 32px;
+   text-align: center;
+   text-transform: uppercase;
+   letter-spacing: 0.025em;
+}
+
+.tip-item {
+   background: #f8fafc;
+   padding: 24px;
+   border-radius: 8px;
+   margin-bottom: 16px;
+   border-left: 4px solid #3b82f6;
+   border: 1px solid #e2e8f0;
+   font-weight: 500;
+   line-height: 1.6;
+   color: #334155;
+}
+
+@media (max-width: 768px) {
+   .header {
+       padding: 40px 20px;
+   }
+   
+   .header h1 {
+       font-size: 2.5rem;
+   }
+   
+   .form-section, .results-section {
+       padding: 40px 20px;
+   }
+   
+   .form-grid {
+       grid-template-columns: 1fr;
+       gap: 24px;
+   }
+   
+   .schedule-grid {
+       grid-template-columns: 1fr;
+       gap: 24px;
+   }
+   
+   .lifestyle-section, .tips-section {
+       padding: 32px 20px;
+   }
+}
+
+.loading {
+   display: none;
+   text-align: center;
+   padding: 60px;
+   background: #fafafa;
+}
+
+.loading h3 {
+   color: #1e293b;
+   font-weight: 600;
+   margin-bottom: 8px;
+}
+
+.loading p {
+   color: #64748b;
+   font-weight: 500;
+}
+
+.spinner {
+   border: 4px solid #f1f5f9;
+   border-top: 4px solid #3b82f6;
+   border-radius: 50%;
+   width: 60px;
+   height: 60px;
+   animation: spin 1s linear infinite;
+   margin: 0 auto 24px;
+}
+
+@keyframes spin {
+   0% { transform: rotate(0deg); }
+   100% { transform: rotate(360deg); }
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🥗 AI Diet & Nutrition Planner</h1>
+            <p>Personalized nutrition plans powered by SwasthaAI</p>
+        </div>
+
+        <div class="form-section">
+            <form id="dietForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>👤 Age:</label>
+                        <input type="number" name="age" id="age" required min="1" max="120">
+                    </div>
+
+                    <div class="form-group">
+                        <label>📊 BMI:</label>
+                        <input type="number" name="bmi" id="bmi" step="0.1" required min="10" max="50">
+                    </div>
+
+                    <div class="form-group">
+                        <label>🏥 Health Condition:</label>
+                        <select name="condition" id="condition" required>
+                            <option value="">Select your condition</option>
+                            <option value="diabetes">Diabetes</option>
+                            <option value="thyroid">Thyroid</option>
+                            <option value="heart">Heart Disease</option>
+                            <option value="obesity">Obesity</option>
+                            <option value="underweight">Underweight</option>
+                            <option value="bp">Blood Pressure</option>
+                            <option value="cholesterol">High Cholesterol</option>
+                            <option value="anemia">Anemia</option>
+                            <option value="pcos">PCOS</option>
+                            <option value="general">General Wellness</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>🌍 Language:</label>
+                        <select name="language" id="language">
+                            <option value="en">English</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">✨ Generate My Diet Plan</button>
+            </form>
+        </div>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <h3>Creating your personalized diet plan...</h3>
+            <p>Our AI is analyzing your profile and generating recommendations</p>
+        </div>
+
+        <div class="results-section" id="results">
+            <div class="results-header">
+                <h2>Your Personalized Diet Plan</h2>
+                <button class="download-btn" onclick="downloadPDF()">📥 Download PDF</button>
+            </div>
+
+            <div class="schedule-grid" id="scheduleGrid">
+                <!-- Schedule will be generated here -->
+            </div>
+
+            <div class="lifestyle-section">
+                <h3>🌟 Lifestyle Recommendations</h3>
+                <div class="lifestyle-grid" id="lifestyleGrid">
+                    <!-- Lifestyle recommendations will be generated here -->
+                </div>
+            </div>
+
+            <div class="tips-section">
+                <h3>💡 Health Tips & Reminders</h3>
+                <div id="tipsContainer">
+                    <!-- Tips will be generated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const dietPlans = {
+            diabetes: {
+                meals: [
+                    { time: "6:00 AM", name: "Wake Up", desc: "Start with a glass of lukewarm water with lemon" },
+                    { time: "7:00 AM", name: "Breakfast", desc: "Oats porridge with nuts and seeds, or 2 multigrain rotis with vegetable curry" },
+                    { time: "9:30 AM", name: "Mid-Morning", desc: "1 small apple or a handful of almonds" },
+                    { time: "12:30 PM", name: "Lunch", desc: "Brown rice (1 cup), dal, mixed vegetables, cucumber salad" },
+                    { time: "4:00 PM", name: "Evening Snack", desc: "Green tea with 2-3 whole grain biscuits" },
+                    { time: "7:30 PM", name: "Dinner", desc: "2 rotis, grilled chicken/paneer, green vegetables, buttermilk" },
+                    { time: "10:30 PM", name: "Bedtime", desc: "Sleep time - maintain regular sleep schedule" }
+                ],
+                lifestyle: [
+                    { icon: "🚶", title: "Daily Walk", desc: "30 minutes after meals" },
+                    { icon: "💧", title: "Hydration", desc: "8-10 glasses of water daily" },
+                    { icon: "😴", title: "Sleep", desc: "7-8 hours quality sleep" },
+                    { icon: "📊", title: "Monitor", desc: "Check blood sugar regularly" }
+                ],
+                tips: [
+                    "Avoid sugary drinks and processed foods",
+                    "Include fiber-rich foods in every meal",
+                    "Practice portion control",
+                    "Never skip meals to prevent blood sugar spikes"
+                ]
+            },
+            thyroid: {
+                meals: [
+                    { time: "6:00 AM", name: "Wake Up", desc: "Warm water with a pinch of sea salt" },
+                    { time: "7:30 AM", name: "Breakfast", desc: "Quinoa porridge with berries or coconut flour pancakes" },
+                    { time: "10:00 AM", name: "Mid-Morning", desc: "Brazil nuts (2-3) for selenium" },
+                    { time: "1:00 PM", name: "Lunch", desc: "Baked salmon, sweet potato, steamed broccoli" },
+                    { time: "4:30 PM", name: "Evening Snack", desc: "Seaweed snacks or yogurt with pumpkin seeds" },
+                    { time: "8:00 PM", name: "Dinner", desc: "Grilled chicken, quinoa, roasted vegetables" },
+                    { time: "10:00 PM", name: "Bedtime", desc: "Chamomile tea and prepare for sleep" }
+                ],
+                lifestyle: [
+                    { icon: "🧘", title: "Stress Management", desc: "Daily meditation or yoga" },
+                    { icon: "🏃", title: "Exercise", desc: "Moderate intensity workouts" },
+                    { icon: "☀️", title: "Vitamin D", desc: "15 minutes morning sunlight" },
+                    { icon: "💊", title: "Supplements", desc: "Take as prescribed by doctor" }
+                ],
+                tips: [
+                    "Avoid soy products and cruciferous vegetables in excess",
+                    "Include iodine-rich foods like seaweed",
+                    "Take thyroid medication on empty stomach",
+                    "Regular thyroid function tests are important"
+                ]
+            },
+            heart: {
+                meals: [
+                    { time: "6:30 AM", name: "Wake Up", desc: "Warm water with lemon and a pinch of turmeric" },
+                    { time: "8:00 AM", name: "Breakfast", desc: "Oatmeal with fresh fruits and a handful of walnuts" },
+                    { time: "10:30 AM", name: "Mid-Morning", desc: "Green tea and 4-5 almonds" },
+                    { time: "1:00 PM", name: "Lunch", desc: "Grilled fish, brown rice, mixed vegetables, olive oil salad" },
+                    { time: "4:00 PM", name: "Evening Snack", desc: "Pomegranate juice or a small bowl of berries" },
+                    { time: "7:30 PM", name: "Dinner", desc: "Vegetable soup, grilled chicken, quinoa, steamed vegetables" },
+                    { time: "10:00 PM", name: "Bedtime", desc: "Herbal tea and prepare for sleep" }
+                ],
+                lifestyle: [
+                    { icon: "❤️", title: "Cardio Exercise", desc: "30 minutes daily walking" },
+                    { icon: "🧂", title: "Low Sodium", desc: "Limit salt intake" },
+                    { icon: "🚭", title: "No Smoking", desc: "Avoid tobacco completely" },
+                    { icon: "😌", title: "Stress Relief", desc: "Practice relaxation techniques" }
+                ],
+                tips: [
+                    "Include omega-3 rich foods like fish and flaxseeds",
+                    "Limit saturated fats and trans fats",
+                    "Monitor blood pressure regularly",
+                    "Maintain healthy cholesterol levels"
+                ]
+            },
+            obesity: {
+                meals: [
+                    { time: "6:00 AM", name: "Wake Up", desc: "Warm water with lemon and honey" },
+                    { time: "7:30 AM", name: "Breakfast", desc: "Vegetable poha or upma with mint chutney" },
+                    { time: "10:00 AM", name: "Mid-Morning", desc: "Buttermilk or coconut water" },
+                    { time: "12:30 PM", name: "Lunch", desc: "Mixed dal, brown rice (small portion), lots of vegetables" },
+                    { time: "4:00 PM", name: "Evening Snack", desc: "Green tea with roasted chickpeas" },
+                    { time: "7:00 PM", name: "Dinner", desc: "Vegetable soup and grilled vegetables with minimal oil" },
+                    { time: "10:00 PM", name: "Bedtime", desc: "Early sleep for better metabolism" }
+                ],
+                lifestyle: [
+                    { icon: "🏃", title: "High Intensity", desc: "45 minutes cardio daily" },
+                    { icon: "💪", title: "Strength Training", desc: "3 times per week" },
+                    { icon: "📏", title: "Portion Control", desc: "Use smaller plates" },
+                    { icon: "📱", title: "Track Progress", desc: "Monitor weight weekly" }
+                ],
+                tips: [
+                    "Eat slowly and chew food thoroughly",
+                    "Drink water before meals",
+                    "Avoid late night eating",
+                    "Include high-fiber foods to feel full longer"
+                ]
+            },
+            underweight: {
+                meals: [
+                    { time: "6:30 AM", name: "Wake Up", desc: "Warm milk with almonds and dates" },
+                    { time: "8:00 AM", name: "Breakfast", desc: "Banana smoothie with oats, nuts, and protein powder" },
+                    { time: "10:30 AM", name: "Mid-Morning", desc: "Handful of dried fruits and nuts" },
+                    { time: "1:00 PM", name: "Lunch", desc: "Rice, dal, ghee, paneer curry, curd" },
+                    { time: "4:30 PM", name: "Evening Snack", desc: "Peanut butter sandwich with banana" },
+                    { time: "8:00 PM", name: "Dinner", desc: "Rotis with ghee, chicken/fish curry, vegetables" },
+                    { time: "10:30 PM", name: "Bedtime", desc: "Warm milk with turmeric before sleep" }
+                ],
+                lifestyle: [
+                    { icon: "💪", title: "Strength Training", desc: "Focus on muscle building" },
+                    { icon: "🍽️", title: "Frequent Meals", desc: "5-6 small meals daily" },
+                    { icon: "💧", title: "Healthy Fats", desc: "Include nuts, seeds, avocado" },
+                    { icon: "😴", title: "Rest", desc: "Adequate sleep for muscle recovery" }
+                ],
+                tips: [
+                    "Add healthy calories through nuts and dried fruits",
+                    "Include protein in every meal",
+                    "Avoid drinking water just before meals",
+                    "Focus on nutrient-dense foods rather than junk"
+                ]
+            },
+            bp: {
+                meals: [
+                    { time: "6:00 AM", name: "Wake Up", desc: "Warm water with lemon (no salt)" },
+                    { time: "7:30 AM", name: "Breakfast", desc: "Oats with fruits and low-fat milk" },
+                    { time: "10:00 AM", name: "Mid-Morning", desc: "Fresh fruit juice (without added salt)" },
+                    { time: "12:30 PM", name: "Lunch", desc: "Brown rice, dal (less salt), boiled vegetables" },
+                    { time: "4:00 PM", name: "Evening Snack", desc: "Unsalted nuts or fruits" },
+                    { time: "7:30 PM", name: "Dinner", desc: "Grilled fish/chicken, minimal salt, green salad" },
+                    { time: "10:00 PM", name: "Bedtime", desc: "Herbal tea and meditation" }
+                ],
+                lifestyle: [
+                    { icon: "🧂", title: "Low Sodium", desc: "Less than 2300mg daily" },
+                    { icon: "🏃", title: "Regular Exercise", desc: "30 minutes daily" },
+                    { icon: "😌", title: "Stress Management", desc: "Deep breathing exercises" },
+                    { icon: "📊", title: "Monitor BP", desc: "Check regularly at home" }
+                ],
+                tips: [
+                    "Use herbs and spices instead of salt for flavor",
+                    "Include potassium-rich foods like bananas",
+                    "Limit caffeine and alcohol intake",
+                    "Maintain healthy weight to reduce BP"
+                ]
+            },
+            cholesterol: {
+                meals: [
+                    { time: "6:30 AM", name: "Wake Up", desc: "Warm water with lemon and oats" },
+                    { time: "8:00 AM", name: "Breakfast", desc: "Oatmeal with berries and flaxseeds" },
+                    { time: "10:30 AM", name: "Mid-Morning", desc: "Green tea with almonds" },
+                    { time: "1:00 PM", name: "Lunch", desc: "Quinoa, grilled vegetables, olive oil dressing" },
+                    { time: "4:00 PM", name: "Evening Snack", desc: "Apple with a handful of walnuts" },
+                    { time: "7:30 PM", name: "Dinner", desc: "Baked fish, steamed broccoli, brown rice" },
+                    { time: "10:00 PM", name: "Bedtime", desc: "Chamomile tea for relaxation" }
+                ],
+                lifestyle: [
+                    { icon: "🐟", title: "Omega-3", desc: "Fish 2-3 times per week" },
+                    { icon: "🚶", title: "Cardio Exercise", desc: "45 minutes daily" },
+                    { icon: "🚫", title: "Avoid Trans Fats", desc: "No processed foods" },
+                    { icon: "🌰", title: "Healthy Fats", desc: "Nuts, seeds, olive oil" }
+                ],
+                tips: [
+                    "Include soluble fiber foods like oats and beans",
+                    "Limit egg yolks and organ meats",
+                    "Choose lean proteins like fish and poultry",
+                    "Regular cholesterol screening is important"
+                ]
+            },
+            anemia: {
+                meals: [
+                    { time: "6:00 AM", name: "Wake Up", desc: "Warm water with vitamin C rich lemon" },
+                    { time: "7:30 AM", name: "Breakfast", desc: "Iron-fortified cereal with orange juice" },
+                    { time: "10:00 AM", name: "Mid-Morning", desc: "Dates and raisins with milk" },
+                    { time: "12:30 PM", name: "Lunch", desc: "Spinach dal, liver curry, jaggery, chapati" },
+                    { time: "4:00 PM", name: "Evening Snack", desc: "Pomegranate juice with beetroot" },
+                    { time: "7:30 PM", name: "Dinner", desc: "Dark leafy greens, lean meat, vitamin C rich foods" },
+                    { time: "10:00 PM", name: "Bedtime", desc: "Warm milk with almonds" }
+                ],
+                lifestyle: [
+                    { icon: "🥬", title: "Iron-Rich Foods", desc: "Spinach, liver, lentils daily" },
+                    { icon: "🍊", title: "Vitamin C", desc: "Enhance iron absorption" },
+                    { icon: "☕", title: "Avoid Tea/Coffee", desc: "With iron-rich meals" },
+                    { icon: "💊", title: "Supplements", desc: "As prescribed by doctor" }
+                ],
+                tips: [
+                    "Cook in iron utensils to increase iron content",
+                    "Combine iron-rich foods with vitamin C",
+                    "Avoid calcium-rich foods with iron meals",
+                    "Regular blood tests to monitor iron levels"
+                ]
+            },
+            pcos: {
+                meals: [
+                    { time: "6:30 AM", name: "Wake Up", desc: "Warm water with cinnamon and honey" },
+                    { time: "8:00 AM", name: "Breakfast", desc: "Quinoa porridge with berries and nuts" },
+                    { time: "10:30 AM", name: "Mid-Morning", desc: "Green tea with spearmint" },
+                    { time: "1:00 PM", name: "Lunch", desc: "Brown rice, lentils, vegetables, minimal oil" },
+                    { time: "4:00 PM", name: "Evening Snack", desc: "Mixed nuts and seeds" },
+                    { time: "7:30 PM", name: "Dinner", desc: "Grilled protein, lots of vegetables, minimal carbs" },
+                    { time: "10:00 PM", name: "Bedtime", desc: "Chamomile tea for hormonal balance" }
+                ],
+                lifestyle: [
+                    { icon: "🏃", title: "Regular Exercise", desc: "45 minutes daily cardio" },
+                    { icon: "🍬", title: "Low Glycemic", desc: "Avoid sugar spikes" },
+                    { icon: "😌", title: "Stress Management", desc: "Yoga and meditation" },
+                    { icon: "⚖️", title: "Weight Management", desc: "Maintain healthy BMI" }
+                ],
+                tips: [
+                    "Include anti-inflammatory foods like turmeric",
+                    "Limit processed foods and refined sugars",
+                    "Include omega-3 rich foods for hormone balance",
+                    "Regular medical check-ups for hormone levels"
+                ]
+            },
+            general: {
+                meals: [
+                    { time: "6:30 AM", name: "Wake Up", desc: "Start with a glass of warm water" },
+                    { time: "8:00 AM", name: "Breakfast", desc: "Balanced meal with proteins, carbs, and healthy fats" },
+                    { time: "10:30 AM", name: "Mid-Morning", desc: "Fresh fruit or handful of nuts" },
+                    { time: "1:00 PM", name: "Lunch", desc: "Complete meal with vegetables, proteins, and whole grains" },
+                    { time: "4:00 PM", name: "Evening Snack", desc: "Healthy snack like yogurt with fruits" },
+                    { time: "7:30 PM", name: "Dinner", desc: "Light dinner with vegetables and lean protein" },
+                    { time: "10:00 PM", name: "Bedtime", desc: "Maintain consistent sleep schedule" }
+                ],
+                lifestyle: [
+                    { icon: "🏃", title: "Exercise", desc: "30 minutes daily activity" },
+                    { icon: "💧", title: "Hydration", desc: "8-10 glasses water daily" },
+                    { icon: "😴", title: "Sleep", desc: "7-9 hours quality sleep" },
+                    { icon: "🥗", title: "Balanced Diet", desc: "Variety of nutrients" }
+                ],
+                tips: [
+                    "Eat a rainbow of fruits and vegetables",
+                    "Include all food groups in moderation",
+                    "Stay active throughout the day",
+                    "Listen to your body's hunger and fullness cues"
+                ]
+            }
+        };
+
+        document.getElementById('dietForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const age = document.getElementById('age').value;
+            const bmi = document.getElementById('bmi').value;
+            const condition = document.getElementById('condition').value;
+            const language = document.getElementById('language').value;
+            
+            // Show loading
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('results').style.display = 'none';
+            
+            // Simulate AI processing
+            setTimeout(() => {
+                generateDietPlan(age, bmi, condition, language);
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('results').style.display = 'block';
+                document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+            }, 2000);
+        });
+        
+        function generateDietPlan(age, bmi, condition, language) {
+            const plan = dietPlans[condition] || dietPlans.general;
+            
+            // Generate schedule
+            const scheduleGrid = document.getElementById('scheduleGrid');
+            scheduleGrid.innerHTML = `
+                <div class="schedule-card">
+                    <h3>📅 Daily Schedule</h3>
+                    ${plan.meals.map(meal => `
+                        <div class="meal-item">
+                            <div class="meal-time">${meal.time} - ${meal.name}</div>
+                            <div class="meal-desc">${meal.desc}</div>
+                        </div>
+                    `).join('')}
+                </div>
+                
+                <div class="schedule-card">
+                    <h3>📊 Your Profile</h3>
+                    <div class="meal-item">
+                        <div class="meal-time">Age: ${age} years</div>
+                        <div class="meal-desc">Your age helps determine caloric needs and meal timing</div>
+                    </div>
+                    <div class="meal-item">
+                        <div class="meal-time">BMI: ${bmi}</div>
+                        <div class="meal-desc">${getBMICategory(bmi)} - Diet plan adjusted accordingly</div>
+                    </div>
+                    <div class="meal-item">
+                        <div class="meal-time">Health Focus: ${condition.charAt(0).toUpperCase() + condition.slice(1)}</div>
+                        <div class="meal-desc">Specialized nutrition plan for your health condition</div>
+                    </div>
+                    <div class="meal-item">
+                        <div class="meal-time">Language: ${language === 'hi' ? 'हिंदी' : 'English'}</div>
+                        <div class="meal-desc">Plan customized for your preferred language</div>
+                    </div>
+                </div>
+            `;
+            
+            // Generate lifestyle recommendations
+            const lifestyleGrid = document.getElementById('lifestyleGrid');
+            lifestyleGrid.innerHTML = plan.lifestyle.map(item => `
+                <div class="lifestyle-item">
+                    <div class="lifestyle-icon">${item.icon}</div>
+                    <h4>${item.title}</h4>
+                    <p>${item.desc}</p>
+                </div>
+            `).join('');
+            
+            // Generate tips
+            const tipsContainer = document.getElementById('tipsContainer');
+            tipsContainer.innerHTML = plan.tips.map(tip => `
+                <div class="tip-item">
+                    <strong>💡 </strong>${tip}
+                </div>
+            `).join('');
+            
+            // Add personalized recommendations based on BMI and age
+            addPersonalizedRecommendations(age, bmi, condition);
+        }
+        
+        function getBMICategory(bmi) {
+            if (bmi < 18.5) return "Underweight";
+            if (bmi < 25) return "Normal weight";
+            if (bmi < 30) return "Overweight";
+            return "Obese";
+        }
+        
+        function addPersonalizedRecommendations(age, bmi, condition) {
+            const scheduleGrid = document.getElementById('scheduleGrid');
+            
+            let personalizedCard = `
+                <div class="schedule-card">
+                    <h3>🎯 Personalized Recommendations</h3>
+            `;
+            
+            // Age-based recommendations
+            if (age < 25) {
+                personalizedCard += `
+                    <div class="meal-item">
+                        <div class="meal-time">Young Adult Focus</div>
+                        <div class="meal-desc">High protein intake for muscle development, calcium for bone health</div>
+                    </div>
+                `;
+            } else if (age > 50) {
+                personalizedCard += `
+                    <div class="meal-item">
+                        <div class="meal-time">Mature Adult Focus</div>
+                        <div class="meal-desc">Emphasis on antioxidants, omega-3s, and joint-supporting nutrients</div>
+                    </div>
+                `;
+            }
+            
+            // BMI-based recommendations
+            if (bmi < 18.5) {
+                personalizedCard += `
+                    <div class="meal-item">
+                        <div class="meal-time">Weight Gain Goal</div>
+                        <div class="meal-desc">Focus on healthy weight gain with nutrient-dense, calorie-rich foods</div>
+                    </div>
+                `;
+            } else if (bmi > 25) {
+                personalizedCard += `
+                    <div class="meal-item">
+                        <div class="meal-time">Weight Management</div>
+                        <div class="meal-desc">Portion control and high-fiber foods to support healthy weight loss</div>
+                    </div>
+                `;
+            }
+            
+            personalizedCard += `</div>`;
+            scheduleGrid.innerHTML += personalizedCard;
+        }
+        
+        function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            // Get form data
+            const age = document.getElementById('age').value;
+            const bmi = document.getElementById('bmi').value;
+            const condition = document.getElementById('condition').value;
+            const language = document.getElementById('language').value;
+            
+            const plan = dietPlans[condition] || dietPlans.general;
+            
+            // Add title
+            doc.setFontSize(20);
+            doc.setTextColor(70, 130, 234);
+            doc.text('AI Diet & Nutrition Plan', 20, 20);
+            
+            // Add profile info
+            doc.setFontSize(12);
+            doc.setTextColor(0, 0, 0);
+            doc.text(`Age: ${age} years | BMI: ${bmi} | Condition: ${condition}`, 20, 35);
+            doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 20, 45);
+            
+            // Add daily schedule
+            doc.setFontSize(16);
+            doc.setTextColor(70, 130, 234);
+            doc.text('Daily Schedule', 20, 65);
+            
+            let yPosition = 80;
+            doc.setFontSize(10);
+            doc.setTextColor(0, 0, 0);
+            
+            plan.meals.forEach(meal => {
+                if (yPosition > 250) {
+                    doc.addPage();
+                    yPosition = 20;
+                }
+                doc.setFont(undefined, 'bold');
+                doc.text(`${meal.time} - ${meal.name}`, 20, yPosition);
+                doc.setFont(undefined, 'normal');
+                yPosition += 8;
+                
+                // Split long descriptions
+                const splitDesc = doc.splitTextToSize(meal.desc, 170);
+                doc.text(splitDesc, 25, yPosition);
+                yPosition += splitDesc.length * 5 + 5;
+            });
+            
+            // Add lifestyle recommendations
+            if (yPosition > 200) {
+                doc.addPage();
+                yPosition = 20;
+            }
+            
+            doc.setFontSize(16);
+            doc.setTextColor(70, 130, 234);
+            doc.text('Lifestyle Recommendations', 20, yPosition);
+            yPosition += 15;
+            
+            doc.setFontSize(10);
+            doc.setTextColor(0, 0, 0);
+            
+            plan.lifestyle.forEach(item => {
+                if (yPosition > 250) {
+                    doc.addPage();
+                    yPosition = 20;
+                }
+                doc.setFont(undefined, 'bold');
+                doc.text(`${item.title}:`, 20, yPosition);
+                doc.setFont(undefined, 'normal');
+                doc.text(item.desc, 60, yPosition);
+                yPosition += 10;
+            });
+            
+            // Add tips
+            if (yPosition > 200) {
+                doc.addPage();
+                yPosition = 20;
+            }
+            
+            doc.setFontSize(16);
+            doc.setTextColor(70, 130, 234);
+            doc.text('Health Tips', 20, yPosition);
+            yPosition += 15;
+            
+            doc.setFontSize(10);
+            doc.setTextColor(0, 0, 0);
+            
+            plan.tips.forEach((tip, index) => {
+                if (yPosition > 250) {
+                    doc.addPage();
+                    yPosition = 20;
+                }
+                const splitTip = doc.splitTextToSize(`${index + 1}. ${tip}`, 170);
+                doc.text(splitTip, 20, yPosition);
+                yPosition += splitTip.length * 5 + 5;
+            });
+            
+            // Save the PDF
+            const fileName = `Diet_Plan_${condition}_${new Date().toISOString().split('T')[0]}.pdf`;
+            doc.save(fileName);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+{
+    "a1b2c3d4": {
+        "sender": "patient",
+        "message": "Hello Doctor, I need some help with my symptoms."
+    },
+    "e5f6g7h8": {
+        "sender": "doctor",
+        "message": "Sure, can you please describe your symptoms?"
+    },
+    "i9j0k1l2": {
+        "sender": "patient",
+        "message": "I've had a fever and sore throat for two days."
+    },
+    "m3n4o5p6": {
+        "sender": "doctor",
+        "message": "Sounds like a viral infection. I'll prescribe something mild."
+    }
+}

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Room - SwasthaAI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .chat-container {
+            background: white;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .chat-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .chat-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .chat-header-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            letter-spacing: -0.5px;
+        }
+        
+        .logo .health-accent {
+            color: #a7f3d0;
+        }
+        
+        .chat-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .chat-subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+        
+        .chat-box {
+            background: linear-gradient(to bottom, #f8fafc, #f1f5f9);
+            border: 1px solid #e2e8f0;
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 20px;
+            margin: 24px;
+            border-radius: 12px;
+            position: relative;
+        }
+        
+        .chat-box::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .chat-box::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 3px;
+        }
+        
+        .chat-box::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+        
+        .chat-box::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        
+        .message-patient {
+            text-align: left;
+            margin-bottom: 16px;
+        }
+        
+        .message-doctor {
+            text-align: right;
+            margin-bottom: 16px;
+        }
+        
+        .message-bubble-patient {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            color: #1e40af;
+            padding: 12px 16px;
+            border-radius: 18px 18px 18px 4px;
+            display: inline-block;
+            max-width: 75%;
+            word-wrap: break-word;
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.15);
+            border: 1px solid #93c5fd;
+        }
+        
+        .message-bubble-doctor {
+            background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+            color: #166534;
+            padding: 12px 16px;
+            border-radius: 18px 18px 4px 18px;
+            display: inline-block;
+            max-width: 75%;
+            word-wrap: break-word;
+            box-shadow: 0 2px 8px rgba(34, 197, 94, 0.15);
+            border: 1px solid #86efac;
+        }
+        
+        .message-sender {
+            font-size: 11px;
+            color: #64748b;
+            margin-top: 4px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+        
+        .no-messages {
+            text-align: center;
+            color: #64748b;
+            font-style: italic;
+            padding: 40px 20px;
+            background: white;
+            border-radius: 8px;
+            border: 2px dashed #e2e8f0;
+        }
+        
+        .no-messages::before {
+            content: '💬';
+            display: block;
+            font-size: 48px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+        
+        .chat-input-container {
+            padding: 24px;
+            background: white;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .chat-form {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        
+        .chat-input {
+            flex: 1;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 14px 16px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f8fafc;
+        }
+        
+        .chat-input:focus {
+            outline: none;
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .send-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 14px 24px;
+            border-radius: 12px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            letter-spacing: 0.5px;
+        }
+        
+        .send-button:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+        
+        .send-button:active {
+            transform: translateY(0);
+        }
+        
+        .status-indicator {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            backdrop-filter: blur(10px);
+        }
+        
+        .status-indicator::before {
+            content: '🟢';
+            margin-right: 6px;
+        }
+        
+        @media (max-width: 768px) {
+            .chat-container {
+                margin: 12px;
+                border-radius: 12px;
+            }
+            
+            .chat-header {
+                padding: 20px;
+            }
+            
+            .chat-box {
+                margin: 16px;
+                padding: 16px;
+                max-height: 300px;
+            }
+            
+            .chat-input-container {
+                padding: 16px;
+            }
+            
+            .message-bubble-patient,
+            .message-bubble-doctor {
+                max-width: 85%;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-6">
+    <div class="max-w-4xl mx-auto chat-container">
+        <div class="chat-header">
+            <div class="status-indicator">Online</div>
+            <div class="chat-header-content">
+                <div class="logo">Swastha<span class="health-accent">AI</span></div>
+                <h2 class="chat-title">Secure Medical Consultation</h2>
+                <p class="chat-subtitle">End-to-end encrypted communication between healthcare providers and patients</p>
+            </div>
+        </div>
+
+        <div id="chat-box" class="chat-box">
+            {% if messages %}
+                {% for mid, msg in messages.items() %}
+                    {% if msg.sender == 'patient' %}
+                        <div class="message-patient">
+                            <p class="message-bubble-patient">{{ msg.message }}</p>
+                            <p class="message-sender">👤 Patient</p>
+                        </div>
+                    {% else %}
+                        <div class="message-doctor">
+                            <p class="message-bubble-doctor">{{ msg.message }}</p>
+                            <p class="message-sender">🩺 Doctor</p>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <div class="no-messages">
+                    <p>No messages yet. Start the conversation below</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="chat-input-container">
+            <form method="POST" action="{% if role == 'patient' %}/chat/send{% else %}/chat/reply/{{ patient_id }}{% endif %}" class="chat-form">
+                <input type="hidden" name="doctor_id" value="{{ doctor_id }}">
+                <input type="text" name="message" required placeholder="Type your secure message..." class="chat-input">
+                <button type="submit" class="send-button">Send</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Scroll chat to the bottom on load
+        const chatBox = document.getElementById('chat-box');
+        chatBox.scrollTop = chatBox.scrollHeight;
+    </script>
+</body>
+</html>

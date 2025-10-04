@@ -1,0 +1,18 @@
+[
+  {
+    "date": "2025-06-06",
+    "mood": 2,
+    "anxiety": 3,
+    "sleep": 5,
+    "energy": 1,
+    "note": ""
+  },
+  {
+    "date": "2025-06-16",
+    "mood": 3,
+    "anxiety": 3,
+    "sleep": 4,
+    "energy": 2,
+    "note": ""
+  }
+]

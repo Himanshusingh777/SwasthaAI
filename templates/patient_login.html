@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Patient Login/Register - SwasthaAI</title>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: #f0f4f8;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+    
+    .login-container {
+        background: #ffffff;
+        padding: 50px 45px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        width: 100%;
+        max-width: 480px;
+        border: 1px solid #e5e7eb;
+    }
+    
+    .header {
+        text-align: center;
+        margin-bottom: 35px;
+        padding-bottom: 25px;
+        border-bottom: 2px solid #e5e7eb;
+    }
+    
+    .logo-section {
+        margin-bottom: 20px;
+    }
+    
+    .logo-icon {
+        width: 60px;
+        height: 60px;
+        background: #1e3a8a;
+        border-radius: 8px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        color: white;
+    }
+    
+    .brand-name {
+        font-size: 24px;
+        font-weight: 700;
+        color: #1e3a8a;
+        margin-top: 12px;
+        letter-spacing: 0.5px;
+    }
+    
+    h3 {
+        color: #1f2937;
+        text-align: center;
+        margin-bottom: 30px;
+        font-weight: 600;
+        font-size: 20px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    
+    .form-group {
+        margin-bottom: 24px;
+    }
+    
+    label {
+        display: block;
+        margin-bottom: 8px;
+        color: #374151;
+        font-weight: 600;
+        font-size: 14px;
+    }
+    
+    input[type="text"], input[type="password"] {
+        width: 100%;
+        padding: 14px 16px;
+        border: 1px solid #d1d5db;
+        border-radius: 6px;
+        font-size: 15px;
+        transition: all 0.2s ease;
+        background-color: #ffffff;
+        font-family: inherit;
+        color: #1f2937;
+    }
+    
+    input[type="text"]:focus, input[type="password"]:focus {
+        outline: none;
+        border-color: #1e3a8a;
+        box-shadow: 0 0 0 3px rgba(30,58,138,0.1);
+    }
+    
+    input[type="submit"], .toggle-btn {
+        width: 100%;
+        padding: 14px;
+        background: #1e3a8a;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        margin-top: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    input[type="submit"]:hover {
+        background: #1e40af;
+    }
+    
+    input[type="submit"]:active {
+        background: #1e3a8a;
+    }
+    
+    #registration-form { display: none; }
+    
+    .toggle-btn {
+        background: transparent;
+        color: #1e3a8a;
+        border: 2px solid #1e3a8a;
+        margin-top: 20px;
+        font-weight: 600;
+    }
+    
+    .toggle-btn:hover {
+        background: #f3f4f6;
+    }
+    
+    .toggle-btn:active {
+        background: #e5e7eb;
+    }
+    
+    .divider {
+        text-align: center;
+        margin: 25px 0;
+        position: relative;
+    }
+    
+    .divider::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        width: 100%;
+        height: 1px;
+        background: #e5e7eb;
+    }
+    
+    .divider span {
+        background: white;
+        padding: 0 15px;
+        color: #6b7280;
+        font-size: 13px;
+        position: relative;
+        font-weight: 500;
+    }
+    
+    @media (max-width: 500px) {
+        .login-container {
+            padding: 40px 30px;
+        }
+        
+        h3 {
+            font-size: 18px;
+        }
+    }
+</style>
+</head>
+<body>
+<div class="login-container">
+    <div class="header">
+        <div class="logo-section">
+            <div class="logo-icon">⚕️</div>
+            <div class="brand-name">SwasthaAI</div>
+        </div>
+    </div>
+
+    <!-- LOGIN FORM -->
+    <form method="POST" id="login-form">
+        <h3>Patient Login</h3>
+        <div class="form-group">
+            <label for="login_id">Patient ID</label>
+            <input type="text" name="login_id" placeholder="Enter your Patient ID">
+        </div>
+        <div class="form-group">
+            <label for="login_password">Password</label>
+            <input type="password" name="login_password" placeholder="Enter password">
+        </div>
+        <input type="submit" value="Login">
+        <div class="divider"><span>OR</span></div>
+    </form>
+
+    <button type="button" class="toggle-btn" onclick="toggleRegistration()">New Patient Registration</button>
+
+    <!-- REGISTRATION FORM -->
+    <form method="POST" id="registration-form">
+        <h3>Patient Registration</h3>
+        <div class="form-group">
+            <label for="reg_name">Full Name</label>
+            <input type="text" name="reg_name" placeholder="Your full name">
+        </div>
+        <div class="form-group">
+            <label for="reg_age">Age</label>
+            <input type="text" name="reg_age" placeholder="Your age">
+        </div>
+        <div class="form-group">
+            <label for="reg_gender">Gender</label>
+            <input type="text" name="reg_gender" placeholder="M/F/Other">
+        </div>
+        <div class="form-group">
+            <label for="reg_city">City</label>
+            <input type="text" name="reg_city" placeholder="Your city">
+        </div>
+        <div class="form-group">
+            <label for="reg_password">Create Password</label>
+            <input type="password" name="reg_password" placeholder="Create a password">
+        </div>
+        <input type="submit" value="Register">
+        <div class="divider"><span>OR</span></div>
+        <button type="button" class="toggle-btn" onclick="toggleRegistration()">Return to Login</button>
+    </form>
+
+</div>
+
+<script>
+function toggleRegistration() {
+    const form = document.getElementById('registration-form');
+    form.style.display = (form.style.display === "none" || form.style.display === "") ? "block" : "none";
+}
+</script>
+</body>
+</html>

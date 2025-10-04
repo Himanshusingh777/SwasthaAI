@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medical Symptom Assessment Tool</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #2c3e50;
+      background-color: #f8f9fa;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #2c5aa0 0%, #1e3a8a 100%);
+      color: white;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 2.2rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .header p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      font-weight: 300;
+    }
+
+    .content {
+      padding: 40px;
+    }
+
+    .disclaimer {
+      background: #fff3cd;
+      border: 1px solid #ffeaa7;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 30px;
+      font-size: 0.95rem;
+      color: #856404;
+    }
+
+    .disclaimer-title {
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #856404;
+    }
+
+    .form-section {
+      margin-bottom: 30px;
+    }
+
+    .section-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #2c5aa0;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #e9ecef;
+    }
+
+    .symptom-list {
+      max-height: 300px;
+      overflow-y: auto;
+      padding: 20px;
+      border: 2px solid #e9ecef;
+      border-radius: 8px;
+      background: #fafafa;
+    }
+
+    .symptom {
+      margin: 8px 0;
+      padding: 8px 0;
+      border-bottom: 1px solid #e9ecef;
+    }
+
+    .symptom:last-child {
+      border-bottom: none;
+    }
+
+    .symptom input[type="checkbox"] {
+      margin-right: 12px;
+      transform: scale(1.2);
+      accent-color: #2c5aa0;
+    }
+
+    .symptom label {
+      font-size: 1rem;
+      color: #34495e;
+      cursor: pointer;
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 4px;
+      transition: background-color 0.2s ease;
+    }
+
+    .symptom label:hover {
+      background-color: #e8f2ff;
+    }
+
+    .hidden-symptoms {
+      display: none;
+    }
+
+    .toggle-btn {
+      background: linear-gradient(135deg, #2c5aa0 0%, #1e3a8a 100%);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 15px;
+      font-size: 1rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 10px rgba(44, 90, 160, 0.3);
+    }
+
+    .toggle-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(44, 90, 160, 0.4);
+    }
+
+    .toggle-btn:active {
+      transform: translateY(0);
+    }
+
+    .submit-section {
+      text-align: center;
+      padding-top: 30px;
+      border-top: 2px solid #e9ecef;
+    }
+
+    .submit-btn {
+      background: linear-gradient(135deg, #27ae60 0%, #219a52 100%);
+      color: white;
+      border: none;
+      padding: 15px 40px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 3px 15px rgba(39, 174, 96, 0.3);
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4);
+    }
+
+    .footer-note {
+      margin-top: 30px;
+      padding: 20px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      color: #6c757d;
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        margin: 10px;
+        border-radius: 8px;
+      }
+      
+      .header {
+        padding: 20px;
+      }
+      
+      .header h1 {
+        font-size: 1.8rem;
+      }
+      
+      .content {
+        padding: 20px;
+      }
+      
+      .symptom-list {
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Medical Symptom Assessment Tool</h1>
+      <p>Preliminary Health Evaluation System</p>
+    </div>
+
+    <div class="content">
+      <div class="disclaimer">
+        <div class="disclaimer-title">Important Medical Disclaimer</div>
+        This tool is for informational purposes only and should not replace professional medical advice, diagnosis, or treatment. Always consult with a qualified healthcare provider for medical concerns.
+      </div>
+
+      <form action="/predict" method="post">
+        <div class="form-section">
+          <h2 class="section-title">Please Select Your Current Symptoms</h2>
+          
+          <div class="symptom-list">
+            <!-- Visible Symptoms -->
+            <div class="symptom">
+              <input type="checkbox" name="symptoms" value="headache" id="headache">
+              <label for="headache">Headache</label>
+            </div>
+            <div class="symptom">
+              <input type="checkbox" name="symptoms" value="fever" id="fever">
+              <label for="fever">Fever</label>
+            </div>
+            <div class="symptom">
+              <input type="checkbox" name="symptoms" value="cough" id="cough">
+              <label for="cough">Cough</label>
+            </div>
+            <div class="symptom">
+              <input type="checkbox" name="symptoms" value="fatigue" id="fatigue">
+              <label for="fatigue">Fatigue</label>
+            </div>
+            <div class="symptom">
+              <input type="checkbox" name="symptoms" value="vomiting" id="vomiting">
+              <label for="vomiting">Vomiting</label>
+            </div>
+
+            <!-- Hidden Symptoms -->
+            <div id="more-symptoms" class="hidden-symptoms">
+              {% for symptom in all_symptoms[5:] %}
+                <div class="symptom">
+                  <input type="checkbox" name="symptoms" value="{{ symptom }}" id="{{ symptom }}">
+                  <label for="{{ symptom }}">{{ symptom }}</label>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+
+          <!-- Show More Button -->
+          <button type="button" class="toggle-btn" onclick="toggleSymptoms()">Show Additional Symptoms</button>
+        </div>
+
+        <div class="submit-section">
+          <input type="submit" value="Analyze Symptoms" class="submit-btn">
+        </div>
+      </form>
+
+      <div class="footer-note">
+        <strong>Privacy Notice:</strong> Your symptom data is processed securely and is not stored permanently. This assessment tool uses evidence-based algorithms to provide preliminary health insights.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let shown = false;
+    function toggleSymptoms() {
+      const hidden = document.getElementById('more-symptoms');
+      const btn = document.querySelector('.toggle-btn');
+      hidden.style.display = shown ? 'none' : 'block';
+      btn.innerText = shown ? 'Show Additional Symptoms' : 'Show Fewer Symptoms';
+      shown = !shown;
+    }
+  </script>
+</body>
+</html>

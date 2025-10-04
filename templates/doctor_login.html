@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Login - SwasthaAI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f4c75 0%, #3282b8 50%, #bbe1fa 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .login-container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 420px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .login-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #0f4c75, #3282b8, #00a8cc);
+        }
+        
+        .logo-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+        
+        .logo .health-accent {
+            color: #3282b8;
+        }
+        
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .doctor-badge {
+            display: inline-flex;
+            align-items: center;
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            padding: 8px 16px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #90caf9;
+        }
+        
+        .doctor-badge::before {
+            content: '🩺';
+            margin-right: 8px;
+            font-size: 16px;
+        }
+        
+        .doctor-badge span {
+            color: #1565c0;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        h2 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 600;
+            font-size: 24px;
+            position: relative;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(90deg, #3282b8, #00a8cc);
+            border-radius: 2px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #34495e;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 15px 16px;
+            border: 2px solid #e0e6ed;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background-color: #f8f9fa;
+        }
+        
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            outline: none;
+            border-color: #3282b8;
+            background-color: white;
+            box-shadow: 0 0 0 3px rgba(50, 130, 184, 0.1);
+        }
+        
+        .doctor-id-input {
+            position: relative;
+        }
+        
+        .doctor-id-input::before {
+            content: 'Dr.';
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #7f8c8d;
+            font-weight: 500;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .doctor-id-input input {
+            padding-left: 45px;
+        }
+        
+        input[type="submit"] {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #3282b8 0%, #0f4c75 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        input[type="submit"]:hover {
+            background: linear-gradient(135deg, #0f4c75 0%, #3282b8 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(50, 130, 184, 0.3);
+        }
+        
+        input[type="submit"]:active {
+            transform: translateY(0);
+        }
+        
+        .professional-notice {
+            margin-top: 25px;
+            padding: 15px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-left: 4px solid #3282b8;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #5a6c7d;
+        }
+        
+        .professional-notice strong {
+            color: #2c3e50;
+        }
+        
+        .footer-text {
+            text-align: center;
+            margin-top: 30px;
+            color: #95a5a6;
+            font-size: 12px;
+        }
+        
+        .medical-pattern {
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(50, 130, 184, 0.05) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 30px 25px;
+                margin: 20px;
+            }
+            
+            .logo {
+                font-size: 24px;
+            }
+            
+            h2 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="medical-pattern"></div>
+        
+        <div class="logo-section">
+            <div class="logo">Swastha<span class="health-accent">AI</span></div>
+            <div class="subtitle">Healthcare Management System</div>
+            <div class="doctor-badge">
+                <span>Medical Professional Access</span>
+            </div>
+        </div>
+        
+        <h2>Doctor Login</h2>
+        
+        <form method="POST">
+            <div class="form-group">
+                <label for="id">Doctor ID</label>
+                <div class="doctor-id-input">
+                    <input type="text" name="id" id="id" required>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" required>
+            </div>
+            
+            <input type="submit" value="Login">
+        </form>
+        
+        <div class="professional-notice">
+            <strong>Professional Access:</strong> This portal is exclusively for licensed medical professionals. Please ensure you have proper authorization to access patient information.
+        </div>
+        
+        <div class="footer-text">
+            © 2025 SwasthaAI Healthcare Solutions | Medical Professional Portal
+        </div>
+    </div>
+</body>
+</html>

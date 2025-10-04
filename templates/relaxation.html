@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Relaxation Hub | SwasthaAI</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+.volume-control {
+  width: 80%;
+  margin: 10px auto;
+  display: block;
+}
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    header {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      color: white;
+      padding: 30px;
+      border-radius: 20px;
+      margin-bottom: 30px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .back {
+      float: right;
+      color: white;
+      text-decoration: none;
+      padding: 10px 20px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 25px;
+      transition: all 0.3s ease;
+    }
+
+    .back:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 25px;
+      margin-bottom: 30px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      padding: 25px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .card h2 {
+      color: #4a5568;
+      margin-bottom: 20px;
+      font-size: 1.5em;
+      border-bottom: 3px solid #667eea;
+      padding-bottom: 10px;
+    }
+
+    .btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      margin: 5px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .breathing-circle {
+      width: 200px;
+      height: 200px;
+      border: 4px solid #667eea;
+      border-radius: 50%;
+      margin: 20px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: bold;
+      color: #4a5568;
+      transition: all 0.3s ease;
+    }
+
+    .breathing-circle.animate {
+      animation: breathe 4s infinite;
+    }
+
+    @keyframes breathe {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+
+    .timer-display {
+      font-size: 3em;
+      font-weight: bold;
+      text-align: center;
+      margin: 20px 0;
+      color: #667eea;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background: #e2e8f0;
+      border-radius: 4px;
+      overflow: hidden;
+      margin: 15px 0;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      width: 0%;
+      transition: width 0.3s ease;
+      border-radius: 4px;
+    }
+
+    .mood-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+      gap: 15px;
+      margin: 20px 0;
+    }
+
+    .mood-btn {
+      aspect-ratio: 1;
+      border: none;
+      border-radius: 15px;
+      font-size: 2em;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: #f7fafc;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .mood-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+
+    .mood-btn.selected {
+      background: #667eea;
+      color: white;
+      transform: scale(1.1);
+    }
+
+    .quote-container {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 25px;
+      border-radius: 15px;
+      text-align: center;
+      margin: 20px 0;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+
+    .quote-text {
+      font-size: 1.2em;
+      font-style: italic;
+      margin-bottom: 10px;
+    }
+
+    .sound-btn {
+      background: #4299e1;
+      margin: 5px;
+      padding: 10px 15px;
+      border-radius: 20px;
+      font-size: 14px;
+    }
+
+    .sound-btn.active {
+      background: #2d3748;
+    }
+
+    .volume-control {
+      width: 100%;
+      margin: 15px 0;
+      -webkit-appearance: none;
+      height: 6px;
+      border-radius: 3px;
+      background: #e2e8f0;
+      outline: none;
+    }
+
+    .volume-control::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #667eea;
+      cursor: pointer;
+    }
+
+    .affirmation-card {
+      background: linear-gradient(45deg, #ff9a9e 0%, #fecfef 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 15px;
+      text-align: center;
+      margin: 10px 0;
+      font-size: 1.1em;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 15px;
+      margin: 20px 0;
+    }
+
+    .stat-card {
+      background: #f7fafc;
+      padding: 15px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    .stat-number {
+      font-size: 2em;
+      font-weight: bold;
+      color: #667eea;
+    }
+
+    .stat-label {
+      font-size: 0.9em;
+      color: #718096;
+    }
+
+    .iframe-container {
+      position: relative;
+      width: 100%;
+      height: 0;
+      padding-bottom: 56.25%;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+
+    .iframe-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    @media (max-width: 768px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      
+      h1 {
+        font-size: 2em;
+      }
+      
+      .back {
+        float: none;
+        display: inline-block;
+        margin-top: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🧘 SwasthaAI Relaxation Hub</h1>
+      <p>Your complete wellness sanctuary for mind, body, and soul</p>
+      <a href="/" class="back">⬅️ Back to Dashboard</a>
+    </header>
+
+    <div class="grid">
+      <!-- Enhanced Breathing Exercises -->
+      <div class="card">
+        <h2>🫁 Advanced Breathing Exercises</h2>
+        <div class="breathing-circle" id="breathingCircle">Click Start</div>
+        <div style="text-align: center;">
+          <button class="btn" onclick="startBreathing('4-7-8')">4-7-8 Technique</button>
+          <button class="btn" onclick="startBreathing('box')">Box Breathing</button>
+          <button class="btn" onclick="startBreathing('triangle')">Triangle Breathing</button>
+          <button class="btn" onclick="startBreathing('calm')">Calming Breath</button>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="breathProgress"></div>
+        </div>
+      </div>
+
+      <!-- Meditation Timer -->
+      <div class="card">
+        <h2>⏰ Meditation Timer</h2>
+        <div class="timer-display" id="timerDisplay">05:00</div>
+        <div style="text-align: center;">
+          <button class="btn" onclick="setTimer(5)">5 min</button>
+          <button class="btn" onclick="setTimer(10)">10 min</button>
+          <button class="btn" onclick="setTimer(15)">15 min</button>
+          <button class="btn" onclick="setTimer(20)">20 min</button>
+        </div>
+        <div style="text-align: center; margin-top: 15px;">
+          <button class="btn" id="timerBtn" onclick="toggleTimer()">Start</button>
+          <button class="btn" onclick="resetTimer()">Reset</button>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="timerProgress"></div>
+        </div>
+      </div>
+
+      <!-- Mood Tracker -->
+      <div class="card">
+        <h2>😊 Daily Mood Tracker</h2>
+        <p>How are you feeling today?</p>
+        <div class="mood-grid">
+          <button class="mood-btn" onclick="selectMood(this, 'amazing')">🤩</button>
+          <button class="mood-btn" onclick="selectMood(this, 'happy')">😊</button>
+          <button class="mood-btn" onclick="selectMood(this, 'okay')">😐</button>
+          <button class="mood-btn" onclick="selectMood(this, 'sad')">😢</button>
+          <button class="mood-btn" onclick="selectMood(this, 'stressed')">😰</button>
+          <button class="mood-btn" onclick="selectMood(this, 'angry')">😠</button>
+        </div>
+        <div id="moodFeedback" style="margin-top: 15px; font-style: italic; color: #667eea;"></div>
+      </div>
+
+      <!-- Nature Sounds -->
+      <div class="card">
+  <h2>🌿 Nature Sound Therapy</h2>
+  <div style="text-align: center;">
+    <button class="sound-btn btn" onclick="toggleSound('rain')">🌧️ Rain</button>
+    <button class="sound-btn btn" onclick="toggleSound('ocean')">🌊 Ocean</button>
+    <button class="sound-btn btn" onclick="toggleSound('forest')">🌲 Forest</button>
+    <button class="sound-btn btn" onclick="toggleSound('fire')">🔥 Fireplace</button>
+    <button class="sound-btn btn" onclick="toggleSound('birds')">🐦 Birds</button>
+    <button class="sound-btn btn" onclick="toggleSound('wind')">💨 Wind</button>
+  </div>
+
+  <input type="range" class="volume-control" id="volumeSlider" min="0" max="100" value="50" oninput="adjustVolume(this.value)">
+  <p style="text-align: center; color: #718096;">Volume: <span id="volumeDisplay">50</span>%</p>
+</div>
+
+<!-- Audio elements (hidden) -->
+<audio id="rain" src="{{ url_for('static', filename='sounds/rain.mp3') }}"></audio>
+<audio id="ocean" src="{{ url_for('static', filename='sounds/ocean.mp3') }}"></audio>
+<audio id="forest" src="{{ url_for('static', filename='sounds/forest.mp3') }}"></audio>
+<audio id="fire" src="{{ url_for('static', filename='sounds/fireplace.mp3') }}"></audio>
+<audio id="birds" src="{{ url_for('static', filename='sounds/birds.mp3') }}"></audio>
+<audio id="wind" src="{{ url_for('static', filename='sounds/wind.mp3') }}"></audio>
+
+<script>
+  let currentSound = null;
+
+  function toggleSound(name) {
+    const audio = document.getElementById(name);
+
+    if (!audio) return;
+
+    if (currentSound && currentSound !== audio) {
+      currentSound.pause();
+      currentSound.currentTime = 0;
+    }
+
+    if (audio.paused) {
+      audio.loop = true;
+      audio.volume = document.getElementById('volumeSlider').value / 100;
+      audio.play();
+      currentSound = audio;
+    } else {
+      audio.pause();
+      currentSound = null;
+    }
+  }
+
+  function adjustVolume(value) {
+    document.getElementById('volumeDisplay').innerText = value;
+    if (currentSound) {
+      currentSound.volume = value / 100;
+    }
+  }
+</script>
+
+
+
+      <!-- Daily Affirmations -->
+      <div class="card">
+        <h2>✨ Daily Affirmations</h2>
+        <div class="affirmation-card" id="affirmationCard">
+          "I am calm, centered, and at peace with myself."
+        </div>
+        <div style="text-align: center;">
+          <button class="btn" onclick="getNewAffirmation()">New Affirmation</button>
+        </div>
+      </div>
+
+      <!-- Progress Stats -->
+      <div class="card">
+        <h2>📊 Your Wellness Journey</h2>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-number" id="sessionsToday">0</div>
+            <div class="stat-label">Today</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="totalSessions">0</div>
+            <div class="stat-label">Total</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="streak">0</div>
+            <div class="stat-label">Day Streak</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="totalMinutes">0</div>
+            <div class="stat-label">Minutes</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Enhanced Media Section -->
+    <div class="grid">
+      <div class="card">
+        <h2>🎵 Curated Relaxation Music</h2>
+        <div class="iframe-container">
+          <iframe src="https://www.youtube.com/embed/2OEL4P1Rz04?autoplay=0" allowfullscreen></iframe>
+        </div>
+        <div style="text-align: center; margin-top: 15px;">
+          <button class="btn" onclick="changeMusic('peaceful')">Peaceful Piano</button>
+          <button class="btn" onclick="changeMusic('nature')">Nature Sounds</button>
+          <button class="btn" onclick="changeMusic('ambient')">Ambient Space</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>🧘 Guided Meditation Library</h2>
+        <div class="iframe-container">
+          <iframe src="https://www.youtube.com/embed/inpok4MKVLM" allowfullscreen></iframe>
+        </div>
+        <div style="text-align: center; margin-top: 15px;">
+          <button class="btn" onclick="changeMeditation('beginner')">Beginner</button>
+          <button class="btn" onclick="changeMeditation('sleep')">Sleep</button>
+          <button class="btn" onclick="changeMeditation('anxiety')">Anxiety Relief</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Inspirational Quote -->
+    <div class="quote-container" id="quoteContainer">
+      <div class="quote-text" id="quoteText">"Peace comes from within. Do not seek it without."</div>
+      <div>- Buddha</div>
+      <button class="btn" onclick="getNewQuote()" style="margin-top: 15px; background: rgba(255,255,255,0.2);">New Quote</button>
+    </div>
+  </div>
+
+  <script>
+
+    const sounds = {
+    rain: new Audio('/static/sounds/rain.mp3'),
+    ocean: new Audio('/static/sounds/ocean.mp3'),
+    forest: new Audio('/static/sounds/forest.mp3'),
+    fire: new Audio('/static/sounds/fire.mp3'),
+    birds: new Audio('/static/sounds/birds.mp3'),
+    wind: new Audio('/static/sounds/wind.mp3')
+  };
+
+  let currentSound = null;
+
+  function toggleSound(name) {
+    if (currentSound && currentSound !== sounds[name]) {
+      currentSound.pause();
+      currentSound.currentTime = 0;
+    }
+
+    if (sounds[name].paused) {
+      currentSound = sounds[name];
+      currentSound.loop = true;
+      currentSound.volume = document.getElementById('volumeSlider').value / 100;
+      currentSound.play();
+    } else {
+      sounds[name].pause();
+      sounds[name].currentTime = 0;
+      currentSound = null;
+    }
+  }
+
+  function adjustVolume(value) {
+    document.getElementById('volumeDisplay').innerText = value;
+    if (currentSound) {
+      currentSound.volume = value / 100;
+    }
+  }
+    // Enhanced JavaScript functionality
+    let currentTimer = null;
+    let timerDuration = 300; // 5 minutes default
+    let remainingTime = timerDuration;
+    let isTimerRunning = false;
+    let currentBreathingExercise = null;
+    let activeSounds = new Set();
+    let currentVolume = 50;
+
+    // Breathing exercises data
+    const breathingPatterns = {
+      '4-7-8': { inhale: 4, hold: 7, exhale: 8, cycles: 4 },
+      'box': { inhale: 4, hold: 4, exhale: 4, pause: 4, cycles: 4 },
+      'triangle': { inhale: 3, hold: 3, exhale: 3, cycles: 6 },
+      'calm': { inhale: 6, hold: 2, exhale: 8, cycles: 5 }
+    };
+
+    // Affirmations array
+    const affirmations = [
+      "I am calm, centered, and at peace with myself.",
+      "I choose peace over worry in every moment.",
+      "My mind is clear and my heart is open.",
+      "I release all tension and embrace tranquility.",
+      "I am exactly where I need to be right now.",
+      "Every breath I take fills me with peace.",
+      "I trust in my ability to handle any situation.",
+      "I am surrounded by love and positive energy.",
+      "I choose to focus on what brings me joy.",
+      "I am grateful for this moment of peace."
+    ];
+
+    // Inspirational quotes
+    const quotes = [
+      { text: "Peace comes from within. Do not seek it without.", author: "Buddha" },
+      { text: "The mind is everything. What you think you become.", author: "Buddha" },
+      { text: "In the midst of movement and chaos, keep stillness inside of you.", author: "Deepak Chopra" },
+      { text: "You have power over your mind - not outside events. Realize this, and you will find strength.", author: "Marcus Aurelius" },
+      { text: "The present moment is the only time over which we have dominion.", author: "Thich Nhat Hanh" }
+    ];
+
+    // Load stats from storage
+    function loadStats() {
+      const stats = JSON.parse(localStorage.getItem('relaxationStats') || '{}');
+      document.getElementById('sessionsToday').textContent = stats.sessionsToday || 0;
+      document.getElementById('totalSessions').textContent = stats.totalSessions || 0;
+      document.getElementById('streak').textContent = stats.streak || 0;
+      document.getElementById('totalMinutes').textContent = stats.totalMinutes || 0;
+    }
+
+    // Save stats to storage
+    function saveStats() {
+      const stats = {
+        sessionsToday: parseInt(document.getElementById('sessionsToday').textContent),
+        totalSessions: parseInt(document.getElementById('totalSessions').textContent),
+        streak: parseInt(document.getElementById('streak').textContent),
+        totalMinutes: parseInt(document.getElementById('totalMinutes').textContent)
+      };
+      localStorage.setItem('relaxationStats', JSON.stringify(stats));
+    }
+
+    // Update session stats
+    function updateStats(minutes = 0) {
+      const sessionsToday = parseInt(document.getElementById('sessionsToday').textContent) + 1;
+      const totalSessions = parseInt(document.getElementById('totalSessions').textContent) + 1;
+      const totalMinutes = parseInt(document.getElementById('totalMinutes').textContent) + minutes;
+      
+      document.getElementById('sessionsToday').textContent = sessionsToday;
+      document.getElementById('totalSessions').textContent = totalSessions;
+      document.getElementById('totalMinutes').textContent = totalMinutes;
+      
+      // Update streak (simplified logic)
+      if (sessionsToday === 1) {
+        const streak = parseInt(document.getElementById('streak').textContent) + 1;
+        document.getElementById('streak').textContent = streak;
+      }
+      
+      saveStats();
+    }
+
+    // Enhanced breathing exercises
+    function startBreathing(pattern) {
+      if (currentBreathingExercise) {
+        clearInterval(currentBreathingExercise);
+      }
+
+      const circle = document.getElementById('breathingCircle');
+      const progress = document.getElementById('breathProgress');
+      const patternData = breathingPatterns[pattern];
+      
+      circle.classList.add('animate');
+      let currentCycle = 0;
+      let currentStep = 0;
+      let stepTime = 0;
+      
+      const steps = pattern === 'box' ? ['inhale', 'hold', 'exhale', 'pause'] : 
+                   pattern === 'triangle' ? ['inhale', 'hold', 'exhale'] : 
+                   ['inhale', 'hold', 'exhale'];
+
+      currentBreathingExercise = setInterval(() => {
+        const currentStepName = steps[currentStep];
+        const duration = patternData[currentStepName];
+        
+        if (stepTime === 0) {
+          circle.textContent = `${currentStepName.charAt(0).toUpperCase() + currentStepName.slice(1)} (${duration})`;
+        }
+        
+        stepTime++;
+        
+        if (stepTime >= duration) {
+          stepTime = 0;
+          currentStep++;
+          
+          if (currentStep >= steps.length) {
+            currentStep = 0;
+            currentCycle++;
+            
+            if (currentCycle >= patternData.cycles) {
+              clearInterval(currentBreathingExercise);
+              circle.classList.remove('animate');
+              circle.textContent = 'Complete! 🌟';
+              progress.style.width = '100%';
+              updateStats(1);
+              
+              setTimeout(() => {
+                circle.textContent = 'Click Start';
+                progress.style.width = '0%';
+              }, 2000);
+              return;
+            }
+          }
+        }
+        
+        const totalSteps = patternData.cycles * steps.length * Math.max(...Object.values(patternData).filter(v => typeof v === 'number' && v < 10));
+        const completedSteps = currentCycle * steps.length * Math.max(...Object.values(patternData).filter(v => typeof v === 'number' && v < 10)) + currentStep * Math.max(...Object.values(patternData).filter(v => typeof v === 'number' && v < 10)) + stepTime;
+        progress.style.width = `${(completedSteps / totalSteps) * 100}%`;
+      }, 1000);
+    }
+
+    // Timer functions
+    function setTimer(minutes) {
+      timerDuration = minutes * 60;
+      remainingTime = timerDuration;
+      updateTimerDisplay();
+    }
+
+    function updateTimerDisplay() {
+      const minutes = Math.floor(remainingTime / 60);
+      const seconds = remainingTime % 60;
+      document.getElementById('timerDisplay').textContent = 
+        `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+
+    function toggleTimer() {
+      const btn = document.getElementById('timerBtn');
+      const progress = document.getElementById('timerProgress');
+      
+      if (isTimerRunning) {
+        clearInterval(currentTimer);
+        btn.textContent = 'Start';
+        isTimerRunning = false;
+      } else {
+        currentTimer = setInterval(() => {
+          remainingTime--;
+          updateTimerDisplay();
+          
+          const progressPercent = ((timerDuration - remainingTime) / timerDuration) * 100;
+          progress.style.width = `${progressPercent}%`;
+          
+          if (remainingTime <= 0) {
+            clearInterval(currentTimer);
+            btn.textContent = 'Start';
+            isTimerRunning = false;
+            alert('🧘 Meditation session complete! Well done!');
+            updateStats(Math.floor(timerDuration / 60));
+            resetTimer();
+          }
+        }, 1000);
+        
+        btn.textContent = 'Pause';
+        isTimerRunning = true;
+      }
+    }
+
+    function resetTimer() {
+      clearInterval(currentTimer);
+      remainingTime = timerDuration;
+      updateTimerDisplay();
+      document.getElementById('timerBtn').textContent = 'Start';
+      document.getElementById('timerProgress').style.width = '0%';
+      isTimerRunning = false;
+    }
+
+    // Mood tracking
+    function selectMood(btn, mood) {
+      document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      
+      const feedback = document.getElementById('moodFeedback');
+      const responses = {
+        amazing: "That's wonderful! Keep that positive energy flowing! ✨",
+        happy: "Great to hear! Happiness looks good on you! 😊",
+        okay: "That's perfectly fine. Every day is different. 🌱",
+        sad: "It's okay to feel sad sometimes. Be gentle with yourself. 💙",
+        stressed: "Take a deep breath. You've got this. Try some breathing exercises. 🌸",
+        angry: "Let's work on releasing that tension. Try some calming techniques. 🕊️"
+      };
+      
+      feedback.textContent = responses[mood];
+      updateStats();
+    }
+
+    // Sound management (placeholder - in real app would use Web Audio API)
+    function toggleSound(soundType) {
+      const btn = event.target;
+      
+      if (activeSounds.has(soundType)) {
+        activeSounds.delete(soundType);
+        btn.classList.remove('active');
+        btn.style.background = '#4299e1';
+      } else {
+        activeSounds.add(soundType);
+        btn.classList.add('active');
+        btn.style.background = '#2d3748';
+      }
+    }
+
+    function adjustVolume(value) {
+      currentVolume = value;
+      document.getElementById('volumeDisplay').textContent = value;
+      // In real app, would adjust actual audio volume
+    }
+
+    // Affirmations
+    function getNewAffirmation() {
+      const randomIndex = Math.floor(Math.random() * affirmations.length);
+      document.getElementById('affirmationCard').textContent = affirmations[randomIndex];
+    }
+
+    // Quotes
+    function getNewQuote() {
+      const randomIndex = Math.floor(Math.random() * quotes.length);
+      const quote = quotes[randomIndex];
+      document.getElementById('quoteText').textContent = `"${quote.text}"`;
+      document.querySelector('#quoteContainer div:last-of-type').textContent = `- ${quote.author}`;
+    }
+
+    // Media controls
+    function changeMusic(type) {
+      const musicUrls = {
+        peaceful: "2OEL4P1Rz04",
+        nature: "eKFTSSKCzWA",
+        ambient: "UfcAVejslrU"
+      };
+      
+      const iframe = document.querySelector('.iframe-container iframe');
+      iframe.src = `https://www.youtube.com/embed/${musicUrls[type]}?autoplay=0`;
+    }
+
+    function changeMeditation(type) {
+      const meditationUrls = {
+        beginner: "inpok4MKVLM",
+        sleep: "ZToicYcHIOU",
+        anxiety: "O-6f5wQXSu8"
+      };
+      
+      const iframe = document.querySelectorAll('.iframe-container iframe')[1];
+      iframe.src = `https://www.youtube.com/embed/${meditationUrls[type]}?autoplay=0`;
+    }
+
+    // Initialize app
+    document.addEventListener('DOMContentLoaded', function() {
+      loadStats();
+      updateTimerDisplay();
+      
+      // Set random initial affirmation and quote
+      getNewAffirmation();
+      getNewQuote();
+    });
+  </script>
+</body>
+</html>

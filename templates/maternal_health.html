@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SwasthaAI - Comprehensive Maternal & Child Health</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .nav-link:hover { color: #2563eb; transition: color 0.3s; }
+        .submit-button:hover { background-color: #1d4ed8; transform: translateY(-1px); }
+        .feature-card:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .symptom-card { cursor: pointer; transition: all 0.3s; }
+        .symptom-card:hover { background-color: #eff6ff; border-color: #3b82f6; }
+        .selected { background-color: #dbeafe; border-color: #2563eb; }
+        .tab-button.active { background-color: #2563eb; color: white; }
+        .timeline-item { position: relative; }
+        .timeline-line { position: absolute; left: 1rem; top: 2rem; bottom: -1rem; width: 2px; background: #e5e7eb; }
+        .timeline-dot { position: absolute; left: 0.75rem; top: 1rem; width: 0.5rem; height: 0.5rem; background: #3b82f6; border-radius: 50%; }
+        .fade-in { animation: fadeIn 0.5s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+
+<body class="bg-gradient-to-br from-blue-50 via-white to-blue-100 min-h-screen flex flex-col font-sans text-gray-800">
+
+  <!-- Header -->
+  <header class="bg-white border-b-4 border-blue-500 text-center py-10 shadow-md">
+    <h1 class="text-4xl font-bold text-blue-700">SwasthaAI - Maternal & Child Health</h1>
+    <p class="text-gray-600 text-lg mt-2">Complete healthcare guidance for mothers and children</p>
+  </header>
+
+  <!-- Enhanced Navbar -->
+  <nav class="bg-white border-b shadow-sm sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-center space-x-6 flex-wrap">
+      <button onclick="showSection('home')" class="nav-link text-lg font-medium text-gray-700 hover:text-blue-600">Home</button>
+      <button onclick="showSection('assessment')" class="nav-link text-lg font-medium text-gray-700 hover:text-blue-600">Health Assessment</button>
+      <button onclick="showSection('childcare')" class="nav-link text-lg font-medium text-gray-700 hover:text-blue-600">Child Care</button>
+      <button onclick="showSection('emergency')" class="nav-link text-lg font-medium text-gray-700 hover:text-blue-600">Emergency Guide</button>
+      <button onclick="showSection('schemes')" class="nav-link text-lg font-medium text-gray-700 hover:text-blue-600">Govt Schemes</button>
+      <button onclick="showSection('tracker')" class="nav-link text-lg font-medium text-gray-700 hover:text-blue-600">Health Tracker</button>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="flex-1 px-6 py-8 max-w-7xl mx-auto w-full">
+
+    <!-- Home Section -->
+    <div id="home" class="section">
+      <section class="mb-10 text-center">
+        <h2 class="text-3xl font-semibold text-gray-900 mb-4">Your Complete Maternal & Child Health Companion</h2>
+        <p class="text-gray-700 text-lg max-w-3xl mx-auto">
+          From pregnancy to early childhood, get personalized health guidance, track your journey, 
+          and access emergency support when you need it most.
+        </p>
+      </section>
+
+      <!-- Quick Access Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+        <div class="feature-card bg-white p-6 rounded-xl shadow-lg border border-blue-100 transition-all duration-300 cursor-pointer" onclick="showSection('assessment')">
+          <div class="text-blue-600 text-3xl mb-4"><i class="fas fa-heartbeat"></i></div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-2">Health Assessment</h3>
+          <p class="text-gray-700 text-sm">Get personalized recommendations based on your current stage and health profile</p>
+        </div>
+        
+        <div class="feature-card bg-white p-6 rounded-xl shadow-lg border border-green-100 transition-all duration-300 cursor-pointer" onclick="showSection('childcare')">
+          <div class="text-green-600 text-3xl mb-4"><i class="fas fa-baby"></i></div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-2">Child Care Guide</h3>
+          <p class="text-gray-700 text-sm">Feeding, vaccination, growth tracking, and developmental milestones</p>
+        </div>
+
+<div class="feature-card bg-white p-6 rounded-xl shadow-lg border border-red-100 transition-all duration-300 cursor-pointer" onclick="window.location.href=('/video')">
+  <div class="text-red-600 text-3xl mb-4"><i class="fas fa-book-open"></i></div>
+  <h3 class="text-xl font-semibold text-gray-900 mb-2">Educational Content Hub</h3>
+  <p class="text-gray-700 text-sm">Access videos, tutorials, and learning resources anytime</p>
+</div>
+
+
+        
+      </div>
+
+      <!-- Educational Content Preview -->
+      <div class="bg-white rounded-xl shadow-lg p-8 mb-10">
+        <h3 class="text-2xl font-bold text-gray-900 mb-6">Featured Health Tips</h3>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="border-l-4 border-blue-500 pl-4">
+            <h4 class="font-semibold text-gray-900 mb-2">First Trimester Essentials</h4>
+            <p class="text-gray-700 text-sm">Key nutrients, symptoms to watch, and important appointments during your first 12 weeks.</p>
+          </div>
+          <div class="border-l-4 border-green-500 pl-4">
+            <h4 class="font-semibold text-gray-900 mb-2">Breastfeeding Success</h4>
+            <p class="text-gray-700 text-sm">Proper positioning, common challenges, and when to seek help from a lactation consultant.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Enhanced Assessment Section -->
+    <div id="assessment" class="section hidden">
+      <h2 class="text-3xl font-semibold text-gray-900 mb-6">Comprehensive Health Assessment</h2>
+      
+      <div class="bg-white p-8 rounded-xl shadow-lg border border-blue-100 mb-8">
+        <form id="healthForm" class="space-y-6">
+          <div class="grid md:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-gray-800 font-medium mb-2">Current Stage</label>
+              <select name="stage" id="stage" required class="w-full px-4 py-3 border rounded-md focus:ring-2 focus:ring-blue-500">
+                <option value="">Select your stage</option>
+                <option value="trying_conceive">Trying to Conceive</option>
+                <option value="first_trimester">First Trimester (1-12 weeks)</option>
+                <option value="second_trimester">Second Trimester (13-27 weeks)</option>
+                <option value="third_trimester">Third Trimester (28-40 weeks)</option>
+                <option value="post_delivery">Postpartum (0-6 months)</option>
+                <option value="child_care">Child Care (6 months+)</option>
+              </select>
+            </div>
+            
+            <div>
+              <label class="block text-gray-800 font-medium mb-2">Age Range</label>
+              <select name="age" class="w-full px-4 py-3 border rounded-md focus:ring-2 focus:ring-blue-500">
+                <option value="">Select age range</option>
+                <option value="18-25">18-25 years</option>
+                <option value="26-30">26-30 years</option>
+                <option value="31-35">31-35 years</option>
+                <option value="36-40">36-40 years</option>
+                <option value="40+">40+ years</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-gray-800 font-medium mb-2">Current Symptoms (Select all that apply)</label>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+              <div class="symptom-card border rounded-lg p-3 text-center" onclick="toggleSymptom(this, 'nausea')">
+                <i class="fas fa-dizzy text-yellow-500 mb-1"></i>
+                <div class="text-sm">Nausea</div>
+              </div>
+              <div class="symptom-card border rounded-lg p-3 text-center" onclick="toggleSymptom(this, 'fatigue')">
+                <i class="fas fa-bed text-blue-500 mb-1"></i>
+                <div class="text-sm">Fatigue</div>
+              </div>
+              <div class="symptom-card border rounded-lg p-3 text-center" onclick="toggleSymptom(this, 'headache')">
+                <i class="fas fa-head-side-cough text-red-500 mb-1"></i>
+                <div class="text-sm">Headache</div>
+              </div>
+              <div class="symptom-card border rounded-lg p-3 text-center" onclick="toggleSymptom(this, 'back_pain')">
+                <i class="fas fa-user-injured text-orange-500 mb-1"></i>
+                <div class="text-sm">Back Pain</div>
+              </div>
+              <div class="symptom-card border rounded-lg p-3 text-center" onclick="toggleSymptom(this, 'swelling')">
+                <i class="fas fa-hand-paper text-purple-500 mb-1"></i>
+                <div class="text-sm">Swelling</div>
+              </div>
+              <div class="symptom-card border rounded-lg p-3 text-center" onclick="toggleSymptom(this, 'none')">
+                <i class="fas fa-smile text-green-500 mb-1"></i>
+                <div class="text-sm">No Symptoms</div>
+              </div>
+            </div>
+          </div>
+
+          <button type="button" onclick="generateRecommendations()" class="submit-button w-full bg-blue-600 text-white py-3 rounded-lg font-semibold transition-all duration-200">
+            Generate Personalized Recommendations
+          </button>
+        </form>
+      </div>
+
+      <!-- Results Section -->
+      <div id="recommendations" class="hidden bg-white rounded-xl shadow-lg p-8">
+        <div class="flex justify-between items-center mb-6">
+          <h3 class="text-2xl font-bold text-gray-900">Your Health Recommendations</h3>
+          <div class="flex gap-2">
+            <button onclick="speakRecommendations('en')" class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm">
+              <i class="fas fa-volume-up"></i> English
+            </button>
+            <button onclick="speakRecommendations('hi')" class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm">
+              <i class="fas fa-volume-up"></i> हिन्दी
+            </button>
+            <button onclick="stopSpeech()" class="px-4 py-2 bg-red-600 text-white rounded-lg text-sm">
+              <i class="fas fa-stop"></i> Stop
+            </button>
+          </div>
+        </div>
+        
+        <div id="recommendationContent" class="prose max-w-none">
+          <!-- Dynamic content will be inserted here -->
+        </div>
+
+        <div class="mt-8 p-5 bg-yellow-50 border-l-4 border-yellow-400 rounded-md">
+          <h4 class="font-semibold text-yellow-800 mb-1">
+            <i class="fas fa-exclamation-triangle"></i> Medical Disclaimer
+          </h4>
+          <p class="text-sm text-yellow-700">
+            These recommendations are for informational purposes only. Always consult with certified healthcare providers for personalized medical advice.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Child Care Section -->
+    <div id="childcare" class="section hidden">
+      <h2 class="text-3xl font-semibold text-gray-900 mb-6">Complete Child Care Guide</h2>
+      
+      <!-- Tab Navigation -->
+      <div class="flex flex-wrap gap-2 mb-6">
+        <button onclick="showChildCareTab('feeding')" class="tab-button px-4 py-2 rounded-lg font-medium active">Feeding Guide</button>
+        <button onclick="showChildCareTab('vaccination')" class="tab-button px-4 py-2 rounded-lg font-medium">Vaccination</button>
+        <button onclick="showChildCareTab('development')" class="tab-button px-4 py-2 rounded-lg font-medium">Development</button>
+        <button onclick="showChildCareTab('health')" class="tab-button px-4 py-2 rounded-lg font-medium">Health Issues</button>
+      </div>
+
+      <!-- Feeding Guide Tab -->
+      <div id="feeding" class="childcare-tab bg-white rounded-xl shadow-lg p-8">
+        <h3 class="text-2xl font-bold text-gray-900 mb-6">Age-Appropriate Feeding Guidelines</h3>
+        
+        <div class="space-y-6">
+          <div class="timeline-item bg-blue-50 p-6 rounded-lg">
+            <div class="timeline-dot"></div>
+            <div class="timeline-line"></div>
+            <h4 class="text-lg font-semibold text-blue-800 mb-2">0-6 Months: Exclusive Breastfeeding</h4>
+            <ul class="text-gray-700 space-y-1 text-sm ml-4">
+              <li>• Feed every 2-3 hours (8-12 times daily)</li>
+              <li>• Watch for hunger cues: rooting, sucking motions</li>
+              <li>• Proper latch: baby's mouth covers most of areola</li>
+              <li>• Signs of adequate feeding: wet diapers, weight gain</li>
+            </ul>
+          </div>
+
+          <div class="timeline-item bg-green-50 p-6 rounded-lg">
+            <div class="timeline-dot bg-green-500"></div>
+            <div class="timeline-line"></div>
+            <h4 class="text-lg font-semibold text-green-800 mb-2">6-12 Months: Introduction to Solids</h4>
+            <ul class="text-gray-700 space-y-1 text-sm ml-4">
+              <li>• Start with single-ingredient purees</li>
+              <li>• Iron-rich foods: fortified cereals, pureed meats</li>
+              <li>• Introduce new foods one at a time (3-5 days apart)</li>
+              <li>• Avoid honey, cow's milk, choking hazards</li>
+            </ul>
+          </div>
+
+          <div class="timeline-item bg-orange-50 p-6 rounded-lg">
+            <div class="timeline-dot bg-orange-500"></div>
+            <h4 class="text-lg font-semibold text-orange-800 mb-2">12+ Months: Family Foods</h4>
+            <ul class="text-gray-700 space-y-1 text-sm ml-4">
+              <li>• Transition to whole milk</li>
+              <li>• Finger foods and self-feeding</li>
+              <li>• 3 meals + 2 healthy snacks daily</li>
+              <li>• Limit juice, avoid added sugars</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Vaccination Tab -->
+      <div id="vaccination" class="childcare-tab bg-white rounded-xl shadow-lg p-8 hidden">
+        <h3 class="text-2xl font-bold text-gray-900 mb-6">Vaccination Schedule</h3>
+        
+        <div class="overflow-x-auto">
+          <table class="w-full border-collapse border border-gray-300">
+            <thead class="bg-blue-50">
+              <tr>
+                <th class="border border-gray-300 px-4 py-3 text-left">Age</th>
+                <th class="border border-gray-300 px-4 py-3 text-left">Vaccines</th>
+                <th class="border border-gray-300 px-4 py-3 text-left">Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="border border-gray-300 px-4 py-3 font-medium">Birth</td>
+                <td class="border border-gray-300 px-4 py-3">BCG, Hepatitis B, OPV</td>
+                <td class="border border-gray-300 px-4 py-3 text-sm">Within 24 hours</td>
+              </tr>
+              <tr class="bg-gray-50">
+                <td class="border border-gray-300 px-4 py-3 font-medium">6 Weeks</td>
+                <td class="border border-gray-300 px-4 py-3">DPT, Hepatitis B, Hib, IPV, Rotavirus, PCV</td>
+                <td class="border border-gray-300 px-4 py-3 text-sm">First dose</td>
+              </tr>
+              <tr>
+                <td class="border border-gray-300 px-4 py-3 font-medium">10 Weeks</td>
+                <td class="border border-gray-300 px-4 py-3">DPT, Hib, IPV, Rotavirus, PCV</td>
+                <td class="border border-gray-300 px-4 py-3 text-sm">Second dose</td>
+              </tr>
+              <tr class="bg-gray-50">
+                <td class="border border-gray-300 px-4 py-3 font-medium">14 Weeks</td>
+                <td class="border border-gray-300 px-4 py-3">DPT, Hib, IPV, Rotavirus, PCV</td>
+                <td class="border border-gray-300 px-4 py-3 text-sm">Third dose</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="mt-6 p-4 bg-blue-50 rounded-lg">
+          <h4 class="font-semibold text-blue-800 mb-2">Vaccination Reminders</h4>
+          <p class="text-blue-700 text-sm">Set up reminders for upcoming vaccinations to ensure your child stays protected.</p>
+          <button class="mt-2 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm">Set Reminder</button>
+        </div>
+      </div>
+
+      <!-- Development Tab -->
+      <div id="development" class="childcare-tab bg-white rounded-xl shadow-lg p-8 hidden">
+        <h3 class="text-2xl font-bold text-gray-900 mb-6">Developmental Milestones</h3>
+        
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="border rounded-lg p-4">
+            <h4 class="text-lg font-semibold text-gray-900 mb-3">2-3 Months</h4>
+            <div class="space-y-2 text-sm">
+              <div class="flex items-center">
+                <input type="checkbox" class="mr-2">
+                <span>Smiles responsively</span>
+              </div>
+              <div class="flex items-center">
+                <input type="checkbox" class="mr-2">
+                <span>Follows objects with eyes</span>
+              </div>
+              <div class="flex items-center">
+                <input type="checkbox" class="mr-2">
+                <span>Holds head up when on tummy</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="border rounded-lg p-4">
+            <h4 class="text-lg font-semibold text-gray-900 mb-3">4-6 Months</h4>
+            <div class="space-y-2 text-sm">
+              <div class="flex items-center">
+                <input type="checkbox" class="mr-2">
+                <span>Rolls over both ways</span>
+              </div>
+              <div class="flex items-center">
+                <input type="checkbox" class="mr-2">
+                <span>Sits with support</span>
+              </div>
+              <div class="flex items-center">
+                <input type="checkbox" class="mr-2">
+                <span>Responds to name</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-6 p-4 bg-green-50 rounded-lg">
+          <h4 class="font-semibold text-green-800 mb-2">Development Tracking</h4>
+          <p class="text-green-700 text-sm">Every child develops at their own pace. Consult your pediatrician if you have concerns.</p>
+        </div>
+      </div>
+
+      <!-- Health Issues Tab -->
+      <div id="health" class="childcare-tab bg-white rounded-xl shadow-lg p-8 hidden">
+        <h3 class="text-2xl font-bold text-gray-900 mb-6">Common Health Issues & Management</h3>
+        
+        <div class="space-y-4">
+          <div class="border-l-4 border-red-500 pl-4 py-2">
+            <h4 class="font-semibold text-gray-900">Fever Management</h4>
+            <p class="text-gray-700 text-sm mt-1">
+              <strong>When to call doctor:</strong> Fever >100.4°F (38°C) in infants under 3 months, 
+              or >102°F (38.9°C) in older children with concerning symptoms.
+            </p>
+          </div>
+
+          <div class="border-l-4 border-yellow-500 pl-4 py-2">
+            <h4 class="font-semibold text-gray-900">Diaper Rash</h4>
+            <p class="text-gray-700 text-sm mt-1">
+              Keep area clean and dry, use barrier cream, allow air time. 
+              Consult doctor if rash spreads or shows signs of infection.
+            </p>
+          </div>
+
+          <div class="border-l-4 border-blue-500 pl-4 py-2">
+            <h4 class="font-semibold text-gray-900">Sleep Issues</h4>
+            <p class="text-gray-700 text-sm mt-1">
+              Establish routine, ensure safe sleep environment. 
+              Newborns sleep 14-17 hours, gradually decreasing with age.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Emergency Section -->
+    <div id="emergency" class="section hidden">
+      <h2 class="text-3xl font-semibold text-gray-900 mb-6">Emergency Support & Symptom Checker</h2>
+      
+      <div class="grid lg:grid-cols-2 gap-8">
+        <!-- Emergency Contacts -->
+        <div class="bg-white rounded-xl shadow-lg p-6">
+          <h3 class="text-xl font-bold text-red-600 mb-4">
+            <i class="fas fa-phone-alt"></i> Emergency Contacts
+          </h3>
+          <div class="space-y-3">
+            <div class="flex justify-between items-center p-3 bg-red-50 rounded-lg">
+              <span class="font-medium">Emergency Services</span>
+              <a href="tel:112" class="text-red-600 font-bold text-lg">112</a>
+            </div>
+            <div class="flex justify-between items-center p-3 bg-blue-50 rounded-lg">
+              <span class="font-medium">Women Helpline</span>
+              <a href="tel:1091" class="text-blue-600 font-bold text-lg">1091</a>
+            </div>
+            <div class="flex justify-between items-center p-3 bg-green-50 rounded-lg">
+              <span class="font-medium">Child Helpline</span>
+              <a href="tel:1098" class="text-green-600 font-bold text-lg">1098</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Symptom Checker -->
+        <div class="bg-white rounded-xl shadow-lg p-6">
+          <h3 class="text-xl font-bold text-orange-600 mb-4">
+            <i class="fas fa-stethoscope"></i> Quick Symptom Checker
+          </h3>
+          <div class="space-y-3">
+            <button onclick="checkSymptom('severe_bleeding')" class="w-full text-left p-3 border rounded-lg hover:bg-red-50">
+              <i class="fas fa-exclamation-triangle text-red-500 mr-2"></i>
+              Severe bleeding or hemorrhage
+            </button>
+            <button onclick="checkSymptom('severe_headache')" class="w-full text-left p-3 border rounded-lg hover:bg-orange-50">
+              <i class="fas fa-head-side-cough text-orange-500 mr-2"></i>
+              Severe headache with vision changes
+            </button>
+            <button onclick="checkSymptom('breathing_difficulty')" class="w-full text-left p-3 border rounded-lg hover:bg-red-50">
+              <i class="fas fa-lungs text-red-500 mr-2"></i>
+              Difficulty breathing
+            </button>
+            <button onclick="checkSymptom('high_fever')" class="w-full text-left p-3 border rounded-lg hover:bg-yellow-50">
+              <i class="fas fa-thermometer-half text-yellow-500 mr-2"></i>
+              High fever with chills
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Crisis Support -->
+      <div class="mt-8 bg-white rounded-xl shadow-lg p-6">
+        <h3 class="text-xl font-bold text-purple-600 mb-4">
+          <i class="fas fa-heart"></i> Mental Health & Crisis Support
+        </h3>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div>
+            <h4 class="font-semibold text-gray-900 mb-2">Postpartum Depression Screening</h4>
+            <p class="text-gray-700 text-sm mb-3">
+              Feeling overwhelmed, sad, or anxious after childbirth is common but treatable.
+            </p>
+            <button onclick="showDepressionScreen()" class="px-4 py-2 bg-purple-600 text-white rounded-lg text-sm">
+              Take Quick Assessment
+            </button>
+          </div>
+          <div>
+            <h4 class="font-semibold text-gray-900 mb-2">24/7 Crisis Helplines</h4>
+            <div class="space-y-2 text-sm">
+              <div>NIMHANS: <a href="tel:08046110007" class="text-blue-600 font-medium">080-46110007</a></div>
+              <div>Vandrevala Foundation: <a href="tel:9999666555" class="text-blue-600 font-medium">9999666555</a></div>
+              <div>Sneha Foundation: <a href="tel:04424640050" class="text-blue-600 font-medium">044-24640050</a></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Government Schemes Section -->
+    <div id="schemes" class="section hidden">
+      <h2 class="text-3xl font-semibold text-gray-900 mb-6">Government Schemes & Benefits</h2>
+      
+      <div class="grid lg:grid-cols-2 gap-8">
+        <!-- Scheme Cards -->
+        <div class="space-y-6">
+          <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-blue-500">
+  <h3 class="text-xl font-bold text-blue-700 mb-2">Janani Suraksha Yojana (JSY)</h3>
+  <p class="text-gray-700 text-sm mb-3">
+    Cash assistance for institutional delivery and antenatal care services.
+  </p>
+  <div class="text-sm text-gray-600 mb-3">
+    <strong>Benefits:</strong> ₹1,400 (rural) / ₹1,000 (urban) + transport allowance
+  </div>
+  <button
+    onclick="window.location.href=('/js')"
+    class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm transition-colors duration-300"
+  >
+    Apply Now
+  </button>
+</div>
+
+
+  <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-green-500">
+  <h3 class="text-xl font-bold text-green-700 mb-2">
+    Pradhan Mantri Matru Vandana Yojana
+  </h3>
+  <p class="text-gray-700 text-sm mb-3">
+    Financial assistance of ₹5,000 for pregnant and lactating women for first live birth.
+  </p>
+  <div class="text-sm text-gray-600 mb-3">
+    <strong>Eligibility:</strong> Pregnant women aged 19+ with family income criteria
+  </div>
+  <button
+    onclick="window.location.href=('/pm')"
+    class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm transition-colors duration-300"
+  >
+    Check Eligibility
+  </button>
+</div>
+
+
+          <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-purple-500">
+            <h3 class="text-xl font-bold text-purple-700 mb-2">Ayushman Bharat</h3>
+            <p class="text-gray-700 text-sm mb-3">
+              Free healthcare coverage up to ₹5 lakh per family per year.
+            </p>
+            <div class="text-sm text-gray-600 mb-3">
+              <strong>Coverage:</strong> Pregnancy, delivery, newborn care, and child health services
+            </div>
+            <button
+    onclick="window.location.href=('/ab')"
+    class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-sm transition-colors duration-300"
+  >
+    Check Eligibility
+  </button>
+          </div>
+        </div>
+
+        <!-- Eligibility Checker -->
+        <div class="bg-white rounded-xl shadow-lg p-6">
+          <h3 class="text-xl font-bold text-gray-900 mb-4">Quick Eligibility Checker</h3>
+          <form id="eligibilityForm" class="space-y-4">
+            <div>
+              <label class="block text-gray-700 font-medium mb-2">Annual Family Income</label>
+              <select class="w-full px-3 py-2 border rounded-md">
+                <option value="">Select income range</option>
+                <option value="below_1">Below ₹1 Lakh</option>
+                <option value="1_2">₹1-2 Lakh</option>
+                <option value="2_5">₹2-5 Lakh</option>
+                <option value="above_5">Above ₹5 Lakh</option>
+              </select>
+            </div>
+            
+            <div>
+              <label class="block text-gray-700 font-medium mb-2">Location</label>
+              <select class="w-full px-3 py-2 border rounded-md">
+                <option value="">Select location</option>
+                <option value="rural">Rural Area</option>
+                <option value="urban">Urban Area</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-gray-700 font-medium mb-2">Category</label>
+              <select class="w-full px-3 py-2 border rounded-md">
+                <option value="">Select category</option>
+                <option value="general">General</option>
+                <option value="sc">SC</option>
+                <option value="st">ST</option>
+                <option value="obc">OBC</option>
+              </select>
+            </div>
+
+            <button type="button" onclick="checkAllEligibility()" class="w-full bg-indigo-600 text-white py-2 rounded-lg font-medium">
+              Check All Schemes
+            </button>
+          </form>
+
+          <div id="eligibilityResults" class="mt-4 hidden">
+            <h4 class="font-semibold text-gray-900 mb-2">You are eligible for:</h4>
+            <div id="eligibleSchemes" class="space-y-2">
+              <!-- Dynamic results will appear here -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Document Requirements -->
+      <div class="mt-8 bg-white rounded-xl shadow-lg p-6">
+        <h3 class="text-xl font-bold text-gray-900 mb-4">Required Documents</h3>
+        <div class="grid md:grid-cols-3 gap-4">
+          <div class="text-center p-4 border rounded-lg">
+            <i class="fas fa-id-card text-blue-500 text-2xl mb-2"></i>
+            <div class="font-medium">Identity Proof</div>
+            <div class="text-sm text-gray-600">Aadhaar, Voter ID, PAN</div>
+          </div>
+          <div class="text-center p-4 border rounded-lg">
+            <i class="fas fa-home text-green-500 text-2xl mb-2"></i>
+            <div class="font-medium">Address Proof</div>
+            <div class="text-sm text-gray-600">Utility bills, Rent agreement</div>
+          </div>
+          <div class="text-center p-4 border rounded-lg">
+            <i class="fas fa-money-bill text-purple-500 text-2xl mb-2"></i>
+            <div class="font-medium">Income Certificate</div>
+            <div class="text-sm text-gray-600">From competent authority</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Health Tracker Section -->
+    <div id="tracker" class="section hidden">
+      <h2 class="text-3xl font-semibold text-gray-900 mb-6">Personal Health Tracker</h2>
+      
+      <div class="grid lg:grid-cols-2 gap-8">
+        <!-- Pregnancy Tracker -->
+        <div class="bg-white rounded-xl shadow-lg p-6">
+          <h3 class="text-xl font-bold text-pink-600 mb-4">
+            <i class="fas fa-calendar-heart"></i> Pregnancy Timeline
+          </h3>
+          <div class="mb-4">
+            <label class="block text-gray-700 font-medium mb-2">Last Menstrual Period (LMP)</label>
+            <input type="date" id="lmpDate" class="w-full px-3 py-2 border rounded-md" onchange="calculatePregnancy()">
+          </div>
+          
+          <div id="pregnancyInfo" class="hidden">
+            <div class="space-y-3">
+              <div class="flex justify-between p-3 bg-pink-50 rounded-lg">
+                <span>Current Week:</span>
+                <span id="currentWeek" class="font-bold"></span>
+              </div>
+              <div class="flex justify-between p-3 bg-blue-50 rounded-lg">
+                <span>Expected Due Date:</span>
+                <span id="dueDate" class="font-bold"></span>
+              </div>
+              <div class="flex justify-between p-3 bg-green-50 rounded-lg">
+                <span>Trimester:</span>
+                <span id="trimester" class="font-bold"></span>
+              </div>
+            </div>
+            
+            <div class="mt-4 p-4 bg-yellow-50 rounded-lg">
+              <h4 class="font-semibold text-yellow-800 mb-2">This Week's Focus:</h4>
+              <p id="weeklyTip" class="text-yellow-700 text-sm"></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Symptom Diary -->
+        <div class="bg-white rounded-xl shadow-lg p-6">
+          <h3 class="text-xl font-bold text-blue-600 mb-4">
+            <i class="fas fa-notes-medical"></i> Daily Symptom Diary
+          </h3>
+          
+          <div class="space-y-4">
+            <div>
+              <label class="block text-gray-700 font-medium mb-2">Today's Date</label>
+              <input type="date" id="symptomDate" class="w-full px-3 py-2 border rounded-md" value="">
+            </div>
+            
+            <div>
+              <label class="block text-gray-700 font-medium mb-2">Energy Level (1-10)</label>
+              <input type="range" min="1" max="10" value="5" class="w-full" id="energyLevel" oninput="updateEnergyValue(this.value)">
+              <div class="text-center text-sm text-gray-600">Level: <span id="energyValue">5</span></div>
+            </div>
+
+            <div>
+              <label class="block text-gray-700 font-medium mb-2">Symptoms Today</label>
+              <div class="grid grid-cols-2 gap-2 text-sm">
+                <label class="flex items-center">
+                  <input type="checkbox" class="mr-2"> Nausea
+                </label>
+                <label class="flex items-center">
+                  <input type="checkbox" class="mr-2"> Headache
+                </label>
+                <label class="flex items-center">
+                  <input type="checkbox" class="mr-2"> Back pain
+                </label>
+                <label class="flex items-center">
+                  <input type="checkbox" class="mr-2"> Swelling
+                </label>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-gray-700 font-medium mb-2">Notes</label>
+              <textarea class="w-full px-3 py-2 border rounded-md" rows="3" placeholder="Any additional notes..."></textarea>
+            </div>
+
+            <button onclick="saveSymptomEntry()" class="w-full bg-blue-600 text-white py-2 rounded-lg font-medium">
+              Save Entry
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Appointment Tracker -->
+      <div class="mt-8 bg-white rounded-xl shadow-lg p-6">
+        <h3 class="text-xl font-bold text-green-600 mb-4">
+          <i class="fas fa-calendar-check"></i> Upcoming Appointments
+        </h3>
+        
+        <div class="grid md:grid-cols-2 gap-6">
+          <div>
+            <h4 class="font-semibold text-gray-900 mb-3">Schedule New Appointment</h4>
+            <form class="space-y-3">
+              <input type="text" placeholder="Doctor/Clinic Name" class="w-full px-3 py-2 border rounded-md">
+              <input type="date" class="w-full px-3 py-2 border rounded-md">
+              <input type="time" class="w-full px-3 py-2 border rounded-md">
+              <select class="w-full px-3 py-2 border rounded-md">
+                <option value="">Appointment Type</option>
+                <option value="routine">Routine Checkup</option>
+                <option value="ultrasound">Ultrasound</option>
+                <option value="vaccination">Vaccination</option>
+                <option value="emergency">Emergency</option>
+              </select>
+              <button type="button" onclick="addAppointment()" class="w-full bg-green-600 text-white py-2 rounded-lg">
+                Add Appointment
+              </button>
+            </form>
+          </div>
+
+          <div>
+            <h4 class="font-semibold text-gray-900 mb-3">Next Appointments</h4>
+            <div id="appointmentList" class="space-y-2">
+              <div class="p-3 border-l-4 border-green-500 bg-green-50 rounded">
+                <div class="font-medium">Dr. Smith - Routine Checkup</div>
+                <div class="text-sm text-gray-600">Tomorrow, 10:00 AM</div>
+              </div>
+              <div class="p-3 border-l-4 border-blue-500 bg-blue-50 rounded">
+                <div class="font-medium">Ultrasound Appointment</div>
+                <div class="text-sm text-gray-600">Next Week, 2:00 PM</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-gray-200 text-center py-6 mt-auto">
+    <div class="max-w-4xl mx-auto px-4">
+      <p class="text-gray-600 font-medium">&copy; 2025 SwasthaAI – Comprehensive Maternal & Child Healthcare Platform</p>
+      <p class="text-gray-500 text-sm mt-1">Empowering families with knowledge, support, and access to quality healthcare</p>
+    </div>
+  </footer>
+
+  <!-- Modal for Depression Screening -->
+  <div id="depressionModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+    <div class="bg-white rounded-xl p-6 max-w-md mx-4">
+      <h3 class="text-xl font-bold text-purple-600 mb-4">Postpartum Depression Screening</h3>
+      <div class="space-y-3 text-sm">
+        <div>
+          <p class="mb-2">Over the past 2 weeks, how often have you felt down, depressed, or hopeless?</p>
+          <select class="w-full px-3 py-2 border rounded-md">
+            <option value="0">Not at all</option>
+            <option value="1">Several days</option>
+            <option value="2">More than half the days</option>
+            <option value="3">Nearly every day</option>
+          </select>
+        </div>
+        <div>
+          <p class="mb-2">Little interest or pleasure in doing things?</p>
+          <select class="w-full px-3 py-2 border rounded-md">
+            <option value="0">Not at all</option>
+            <option value="1">Several days</option>
+            <option value="2">More than half the days</option>
+            <option value="3">Nearly every day</option>
+          </select>
+        </div>
+      </div>
+      <div class="flex gap-3 mt-6">
+        <button onclick="closeModal()" class="flex-1 px-4 py-2 border rounded-lg">Cancel</button>
+        <button onclick="submitScreening()" class="flex-1 px-4 py-2 bg-purple-600 text-white rounded-lg">Submit</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Global variables
+    let selectedSymptoms = [];
+    let appointments = [];
+    let symptomEntries = [];
+
+    // Initialize page
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('symptomDate').value = new Date().toISOString().split('T')[0];
+      showSection('home');
+    });
+
+    // Navigation functions
+    function showSection(sectionId) {
+      document.querySelectorAll('.section').forEach(section => {
+        section.classList.add('hidden');
+      });
+      document.getElementById(sectionId).classList.remove('hidden');
+      document.getElementById(sectionId).classList.add('fade-in');
+    }
+
+    function showChildCareTab(tabId) {
+      document.querySelectorAll('.childcare-tab').forEach(tab => {
+        tab.classList.add('hidden');
+      });
+      document.querySelectorAll('.tab-button').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      document.getElementById(tabId).classList.remove('hidden');
+      event.target.classList.add('active');
+    }
+
+    // Assessment functions
+    function toggleSymptom(element, symptom) {
+      element.classList.toggle('selected');
+      if (selectedSymptoms.includes(symptom)) {
+        selectedSymptoms = selectedSymptoms.filter(s => s !== symptom);
+      } else {
+        selectedSymptoms.push(symptom);
+      }
+    }
+
+    function generateRecommendations() {
+      const stage = document.getElementById('stage').value;
+      if (!stage) {
+        alert('Please select your current stage');
+        return;
+      }
+
+      const recommendations = getRecommendations(stage, selectedSymptoms);
+      document.getElementById('recommendationContent').innerHTML = recommendations;
+      document.getElementById('recommendations').classList.remove('hidden');
+      document.getElementById('recommendations').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function getRecommendations(stage, symptoms) {
+      const recommendations = {
+        first_trimester: {
+          title: "First Trimester Recommendations (1-12 weeks)",
+          content: `
+            <div class="space-y-4">
+              <h4 class="text-lg font-semibold text-blue-600">Essential Care Guidelines:</h4>
+              <ul class="list-disc pl-6 space-y-2">
+                <li><strong>Prenatal Vitamins:</strong> Take folic acid (400mcg daily) to prevent neural tube defects</li>
+                <li><strong>Nutrition:</strong> Eat small, frequent meals to manage nausea. Focus on protein, whole grains, and fruits</li>
+                <li><strong>Hydration:</strong> Drink 8-10 glasses of water daily</li>
+                <li><strong>Rest:</strong> Get 7-9 hours of sleep nightly</li>
+                <li><strong>Exercise:</strong> Light walking or prenatal yoga as tolerated</li>
+              </ul>
+              
+              <h4 class="text-lg font-semibold text-green-600 mt-6">Important Appointments:</h4>
+              <ul class="list-disc pl-6 space-y-2">
+                <li>First prenatal visit (6-8 weeks)</li>
+                <li>Blood tests and screenings</li>
+                <li>First ultrasound (8-12 weeks)</li>
+              </ul>
+              
+              <h4 class="text-lg font-semibold text-red-600 mt-6">Warning Signs - Call Doctor If:</h4>
+              <ul class="list-disc pl-6 space-y-2">
+                <li>Severe abdominal pain or cramping</li>
+                <li>Heavy bleeding or bright red bleeding</li>
+                <li>Severe nausea preventing food/fluid intake</li>
+                <li>High fever (>100.4°F)</li>
+              </ul>
+            </div>
+          `
+        },
+        second_trimester: {
+          title: "Second Trimester Recommendations (13-27 weeks)",
+          content: `
+            <div class="space-y-4">
+              <h4 class="text-lg font-semibold text-blue-600">Key Focus Areas:</h4>
+              <ul class="list-disc pl-6 space-y-2">
+                <li><strong>Anatomy Scan:</strong> Schedule detailed ultrasound (18-22 weeks)</li>
+                <li><strong>Nutrition:</strong> Increase caloric intake by 300-400 calories daily</li>
+                <li><strong>Exercise:</strong> Continue moderate exercise, avoid contact sports</li>
+                <li><strong>Dental Care:</strong> Safe to have routine dental cleanings</li>
+                <li><strong>Sleep Position:</strong> Begin sleeping on your side (left preferred)</li>
+              </ul>
+              
+              <h4 class="text-lg font-semibold text-green-600 mt-6">Screening Tests:</h4>
+              <ul class="list-disc pl-6 space-y-2">
+                <li>Glucose screening test (24-28 weeks)</li>
+                <li>Blood pressure monitoring</li>
+                <li>Fetal movement counting</li>
+              </ul>
+            </div>
+          `
+        },
+        third_trimester: {
+          title: "Third Trimester Recommendations (28-40 weeks)",
+          content: `
+            <div class="space-y-4">
+              <h4 class="text-lg font-semibold text-blue-600">Preparing for Delivery:</h4>
+              <ul class="list-disc pl-6 space-y-2">
+                <li><strong>Hospital Bag:</strong> Pack essentials by 36 weeks</li>
+                <li><strong>Birth Plan:</strong> Discuss preferences with healthcare provider</li>
+                <li><strong>Childbirth Classes:</strong> Attend preparation classes</li>
+                <li><strong>Baby Preparations:</strong> Set up nursery, install car seat</li>
+              </ul>
+              
+              <h4 class="text-lg font-semibold text-green-600 mt-6">Regular Monitoring:</h4>
+              <ul class="list-disc pl-6 space-y-2">
+                <li>Weekly appointments after 36 weeks</li>
+                <li>Fetal movement counts daily</li>
+                <li>Blood pressure checks</li>
+                <li>Group B Strep testing (35-37 weeks)</li>
+              </ul>
+              
+              <h4 class="text-lg font-semibold text-red-600 mt-6">Labor Signs:</h4>
+              <ul class="list-disc pl-6 space-y-2">
+                <li>Regular contractions (5-1-1 rule)</li>
+                <li>Water breaking</li>
+                <li>Bloody show</li>
+                <li>Severe back pain</li>
+              </ul>
+            </div>
+          `
+        },
+        post_delivery: {
+          title: "Postpartum Care Recommendations",
+          content: `
+            <div class="space-y-4">
+              <h4 class="text-lg font-semibold text-blue-600">Recovery Focus:</h4>
+              <ul class="list-disc pl-6 space-y-2">
+                <li><strong>Rest:</strong> Sleep when baby sleeps, accept help from others</li>
+                <li><strong>Nutrition:</strong> Continue prenatal vitamins, especially if breastfeeding</li>
+                <li><strong>Hygiene:</strong> Keep perineal area clean, change pads frequently</li>
+                <li><strong>Exercise:</strong> Start with gentle walking, gradually increase activity</li>
+              </ul>
+              
+              <h4 class="text-lg font-semibold text-green-600 mt-6">Breastfeeding Support:</h4>
+              <ul class="list-disc pl-6 space-y-2">
+                <li>Feed every 2-3 hours or on demand</li>
+                <li>Ensure proper latch to prevent nipple pain</li>
+                <li>Stay hydrated and eat well</li>
+                <li>Seek lactation consultant if needed</li>
+              </ul>
+              
+              <h4 class="text-lg font-semibold text-purple-600 mt-6">Mental Health:</h4>
+              <ul class="list-disc pl-6 space-y-2">
+                <li>Baby blues are normal for first 2 weeks</li>
+                <li>Seek help if symptoms persist or worsen</li>
+                <li>Join support groups for new mothers</li>
+                <li>Practice self-care and ask for help</li>
+              </ul>
+            </div>
+          `
+        }
+      };
+
+      return `
+        <h4 class="text-xl font-bold text-gray-900 mb-4">${recommendations[stage]?.title || 'General Recommendations'}</h4>
+        ${recommendations[stage]?.content || '<p>Please select a valid stage for personalized recommendations.</p>'}
+        
+        ${symptoms.length > 0 ? `
+          <div class="mt-6 p-4 bg-orange-50 rounded-lg">
+            <h4 class="font-semibold text-orange-800 mb-2">Based on your symptoms:</h4>
+            <p class="text-orange-700 text-sm">
+              You've indicated experiencing: ${symptoms.join(', ')}. 
+              These are common but discuss them with your healthcare provider during your next visit.
+            </p>
+          </div>
+        ` : ''}
+      `;
+    }
+
+    // Speech synthesis functions
+    function speakRecommendations(lang) {
+      const synth = window.speechSynthesis;
+      synth.cancel();
+
+      const content = document.getElementById('recommendationContent').innerText;
+      const utterance = new SpeechSynthesisUtterance(content);
+      utterance.lang = lang === 'hi' ? 'hi-IN' : 'en-IN';
+      utterance.rate = 0.9;
+      utterance.pitch = 1;
+
+      synth.speak(utterance);
+    }
+
+    function stopSpeech() {
+      window.speechSynthesis.cancel();
+    }
+
+    // Emergency functions
+    function checkSymptom(symptom) {
+      const responses = {
+        severe_bleeding: {
+          urgency: 'EMERGENCY',
+          message: 'Severe bleeding requires immediate medical attention. Call 112 or go to the nearest emergency room immediately.',
+          color: 'red'
+        },
+        severe_headache: {
+          urgency: 'URGENT',
+          message: 'Severe headache with vision changes may indicate preeclampsia. Contact your healthcare provider immediately.',
+          color: 'orange'
+        },
+        breathing_difficulty: {
+          urgency: 'EMERGENCY',
+          message: 'Difficulty breathing requires immediate medical attention. Call 112 or go to emergency room.',
+          color: 'red'
+        },
+        high_fever: {
+          urgency: 'URGENT',
+          message: 'High fever during pregnancy needs prompt medical evaluation. Contact your doctor or go to urgent care.',
+          color: 'yellow'
+        }
+      };
+
+      const response = responses[symptom];
+      if (response) {
+        alert(`${response.urgency}: ${response.message}`);
+      }
+    }
+
+    function showDepressionScreen() {
+      document.getElementById('depressionModal').classList.remove('hidden');
+      document.getElementById('depressionModal').classList.add('flex');
+    }
+
+    function closeModal() {
+      document.getElementById('depressionModal').classList.add('hidden');
+      document.getElementById('depressionModal').classList.remove('flex');
+    }
+
+    function submitScreening() {
+      // In a real app, this would calculate score and provide appropriate resources
+      alert('Thank you for completing the screening. Based on your responses, we recommend speaking with a healthcare provider about your mental health. Remember, seeking help is a sign of strength.');
+      closeModal();
+    }
+
+    // Scheme eligibility functions
+    function checkEligibility(scheme) {
+      const schemeInfo = {
+        pmmvy: 'Pradhan Mantri Matru Vandana Yojana eligibility checker will help you determine if you qualify for the ₹5,000 benefit.',
+        jsy: 'Janani Suraksha Yojana provides cash assistance for institutional delivery. Check your eligibility now.',
+        ayushman: 'Ayushman Bharat provides health insurance coverage. Verify your eligibility for free healthcare.'
+      };
+      
+      alert(schemeInfo[scheme] + ' Please fill out the eligibility form to get personalized results.');
+    }
+
+    function checkAllEligibility() {
+      // Simulate eligibility check
+      const schemes = [
+        'Pradhan Mantri Matru Vandana Yojana - ₹5,000 benefit',
+        'Janani Suraksha Yojana - Cash assistance for delivery',
+        'Ayushman Bharat - Health insurance coverage'
+      ];
+      
+      document.getElementById('eligibleSchemes').innerHTML = schemes.map(scheme => 
+        `<div class="p-2 bg-green-50 border border-green-200 rounded text-sm">✓ ${scheme}</div>`
+      ).join('');
+      
+      document.getElementById('eligibilityResults').classList.remove('hidden');
+    }
+
+    // Health tracker functions
+    function calculatePregnancy() {
+      const lmpDate = new Date(document.getElementById('lmpDate').value);
+      if (!lmpDate) return;
+
+      const today = new Date();
+      const diffTime = today - lmpDate;
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      const weeks = Math.floor(diffDays / 7);
+      
+      const dueDate = new Date(lmpDate);
+      dueDate.setDate(dueDate.getDate() + 280);
+      
+      let trimester = '';
+      if (weeks <= 12) trimester = 'First Trimester';
+      else if (weeks <= 27) trimester = 'Second Trimester';
+      else trimester = 'Third Trimester';
+
+      document.getElementById('currentWeek').textContent = `${weeks} weeks`;
+      document.getElementById('dueDate').textContent = dueDate.toLocaleDateString();
+      document.getElementById('trimester').textContent = trimester;
+      
+      const weeklyTips = {
+        8: 'Your baby is now the size of a raspberry! Start taking prenatal vitamins.',
+        12: 'End of first trimester! Morning sickness may start to improve.',
+        20: 'Halfway point! Time for anatomy scan.',
+        28: 'Third trimester begins! Start preparing for baby\'s arrival.',
+        36: 'Baby is considered full-term soon! Pack your hospital bag.'
+      };
+      
+      const tip = weeklyTips[weeks] || 'Continue following your prenatal care routine.';
+      document.getElementById('weeklyTip').textContent = tip;
+      document.getElementById('pregnancyInfo').classList.remove('hidden');
+    }
+
+    function updateEnergyValue(value) {
+      document.getElementById('energyValue').textContent = value;
+    }
+
+    function saveSymptomEntry() {
+      const date = document.getElementById('symptomDate').value;
+      const energy = document.getElementById('energyLevel').value;
+      
+      if (!date) {
+        alert('Please select a date');
+        return;
+      }
+      
+      // In a real app, this would save to a database
+      alert('Symptom entry saved successfully! Track your patterns over time to share with your healthcare provider.');
+    }
+
+    function addAppointment() {
+      // In a real app, this would add to a calendar/database
+      alert('Appointment added successfully! You will receive a reminder notification.');
+    }
+  </script>
+
+
+
+</body>
+</html>
+

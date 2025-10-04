@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicine Information & Comparison | SwasthaAI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .back {
+            float: right;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .back:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .search-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .search-form {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 15px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 25px;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .search-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .search-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #667eea;
+            font-size: 18px;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .medicine-info {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .medicine-header {
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+        }
+
+        .medicine-name {
+            font-size: 2.2em;
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+
+        .medicine-generic {
+            font-size: 1.2em;
+            color: #667eea;
+            font-weight: 500;
+        }
+
+        .info-section {
+            margin-bottom: 25px;
+        }
+
+        .info-title {
+            font-size: 1.4em;
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .language-toggle {
+            background: #f7fafc;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .lang-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .lang-btn {
+            padding: 8px 20px;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .description-text {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #4a5568;
+        }
+
+        .similar-medicines {
+            background: #f8f9ff;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .medicine-card {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease;
+        }
+
+        .medicine-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-name {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 5px;
+        }
+
+        .card-generic {
+            color: #667eea;
+            font-size: 0.9em;
+            margin-bottom: 8px;
+        }
+
+        .card-price {
+            color: #38a169;
+            font-weight: 600;
+        }
+
+        .price-section {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .price-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .price-card {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .store-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .price-amount {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .error-message {
+            background: #fed7d7;
+            color: #c53030;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #e53e3e;
+        }
+
+        .warning-box {
+            background: #fef5e7;
+            color: #d69e2e;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #ed8936;
+        }
+
+        .precautions {
+            background: #e6fffa;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-left: 4px solid #38b2ac;
+        }
+
+        .precautions ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        .precautions li {
+            margin-bottom: 8px;
+            color: #2d3748;
+        }
+
+        @media (max-width: 768px) {
+            .search-form {
+                flex-direction: column;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .back {
+                float: none;
+                display: inline-block;
+                margin-top: 15px;
+            }
+
+            .price-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>💊 Medicine Information & Comparison</h1>
+            <p>Get comprehensive information about medicines in Hindi & English</p>
+            <a href="/dashboard" class="back">⬅️ Back to Dashboard</a>
+        </header>
+
+        <div class="search-container">
+            <h2 style="color: #2d3748; margin-bottom: 20px;">🔍 Search Medicine Information</h2>
+            <div class="search-form">
+                <input 
+                    type="text" 
+                    id="medicineInput" 
+                    class="search-input" 
+                    placeholder="Enter medicine name (e.g., Paracetamol, Aspirin, Crocin)"
+                    onkeypress="handleEnterKey(event)"
+                >
+                <button class="search-btn" onclick="searchMedicine()" id="searchBtn">
+                    🔍 Search Medicine
+                </button>
+            </div>
+            <p style="color: #718096; font-size: 14px;">
+                💡 Tip: You can search by brand name (Crocin) or generic name (Paracetamol)
+            </p>
+        </div>
+
+        <div id="loadingSection" class="loading hidden">
+            <div class="spinner"></div>
+            <p>Searching for medicine information...</p>
+        </div>
+
+        <div id="errorSection" class="hidden">
+            <!-- Error messages will be inserted here -->
+        </div>
+
+        <div id="resultsSection" class="hidden">
+            <!-- Medicine information will be inserted here -->
+        </div>
+    </div>
+
+    <script>
+        let currentMedicine = null;
+        let currentLanguage = 'english';
+
+        function handleEnterKey(event) {
+            if (event.key === 'Enter') {
+                searchMedicine();
+            }
+        }
+
+        async function searchMedicine() {
+            const medicineName = document.getElementById('medicineInput').value.trim();
+            
+            if (!medicineName) {
+                showError('Please enter a medicine name');
+                return;
+            }
+
+            showLoading(true);
+            hideError();
+            hideResults();
+
+            try {
+                // Simulate API call - In real implementation, this would call your backend
+                await simulateSearch(medicineName);
+            } catch (error) {
+                showError('Failed to search medicine information. Please try again.');
+                showLoading(false);
+            }
+        }
+
+        async function simulateSearch(medicineName) {
+            // Simulate API delay
+            await new Promise(resolve => setTimeout(resolve, 2000));
+
+            // Mock data for demonstration
+            const mockMedicineData = {
+                'paracetamol': {
+                    name: 'Paracetamol',
+                    genericName: 'Acetaminophen',
+                    description: {
+                        english: 'Paracetamol is a pain reliever and fever reducer. It is commonly used to treat headaches, muscle aches, arthritis, backaches, toothaches, colds, and fevers. It works by changing the way the body senses pain and by cooling the body.',
+                        hindi: 'पैरासिटामोल एक दर्द निवारक और बुखार कम करने वाली दवा है। इसका उपयोग सिरदर्द, मांसपेशियों में दर्द, गठिया, पीठ दर्द, दांत दर्द, सर्दी और बुखार के इलाज के लिए किया जाता है। यह शरीर के दर्द को महसूस करने के तरीके को बदलकर और शरीर को ठंडा करके काम करता है।'
+                    },
+                    uses: {
+                        english: ['Pain relief', 'Fever reduction', 'Headache treatment', 'Cold and flu symptoms'],
+                        hindi: ['दर्द निवारण', 'बुखार कम करना', 'सिरदर्द का इलाज', 'सर्दी और फ्लू के लक्षण']
+                    },
+                    dosage: {
+                        english: 'Adults: 500-1000mg every 4-6 hours, maximum 4000mg per day',
+                        hindi: 'वयस्क: हर 4-6 घंटे में 500-1000mg, प्रतिदिन अधिकतम 4000mg'
+                    },
+                    sideEffects: {
+                        english: ['Nausea', 'Stomach upset', 'Allergic reactions (rare)', 'Liver damage (with overdose)'],
+                        hindi: ['जी मिचलाना', 'पेट खराब', 'एलर्जी प्रतिक्रिया (दुर्लभ)', 'लीवर को नुकसान (अधिक मात्रा में)']
+                    },
+                    precautions: {
+                        english: ['Do not exceed recommended dose', 'Avoid alcohol while taking', 'Consult doctor if pregnant', 'Check for paracetamol in other medications'],
+                        hindi: ['सुझाई गई मात्रा से अधिक न लें', 'दवा लेते समय शराब से बचें', 'गर्भावस्था में डॉक्टर से सलाह लें', 'अन्य दवाओं में पैरासिटामोल की जांच करें']
+                    },
+                    similarMedicines: [
+                        { name: 'Crocin', generic: 'Paracetamol', price: '₹15-25' },
+                        { name: 'Dolo', generic: 'Paracetamol', price: '₹18-30' },
+                        { name: 'Calpol', generic: 'Paracetamol', price: '₹20-35' },
+                        { name: 'Tylenol', generic: 'Paracetamol', price: '₹45-60' }
+                    ],
+                    pricing: [
+                        { store: 'Apollo Pharmacy', price: '₹22' },
+                        { store: 'Medplus', price: '₹20' },
+                        { store: 'Netmeds', price: '₹18' },
+                        { store: 'Local Pharmacy', price: '₹15-25' }
+                    ]
+                },
+                'aspirin': {
+                    name: 'Aspirin',
+                    genericName: 'Acetylsalicylic Acid',
+                    description: {
+                        english: 'Aspirin is used to reduce fever and relieve mild to moderate pain from conditions such as muscle aches, toothaches, common cold, and headaches. It may also be used to reduce pain and swelling in conditions such as arthritis.',
+                        hindi: 'एस्पिरिन का उपयोग बुखार कम करने और मांसपेशियों में दर्द, दांत दर्द, सामान्य सर्दी और सिरदर्द जैसी स्थितियों से हल्के से मध्यम दर्द को कम करने के लिए किया जाता है। इसका उपयोग गठिया जैसी स्थितियों में दर्द और सूजन को कम करने के लिए भी किया जा सकता है।'
+                    },
+                    uses: {
+                        english: ['Pain relief', 'Fever reduction', 'Anti-inflammatory', 'Heart attack prevention (low dose)'],
+                        hindi: ['दर्द निवारण', 'बुखार कम करना', 'सूजन रोधी', 'हार्ट अटैक की रोकथाम (कम खुराक)']
+                    },
+                    dosage: {
+                        english: 'Adults: 325-650mg every 4 hours, maximum 4000mg per day',
+                        hindi: 'वयस्क: हर 4 घंटे में 325-650mg, प्रतिदिन अधिकतम 4000mg'
+                    },
+                    sideEffects: {
+                        english: ['Stomach irritation', 'Heartburn', 'Nausea', 'Increased bleeding risk'],
+                        hindi: ['पेट में जलन', 'सीने में जलन', 'जी मिचलाना', 'रक्तस्राव का जोखिम बढ़ना']
+                    },
+                    precautions: {
+                        english: ['Take with food', 'Avoid if allergic to salicylates', 'Not recommended for children under 16', 'Consult doctor if taking blood thinners'],
+                        hindi: ['भोजन के साथ लें', 'सैलिसिलेट से एलर्जी हो तो बचें', '16 साल से कम उम्र के बच्चों के लिए अनुशंसित नहीं', 'खून पतला करने वाली दवा ले रहे हों तो डॉक्टर से सलाह लें']
+                    },
+                    similarMedicines: [
+                        { name: 'Disprin', generic: 'Aspirin', price: '₹8-15' },
+                        { name: 'Ecosprin', generic: 'Aspirin', price: '₹12-20' },
+                        { name: 'Loprin', generic: 'Aspirin', price: '₹10-18' }
+                    ],
+                    pricing: [
+                        { store: 'Apollo Pharmacy', price: '₹15' },
+                        { store: 'Medplus', price: '₹12' },
+                        { store: 'Netmeds', price: '₹10' },
+                        { store: 'Local Pharmacy', price: '₹8-15' }
+                    ]
+                },
+                'ibuprofen': {
+    name: 'Ibuprofen',
+    genericName: 'Ibuprofen',
+    description: {
+        english: 'Ibuprofen is a nonsteroidal anti-inflammatory drug (NSAID) used to reduce fever and treat pain or inflammation caused by conditions such as headache, toothache, back pain, arthritis, and menstrual cramps.',
+        hindi: 'इबुप्रोफेन एक नॉनस्टेरॉयडल एंटी-इंफ्लेमेटरी ड्रग (NSAID) है जिसका उपयोग बुखार कम करने और सिरदर्द, दांत दर्द, पीठ दर्द, गठिया और मासिक धर्म के दर्द जैसी स्थितियों से होने वाले दर्द या सूजन के इलाज के लिए किया जाता है।'
+    },
+    uses: {
+        english: ['Pain relief', 'Inflammation reduction', 'Fever management'],
+        hindi: ['दर्द से राहत', 'सूजन में कमी', 'बुखार का प्रबंधन']
+    },
+    dosage: {
+        english: 'Adults: 200-400mg every 4-6 hours as needed. Do not exceed 1200mg/day without medical advice.',
+        hindi: 'वयस्क: हर 4-6 घंटे में 200-400mg आवश्यकता अनुसार। डॉक्टर की सलाह के बिना 1200mg/दिन से अधिक न लें।'
+    },
+    sideEffects: {
+        english: ['Nausea', 'Stomach pain', 'Dizziness', 'Heartburn'],
+        hindi: ['जी मिचलाना', 'पेट दर्द', 'चक्कर आना', 'सीने में जलन']
+    },
+    precautions: {
+        english: ['Avoid if you have ulcers', 'Not for long-term use without doctor advice', 'Avoid alcohol'],
+        hindi: ['अगर अल्सर है तो न लें', 'बिना डॉक्टर की सलाह के लंबे समय तक उपयोग न करें', 'शराब से बचें']
+    },
+    similarMedicines: [
+        { name: 'Brufen', generic: 'Ibuprofen', price: '₹25-35' },
+        { name: 'Ibugesic', generic: 'Ibuprofen', price: '₹18-28' },
+        { name: 'Combiflam', generic: 'Ibuprofen + Paracetamol', price: '₹20-30' }
+    ],
+    pricing: [
+        { store: 'Apollo Pharmacy', price: '₹28' },
+        { store: 'Netmeds', price: '₹25' },
+        { store: 'Local Pharmacy', price: '₹20-30' }
+    ]
+},
+'amoxicillin': {
+    name: 'Amoxicillin',
+    genericName: 'Amoxicillin',
+    description: {
+        english: 'Amoxicillin is a penicillin-type antibiotic used to treat a wide variety of bacterial infections such as throat infections, urinary tract infections, and skin infections.',
+        hindi: 'एमॉक्सीसीलिन एक पेनिसिलिन प्रकार की एंटीबायोटिक है जिसका उपयोग गले के संक्रमण, मूत्र मार्ग संक्रमण और त्वचा संक्रमण जैसे कई बैक्टीरियल संक्रमणों के इलाज के लिए किया जाता है।'
+    },
+    uses: {
+        english: ['Bacterial infections', 'Throat infection', 'UTI', 'Skin infection'],
+        hindi: ['बैक्टीरियल संक्रमण', 'गले का संक्रमण', 'मूत्र संक्रमण', 'त्वचा संक्रमण']
+    },
+    dosage: {
+        english: 'Adults: 500mg every 8 hours or 875mg every 12 hours as prescribed.',
+        hindi: 'वयस्क: हर 8 घंटे में 500mg या हर 12 घंटे में 875mg डॉक्टर द्वारा निर्धारित अनुसार।'
+    },
+    sideEffects: {
+        english: ['Diarrhea', 'Nausea', 'Rash', 'Allergic reaction'],
+        hindi: ['दस्त', 'जी मिचलाना', 'चक्कते', 'एलर्जी प्रतिक्रिया']
+    },
+    precautions: {
+        english: ['Complete full course', 'Inform doctor of any allergies', 'Avoid if allergic to penicillin'],
+        hindi: ['पूरा कोर्स पूरा करें', 'किसी एलर्जी के बारे में डॉक्टर को बताएं', 'पेनिसिलिन से एलर्जी हो तो न लें']
+    },
+    similarMedicines: [
+        { name: 'Mox', generic: 'Amoxicillin', price: '₹20-35' },
+        { name: 'Amoxil', generic: 'Amoxicillin', price: '₹25-40' }
+    ],
+    pricing: [
+        { store: '1mg', price: '₹32' },
+        { store: 'Apollo', price: '₹30' },
+        { store: 'Local Pharmacy', price: '₹25-35' }
+    ]
+},
+'cetirizine': {
+    name: 'Cetirizine',
+    genericName: 'Cetirizine Hydrochloride',
+    description: {
+        english: 'Cetirizine is an antihistamine used to relieve allergy symptoms such as runny nose, sneezing, itchy/watery eyes, and itching of the nose or throat.',
+        hindi: 'सिट्रीज़ीन एक एंटीहिस्टामिन दवा है जिसका उपयोग एलर्जी के लक्षण जैसे बहती नाक, छींक, खुजली वाली/आंसू वाली आँखें और नाक या गले की खुजली को कम करने के लिए किया जाता है।'
+    },
+    uses: {
+        english: ['Allergies', 'Sneezing', 'Runny nose', 'Itchy eyes'],
+        hindi: ['एलर्जी', 'छींक', 'बहती नाक', 'आँखों में खुजली']
+    },
+    dosage: {
+        english: 'Adults: 5-10mg once daily, with or without food.',
+        hindi: 'वयस्क: 5-10mg प्रतिदिन एक बार, भोजन के साथ या बिना।'
+    },
+    sideEffects: {
+        english: ['Drowsiness', 'Dry mouth', 'Headache'],
+        hindi: ['नींद आना', 'मुंह सूखना', 'सिरदर्द']
+    },
+    precautions: {
+        english: ['Avoid driving if drowsy', 'Consult doctor if pregnant'],
+        hindi: ['नींद आने पर वाहन चलाने से बचें', 'गर्भावस्था में डॉक्टर से परामर्श करें']
+    },
+    similarMedicines: [
+        { name: 'Cetzine', generic: 'Cetirizine', price: '₹15-25' },
+        { name: 'Alerid', generic: 'Cetirizine', price: '₹10-20' }
+    ],
+    pricing: [
+        { store: 'Netmeds', price: '₹12' },
+        { store: 'Apollo', price: '₹14' },
+        { store: 'Local Pharmacy', price: '₹10-20' }
+    ]
+},
+'ranitidine': {
+    name: 'Ranitidine',
+    genericName: 'Ranitidine Hydrochloride',
+    description: {
+        english: 'Ranitidine is used to treat and prevent ulcers in the stomach and intestines. It also treats acid reflux and heartburn by reducing stomach acid.',
+        hindi: 'रैनिटिडिन का उपयोग पेट और आंतों में अल्सर के इलाज और रोकथाम के लिए किया जाता है। यह पेट की एसिडिटी और सीने में जलन को कम करके राहत देता है।'
+    },
+    uses: {
+        english: ['Acid reflux', 'Ulcers', 'Heartburn'],
+        hindi: ['एसिडिटी', 'अल्सर', 'सीने में जलन']
+    },
+    dosage: {
+        english: '150mg twice daily or 300mg at bedtime.',
+        hindi: '150mg दिन में दो बार या 300mg सोते समय।'
+    },
+    sideEffects: {
+        english: ['Constipation', 'Headache', 'Dizziness'],
+        hindi: ['कब्ज', 'सिरदर्द', 'चक्कर आना']
+    },
+    precautions: {
+        english: ['Avoid alcohol', 'Do not use long-term without advice'],
+        hindi: ['शराब से बचें', 'बिना सलाह के लंबे समय तक उपयोग न करें']
+    },
+    similarMedicines: [
+        { name: 'Zantac', generic: 'Ranitidine', price: '₹20-30' },
+        { name: 'Rantac', generic: 'Ranitidine', price: '₹18-28' }
+    ],
+    pricing: [
+        { store: 'Medplus', price: '₹22' },
+        { store: 'Apollo', price: '₹25' },
+        { store: 'Local Pharmacy', price: '₹20-30' }
+    ]
+},
+'metformin': {
+    name: 'Metformin',
+    genericName: 'Metformin Hydrochloride',
+    description: {
+        english: 'Metformin is an oral diabetes medicine that helps control blood sugar levels. It is used for type 2 diabetes and sometimes for PCOS.',
+        hindi: 'मेटफॉर्मिन एक मौखिक मधुमेह की दवा है जो रक्त शर्करा के स्तर को नियंत्रित करने में मदद करती है। इसका उपयोग टाइप 2 डायबिटीज और कभी-कभी पीसीओएस के लिए किया जाता है।'
+    },
+    uses: {
+        english: ['Type 2 Diabetes', 'PCOS management'],
+        hindi: ['टाइप 2 डायबिटीज', 'पीसीओएस प्रबंधन']
+    },
+    dosage: {
+        english: '500mg-1000mg once or twice a day after meals.',
+        hindi: 'भोजन के बाद दिन में एक या दो बार 500mg-1000mg।'
+    },
+    sideEffects: {
+        english: ['Nausea', 'Diarrhea', 'Stomach pain'],
+        hindi: ['जी मिचलाना', 'दस्त', 'पेट दर्द']
+    },
+    precautions: {
+        english: ['Take with meals', 'Monitor blood sugar regularly'],
+        hindi: ['भोजन के साथ लें', 'ब्लड शुगर नियमित जांचें']
+    },
+    similarMedicines: [
+        { name: 'Glycomet', generic: 'Metformin', price: '₹25-40' },
+        { name: 'Metformin SR', generic: 'Metformin', price: '₹30-50' }
+    ],
+    pricing: [
+        { store: 'Netmeds', price: '₹30' },
+        { store: 'Apollo', price: '₹35' },
+        { store: 'Local Pharmacy', price: '₹25-40' }
+    ]
+}
+
+
+
+
+
+
+
+            };
+
+            // Check if medicine exists in our mock data
+            const searchKey = medicineName.toLowerCase();
+            let medicineData = null;
+
+            // Check direct match first
+            if (mockMedicineData[searchKey]) {
+                medicineData = mockMedicineData[searchKey];
+            } else {
+                // Check if it's a brand name
+                for (const [key, data] of Object.entries(mockMedicineData)) {
+                    const brandNames = data.similarMedicines.map(med => med.name.toLowerCase());
+                    if (brandNames.includes(searchKey)) {
+                        medicineData = data;
+                        break;
+                    }
+                }
+            }
+
+            showLoading(false);
+
+            if (medicineData) {
+                currentMedicine = medicineData;
+                displayMedicineInfo(medicineData);
+            } else {
+                // For unknown medicines, show a message to search online
+                searchOnlineAndDisplay(medicineName);
+            }
+        }
+
+        function searchOnlineAndDisplay(medicineName) {
+            const resultsSection = document.getElementById('resultsSection');
+            resultsSection.innerHTML = `
+                <div class="medicine-info">
+                    <div class="medicine-header">
+                        <div class="medicine-name">${medicineName}</div>
+                        <div class="medicine-generic">Information not available in local database</div>
+                    </div>
+                    
+                    <div class="warning-box">
+                        <h3>⚠️ Medicine Not Found in Database</h3>
+                        <p>The medicine "${medicineName}" is not available in our local database. For accurate information, please:</p>
+                        <ul style="margin-top: 10px;">
+                            <li>Consult with your doctor or pharmacist</li>
+                            <li>Check the medicine packaging for details</li>
+                            <li>Search on reliable medical websites</li>
+                            <li>Visit a licensed pharmacy</li>
+                        </ul>
+                    </div>
+
+                    <div class="info-section">
+                        <div class="info-title">🌐 Online Search Suggestions</div>
+                        <p>You can search for "${medicineName}" on these reliable sources:</p>
+                        <div style="margin-top: 15px;">
+                            <a href="https://www.drugs.com/search.php?searchterm=${encodeURIComponent(medicineName)}" target="_blank" style="display: inline-block; margin: 5px; padding: 10px 15px; background: #667eea; color: white; text-decoration: none; border-radius: 5px;">Drugs.com</a>
+                            <a href="https://www.webmd.com/drugs/2/search?type=drugs&query=${encodeURIComponent(medicineName)}" target="_blank" style="display: inline-block; margin: 5px; padding: 10px 15px; background: #48bb78; color: white; text-decoration: none; border-radius: 5px;">WebMD</a>
+                            <a href="https://www.1mg.com/search/all?name=${encodeURIComponent(medicineName)}" target="_blank" style="display: inline-block; margin: 5px; padding: 10px 15px; background: #ed8936; color: white; text-decoration: none; border-radius: 5px;">1mg</a>
+                        </div>
+                    </div>
+
+                    <div class="precautions">
+                        <h3>⚠️ Important Safety Information</h3>
+                        <ul>
+                            <li>Never take any medicine without proper prescription</li>
+                            <li>Always consult a qualified healthcare professional</li>
+                            <li>Check for allergic reactions and side effects</li>
+                            <li>Verify medicine authenticity before purchase</li>
+                            <li>Follow proper dosage and timing instructions</li>
+                        </ul>
+                    </div>
+                </div>
+            `;
+            showResults();
+        }
+
+        function displayMedicineInfo(data) {
+            const resultsSection = document.getElementById('resultsSection');
+            
+            resultsSection.innerHTML = `
+                <div class="medicine-info">
+                    <div class="medicine-header">
+                        <div class="medicine-name">${data.name}</div>
+                        <div class="medicine-generic">Generic: ${data.genericName}</div>
+                    </div>
+
+                    <div class="language-toggle">
+                        <div class="lang-buttons">
+                            <button class="lang-btn active" onclick="switchLanguage('english')">English</button>
+                            <button class="lang-btn" onclick="switchLanguage('hindi')">हिंदी</button>
+                        </div>
+                        <div class="description-text" id="descriptionText">
+                            ${data.description.english}
+                        </div>
+                    </div>
+
+                    <div class="info-section">
+                        <div class="info-title">💊 Uses</div>
+                        <ul id="usesList">
+                            ${data.uses.english.map(use => `<li>${use}</li>`).join('')}
+                        </ul>
+                    </div>
+
+                    <div class="info-section">
+                        <div class="info-title">📏 Dosage</div>
+                        <p id="dosageText">${data.dosage.english}</p>
+                    </div>
+
+                    <div class="info-section">
+                        <div class="info-title">⚠️ Side Effects</div>
+                        <ul id="sideEffectsList">
+                            ${data.sideEffects.english.map(effect => `<li>${effect}</li>`).join('')}
+                        </ul>
+                    </div>
+
+                    <div class="precautions">
+                        <div class="info-title">🛡️ Precautions</div>
+                        <ul id="precautionsList">
+                            ${data.precautions.english.map(precaution => `<li>${precaution}</li>`).join('')}
+                        </ul>
+                    </div>
+
+                    <div class="info-section">
+                        <div class="info-title">🔄 Similar Medicines</div>
+                        <div class="similar-medicines">
+                            ${data.similarMedicines.map(med => `
+                                <div class="medicine-card">
+                                    <div class="card-name">${med.name}</div>
+                                    <div class="card-generic">Generic: ${med.generic}</div>
+                                    <div class="card-price">Price Range: ${med.price}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <div class="price-section">
+                        <div class="info-title">💰 Pricing Information</div>
+                        <p>Approximate prices from different stores:</p>
+                        <div class="price-grid">
+                            ${data.pricing.map(store => `
+                                <div class="price-card">
+                                    <div class="store-name">${store.store}</div>
+                                    <div class="price-amount">${store.price}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <p style="font-size: 0.9em; margin-top: 15px; opacity: 0.8;">
+                            *Prices may vary and are subject to change. Please check with stores for current rates.
+                        </p>
+                    </div>
+
+                    <div class="warning-box">
+                        <h3>⚠️ Medical Disclaimer</h3>
+                    </div>
+                </div>
+            `;
+
+            showResults();
+        }
+
+        function switchLanguage(lang) {
+            if (!currentMedicine) return;
+
+            currentLanguage = lang;
+            
+            // Update button states
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Update content
+            document.getElementById('descriptionText').textContent = currentMedicine.description[lang];
+            
+            const usesList = document.getElementById('usesList');
+            usesList.innerHTML = currentMedicine.uses[lang].map(use => `<li>${use}</li>`).join('');
+            
+            document.getElementById('dosageText').textContent = currentMedicine.dosage[lang];
+            
+            const sideEffectsList = document.getElementById('sideEffectsList');
+            sideEffectsList.innerHTML = currentMedicine.sideEffects[lang].map(effect => `<li>${effect}</li>`).join('');
+            
+            const precautionsList = document.getElementById('precautionsList');
+            precautionsList.innerHTML = currentMedicine.precautions[lang].map(precaution => `<li>${precaution}</li>`).join('');
+        }
+
+        function showLoading(show) {
+            const loadingSection = document.getElementById('loadingSection');
+            const searchBtn = document.getElementById('searchBtn');
+            
+            if (show) {
+                loadingSection.classList.remove('hidden');
+                searchBtn.disabled = true;
+                searchBtn.textContent = 'Searching...';
+            } else {
+                loadingSection.classList.add('hidden');
+                searchBtn.disabled = false;
+                searchBtn.textContent = '🔍 Search Medicine';
+            }
+        }
+
+        function showError(message) {
+            const errorSection = document.getElementById('errorSection');
+            errorSection.innerHTML = `
+                <div class="error-message">
+                    <h3>❌ Error</h3>
+                    <p>${message}</p>
+                </div>
+            `;
+            errorSection.classList.remove('hidden');
+        }
+
+        function hideError() {
+            document.getElementById('errorSection').classList.add('hidden');
+        }
+
+        function showResults() {
+            document.getElementById('resultsSection').classList.remove('hidden');
+        }
+
+        function hideResults() {
+            document.getElementById('resultsSection').classList.add('hidden');
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Focus on search input
+            document.getElementById('medicineInput').focus();
+        });
+    </script>
+</body>
+</html>
