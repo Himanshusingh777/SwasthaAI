@@ -12,4 +12,6 @@ fpdf==1.7.2
 scikit-learn==1.5.1
 playsound==1.2.2
 requests==2.31.0
-serpapi==0.1.5
+serpapi
+APScheduler==3.11.1
+
