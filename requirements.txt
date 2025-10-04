@@ -12,8 +12,8 @@ googlesearch-python==1.3.0
 pyzbar==0.1.9
 fpdf==1.7.2
 scikit-learn==1.5.1
-playsound==1.2.2
-serpapi==1.0.5
+playsound==1.3.0
+serpapi==1.0.0
 numpy==1.26.4
 pandas==2.2.2
 vosk==0.3.45
