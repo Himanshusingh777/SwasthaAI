@@ -70,13 +70,7 @@ CHATS_FILE = 'data/chats.json'
 
 
 
-import platform
-
-if platform.system() == "Windows":
-    pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
-else:
-    # On Render (Linux), assume tesseract is installed at system path
-    pytesseract.pytesseract.tesseract_cmd = "/usr/bin/tesseract"
+pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 
 
 
@@ -1274,5 +1268,5 @@ if __name__ == '__main__':
         os.makedirs(app.config['UPLOAD_FOLDER'])
 
     # Get port from environment (Render sets this)
-    port = int(os.environ.get('PORT', 5000))
+    port = int(os.environ.get('PORT', 10000))
     app.run(host='0.0.0.0', port=port, debug=False)
