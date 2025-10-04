@@ -1,25 +1,37 @@
-from flask import Flask, render_template, request, jsonify, redirect, url_for, session, flash
-import os
-import json
+from flask import Flask, render_template, request, jsonify, redirect, send_from_directory, url_for, session, flash 
+import os, json
 from textblob import TextBlob
 from dotenv import load_dotenv
 import openai
+from apscheduler.schedulers.background import BackgroundScheduler
 from datetime import datetime, timedelta
 import uuid
 import csv
+from sendmail import send_reminder_email  # your email sending function
+from apscheduler.schedulers.background import BackgroundScheduler
+import smtplib
+from email.mime.text import MIMEText
+from email.message import EmailMessage
+import pytesseract
+from PIL import Image
+from googlesearch import search
+from fpdf import FPDF
+from duckduckgo_search import DDGS
 import re
+import pickle
+import pytesseract
+from serpapi import GoogleSearch
 import numpy as np
 import pandas as pd
-from duckduckgo_search import DDGS
 from sentence_transformers import SentenceTransformer, util
 from werkzeug.security import generate_password_hash, check_password_hash
-import threading
-import time
-import requests
-from bs4 import BeautifulSoup
 
-# Load environment variables
-load_dotenv()
+
+
+
+
+import cv2
+
 
 
 
@@ -58,7 +70,13 @@ CHATS_FILE = 'data/chats.json'
 
 
 
-pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+import platform
+
+if platform.system() == "Windows":
+    pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+else:
+    # On Render (Linux), assume tesseract is installed at system path
+    pytesseract.pytesseract.tesseract_cmd = "/usr/bin/tesseract"
 
 
 
